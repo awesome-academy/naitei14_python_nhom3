@@ -1,0 +1,26 @@
+{
+  "extends": "@sun/sunlint/recommended",
+
+  "include": ["**/*.py"],
+  "exclude": ["**/migrations/**", "**/__pycache__/**", "**/venv/**", "**/.venv/**"],
+
+  "languages": {
+    "python": {
+      "include": ["**/*.py"],
+      "exclude": ["**/migrations/**"]
+    }
+  },
+
+  "testPatterns": {
+    "include": ["**/test_*.py", "**/tests/**"],
+    "rules": { "C006": "off" }
+  },
+
+  "rules": {
+    "C019": "error",
+    "C006": "warn",
+    "S005": "error"
+  },
+
+  "maxFilesForAI": 50
+}

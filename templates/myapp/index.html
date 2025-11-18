@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Home - My App{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Hello from MyApp!</h2>
+    <p>This is the index page of myapp.</p>
+    
+    {% if user_name %}
+        <p>Welcome, {{ user_name }}!</p>
+    {% else %}
+        <p>Welcome, Guest!</p>
+    {% endif %}
+</div>
+{% endblock %}

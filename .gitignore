@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Django
+*.log
+db.sqlite3
+media/
+staticfiles/
+
+# Virtual environment
+venv/
+.env
+.venv/
+
+# VSCode
+.vscode/
+
+# Node
+node_modules/
+package-lock.json
+npm-debug.log
+
+# Sunlint
+.sunlint-cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Others
+*.bak
+*.swp
+.idea/
