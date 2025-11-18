@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Danh sách sản phẩm</h1>
+{% for product in products %}
+  <div>
+    <a href="{% url 'products:detail' product.slug %}">
+      <h3>{{ product.name }}</h3>
+    </a>
+    <p>{{ product.price }} VNĐ</p>
+  </div>
+{% endfor %}
+{% endblock %}
