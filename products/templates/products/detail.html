@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/products.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="product-page" style="max-width: 1100px; margin: 0 auto; padding: 24px 16px;">
+
+  <!-- CARD SẢN PHẨM -->
+  <div class="product-header-card"
+       style="background: #fff; border-radius: 10px; padding: 20px 24px;
+              box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08); margin-bottom: 24px;
+              display: flex; flex-direction: column; gap: 16px;">
+
+    <div class="product-main-info">
+      <h1 class="product-title" style="font-size: 24px; font-weight: 600; margin-bottom: 8px;">
+        {{ product.name }}
+      </h1>
+
+      <p class="product-description" style="color: #4b5563; margin-bottom: 10px;">
+        {{ product.description|default:"Chưa có mô tả cho sản phẩm này." }}
+      </p>
+
+      <p class="product-price" style="font-size: 22px; font-weight: 700; color: #dc2626; margin-bottom: 8px;">
+        {{ product.price|floatformat:0 }} <span class="currency">VNĐ</span>
+      </p>
+
+      <div class="product-meta" style="display: flex; flex-wrap: wrap; gap: 10px; font-size: 14px; color: #4b5563;">
+        <span>Còn lại: <strong>{{ product.stock_quantity }}</strong> sản phẩm</span>
+        {% if product.is_featured %}
+          <span class="badge-featured"
+                style="background: #f97316; color: #fff; padding: 2px 8px; border-radius: 999px; font-size: 12px;">
+            Nổi bật
+          </span>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- TÓM TẮT ĐÁNH GIÁ -->
+    <div class="rating-summary"
+         style="display: flex; align-items: center; gap: 10px; font-size: 14px;">
+
+      {% if rating_count %}
+        <div class="rating-score-wrapper" style="display: flex; align-items: baseline; gap: 4px;">
+          <span class="rating-score-number" style="font-size: 26px; font-weight: 700;">
+            {{ average_rating|floatformat:1 }}
+          </span>
+          <span class="rating-score-max" style="color: #6b7280;">/ 5</span>
+        </div>
+
+        <div class="rating-stars" style="font-size: 18px;">
+          {% for i in "12345" %}
+            {% if forloop.counter <= average_rating %}
+              <span class="star filled" style="color: #f59e0b;">★</span>
+            {% else %}
+              <span class="star" style="color: #e5e7eb;">★</span>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <div class="rating-count" style="color: #4b5563;">
+          {{ rating_count }} đánh giá
+        </div>
+      {% else %}
+        <div class="rating-none" style="color: #6b7280;">
+          Chưa có đánh giá nào cho sản phẩm này.
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- PHẦN ĐÁNH GIÁ / BÌNH LUẬN -->
+  <div id="reviews" class="reviews-section"
+       style="background: #fff; border-radius: 10px; padding: 20px 24px;
+              box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);">
+
+    <h2 class="section-title" style="font-size: 20px; font-weight: 600; margin-bottom: 16px;">
+      Đánh giá &amp; Bình luận
+    </h2>
+
+    {# --- Danh sách bình luận --- #}
+    {% if comments %}
+      <ul class="review-list" style="list-style: none; padding: 0; margin: 0 0 16px 0;">
+        {% for c in comments %}
+        <li class="review-item"
+            style="border-bottom: 1px solid #e5e7eb; padding: 12px 0;">
+          <div class="review-header" style="display: flex; justify-content: space-between; gap: 10px;">
+            <div class="review-user" style="display: flex; gap: 10px; align-items: center;">
+              <div class="avatar-circle"
+                   style="width: 32px; height: 32px; border-radius: 999px;
+                          background: #e5e7eb; display: flex; align-items: center;
+                          justify-content: center; font-size: 14px; font-weight: 600;">
+                {{ c.user.username|first|upper }}
+              </div>
+              <div>
+                <div class="review-username" style="font-weight: 600;">
+                  {{ c.user.username }}
+                </div>
+                <div class="review-date" style="font-size: 12px; color: #6b7280;">
+                  {{ c.created_at|date:"d/m/Y H:i" }}
+                </div>
+              </div>
+            </div>
+
+            <div class="review-rating" style="text-align: right;">
+              <div>
+                {% for i in "12345" %}
+                  {% if forloop.counter <= c.rating %}
+                    <span class="star filled" style="color: #f59e0b;">★</span>
+                  {% else %}
+                    <span class="star" style="color: #e5e7eb;">★</span>
+                  {% endif %}
+                {% endfor %}
+              </div>
+              <span class="review-rating-number" style="font-size: 12px; color: #4b5563;">
+                {{ c.rating }}/5
+              </span>
+            </div>
+          </div>
+
+          <div class="review-content" style="margin-top: 6px; color: #374151;">
+            {{ c.content }}
+          </div>
+
+          {% if user.is_authenticated and user.id == c.user.id %}
+            <form action="{% url 'comments:delete' c.id %}" method="post"
+                  class="review-actions" style="margin-top: 6px;">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-outline-danger btn-sm"
+                      style="font-size: 12px; padding: 2px 8px;">
+                Xóa
+              </button>
+            </form>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="no-review-text" style="color: #6b7280; margin-bottom: 16px;">
+        Chưa có bình luận nào, hãy là người đầu tiên đánh giá sản phẩm này!
+      </p>
+    {% endif %}
+
+    <hr class="section-divider" style="margin: 16px 0; border-color: #e5e7eb;">
+
+    {# -- Không còn form đánh giá trực tiếp ở trang product -- #}
+    {% if not user.is_authenticated %}
+      <p class="login-hint" style="color: #6b7280;">
+        Bạn cần
+        <a href="{% url 'login' %}?next={{ request.path }}">đăng nhập</a>
+        để xem lịch sử đơn hàng và đánh giá sản phẩm.
+      </p>
+    {% else %}
+      <p class="no-permission-text" style="color: #6b7280;">
+        Để đánh giá sản phẩm, hãy vào
+        <strong>Đơn hàng → Chi tiết đơn hàng</strong> tương ứng.
+        Bạn có thể đánh giá từng sản phẩm trong vòng
+        <strong>7 ngày</strong> sau khi đơn được giao thành công.
+      </p>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}

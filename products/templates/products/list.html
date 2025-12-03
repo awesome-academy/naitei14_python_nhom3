@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Danh sách sản phẩm{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/products.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1 class="page-title">Danh sách sản phẩm</h1>
+
+  {% if products %}
+    <div class="product-grid">
+      {% for product in products %}
+        <div class="product-card">
+          <div class="product-name">
+            <a href="{% url 'products:detail' product.pk %}">
+              {{ product.name }}
+            </a>
+          </div>
+
+          <div class="product-price">
+            {{ product.price }} VNĐ
+          </div>
+
+          {% if product.category %}
+            <div class="product-category">
+              Danh mục: {{ product.category.name }}
+            </div>
+          {% endif %}
+
+          <div class="product-stock">
+            Còn lại: {{ product.stock_quantity }}
+          </div>
+
+          <div class="product-actions">
+            <a href="{% url 'products:detail' product.pk %}" class="btn-outline-custom">
+              Xem chi tiết
+            </a>
+
+            <form action="{% url 'cart:add' product.id %}" method="post">
+              {% csrf_token %}
+              <input type="hidden" name="quantity" value="1">
+              <button type="submit" class="btn-primary-custom">
+                Thêm vào giỏ
+              </button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>Hiện chưa có sản phẩm nào.</p>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Giỏ hàng{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="cart-container">
+    <h1 class="cart-title">Giỏ hàng</h1>
+
+    {% if cart|length > 0 %}
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="check-all">
+                    </th>
+                    <th>Sản phẩm</th>
+                    <th>Giá</th>
+                    <th>Số lượng</th>
+                    <th>Tạm tính</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for item in cart %}
+                <tr class="cart-row"
+                    data-subtotal="{{ item.total_price }}">  {# CHÚ Ý: chỉ là số, không có VNĐ #}
+
+                    <td>
+                        <input type="checkbox"
+                               class="cart-item-checkbox"
+                               name="selected_items"
+                               value="{{ item.product.id }}">
+                    </td>
+
+                    <td class="cart-product-name">
+                        {{ item.product.name }}
+                    </td>
+
+                    <td class="cart-price">
+                        {{ item.price }} VNĐ
+                    </td>
+
+                    <td class="cart-qty-cell">
+                        <form method="post"
+                              action="{% url 'cart:update' item.product.id %}"
+                              class="qty-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="quantity"
+                                   value="{{ item.quantity|add:"-1" }}">
+                            <button type="submit"
+                                    class="qty-btn qty-btn--minus"
+                                    {% if item.quantity <= 1 %}disabled{% endif %}>
+                                −
+                            </button>
+                        </form>
+
+                        <span class="cart-qty">{{ item.quantity }}</span>
+
+                        <form method="post"
+                              action="{% url 'cart:update' item.product.id %}"
+                              class="qty-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="quantity"
+                                   value="{{ item.quantity|add:"1" }}">
+                            <button type="submit"
+                                    class="qty-btn qty-btn--plus">
+                                +
+                            </button>
+                        </form>
+                    </td>
+
+                    <td class="cart-subtotal">
+                        {{ item.total_price }} VNĐ
+                    </td>
+
+                    <td>
+                        <form method="post"
+                              action="{% url 'cart:remove' item.product.id %}">
+                            {% csrf_token %}
+                            <button type="submit"
+                                    class="btn btn-outline-danger btn-sm">
+                                Xóa
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="cart-summary">
+            <p class="cart-total">
+                Tổng thanh toán:
+                <span id="cart-total-amount">0 VNĐ</span>
+            </p>
+
+            {# Chưa làm chức năng đặt hàng / thanh toán nên tạm comment lại #}
+            {% comment %} <a href="{% url 'orders:checkout' %}" class="btn btn-primary">
+                   Đặt hàng
+            </a> {% endcomment %}
+
+            <a href="{% url 'orders:list' %}" class="btn btn-outline-secondary">
+                Xem lịch sử đơn hàng
+            </a>
+        </div>
+    {% else %}
+        <div class="cart-empty">
+            <p>Giỏ hàng của bạn đang trống.</p>
+            <a href="{% url 'products:list' %}" class="btn btn-primary">
+                Đi mua sắm ngay
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/cart.js' %}"></script>
+{% endblock %}
+
+

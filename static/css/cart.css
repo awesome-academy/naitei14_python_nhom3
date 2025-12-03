@@ -1,0 +1,213 @@
+/* ====== WRAPPER ====== */
+
+.cart-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px 16px 40px;
+}
+
+.cart-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: red;
+}
+
+/* ====== TABLE ====== */
+
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e5e5e5;
+}
+
+.cart-table thead {
+  background: #f8f9fa;
+}
+
+.cart-table th,
+.cart-table td {
+  padding: 10px 12px;
+  font-size: 14px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.cart-table th {
+  text-align: left;
+  font-weight: 600;
+}
+
+.cart-table tbody tr:hover {
+  background: #fafafa;
+}
+
+.cart-product-name {
+  font-weight: 600;
+}
+
+.cart-price,
+.cart-subtotal,
+.cart-qty {
+  white-space: nowrap;
+}
+
+/* ====== Ô SỐ LƯỢNG + NÚT +/- ====== */
+
+.cart-table td .cart-qty-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* form bọc nút */
+.qty-form {
+  margin: 0;
+  display: inline-block;
+}
+
+.qty-form input[type="hidden"] {
+  display: none;
+}
+
+/* Nút + / -: dùng selector mạnh hơn để chắc chắn ăn style */
+button.qty-btn {
+  -webkit-appearance: none;
+  appearance: none;
+
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  background: #fff;
+  color: #333;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+
+  transition: background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+/* hover chung */
+button.qty-btn:hover {
+  border-color: #ff5722;
+  background: #fff4ee;
+  color: #ff5722;
+}
+
+/* nút cộng có màu nổi hơn */
+button.qty-btn.qty-btn--plus {
+  border-color: #ff5722;
+  color: #ff5722;
+}
+
+/* nút trừ đang disabled */
+button.qty-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  border-color: #ddd;
+  background: #f5f5f5;
+  color: #999;
+}
+
+/* con số số lượng */
+.cart-qty {
+  margin: 0 8px;
+  min-width: 20px;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* ====== SUMMARY / TOTAL ====== */
+
+.cart-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.cart-total {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.cart-total span {
+  color: #e63946;
+  font-size: 18px;
+}
+
+/* ====== BUTTONS ====== */
+
+.btn {
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1.4;
+}
+
+.btn-primary {
+  background: #0d6efd;
+  border-color: #0d6efd;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #0b5ed7;
+  border-color: #0b5ed7;
+}
+
+.btn-outline-secondary {
+  background: #fff;
+  border-color: #6c757d;
+  color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+  background: #6c757d;
+  color: #fff;
+}
+
+.btn-outline-danger {
+  background: #fff;
+  border-color: #dc3545;
+  color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+  background: #dc3545;
+  color: #fff;
+}
+
+/* ====== CART EMPTY ====== */
+
+.cart-empty {
+  text-align: center;
+  padding: 40px 16px;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #e5e5e5;
+}
+
+.cart-empty p {
+  margin-bottom: 16px;
+  font-size: 15px;
+}

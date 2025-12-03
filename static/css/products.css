@@ -1,0 +1,397 @@
+/* ========== LIST SẢN PHẨM ========== */
+
+.container {
+    max-width: 1200px;
+    margin: 24px auto;
+    padding: 0 16px 40px;
+}
+
+.page-title {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+/* Lưới sản phẩm */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 18px;
+}
+
+/* Card mỗi sản phẩm */
+.product-card {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 14px 16px 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+}
+
+/* Tên sản phẩm */
+.product-name a {
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #222;
+}
+
+.product-name a:hover {
+    color: #2e7d32;
+}
+
+/* Giá */
+.product-price {
+    font-size: 17px;
+    font-weight: 700;
+    color: #e53935;
+}
+
+/* Danh mục & tồn kho */
+.product-category {
+    font-size: 13px;
+    color: #666;
+}
+
+.product-stock {
+    font-size: 13px;
+    color: #757575;
+}
+
+/* Nút hành động */
+.product-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/* Nút giống bạn đang dùng chung */
+.btn-primary-custom {
+    background: #ff5722;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-primary-custom:hover {
+    background: #e64a19;
+}
+
+.btn-outline-custom {
+    border: 1px solid #2e7d32;
+    color: #2e7d32;
+    padding: 5px 11px;
+    border-radius: 4px;
+    font-size: 13px;
+    background: #fff;
+    cursor: pointer;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.btn-outline-custom:hover {
+    background: #e8f5e9;
+}
+
+/* ========== TRANG CHI TIẾT SẢN PHẨM ========== */
+
+.product-page {
+    max-width: 1100px;
+    margin: 24px auto;
+    padding: 0 16px 40px;
+}
+
+.product-header-card {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 20px 22px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    margin-bottom: 24px;
+}
+
+.product-main-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.product-title {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.product-description {
+    margin: 4px 0 0;
+    color: #555;
+    line-height: 1.5;
+}
+
+.product-price {
+    font-size: 22px;
+    font-weight: 700;
+    color: #e53935;
+    margin-top: 8px;
+}
+
+.product-price .currency {
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+}
+
+.product-meta {
+    margin-top: 6px;
+    font-size: 14px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.badge-featured {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #fff3cd;
+    color: #856404;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* ========== TỔNG QUAN ĐÁNH GIÁ ========== */
+
+.rating-summary {
+    margin-top: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: #f5f5f5;
+}
+
+.rating-score {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+}
+
+.rating-score-number {
+    font-size: 22px;
+    font-weight: 700;
+    color: #ff9800;
+}
+
+.rating-score-max {
+    font-size: 14px;
+    color: #757575;
+}
+
+.rating-stars {
+    font-size: 18px;
+}
+
+.rating-stars .star {
+    color: #cfd8dc;
+}
+
+.rating-stars .star.filled {
+    color: #ffc107;
+}
+
+.rating-count {
+    font-size: 13px;
+    color: #616161;
+}
+
+.rating-none {
+    font-size: 14px;
+    color: #757575;
+}
+
+/* ========== KHU VỰC ĐÁNH GIÁ & BÌNH LUẬN ========== */
+
+.reviews-section {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 18px 20px 22px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.section-subtitle {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 12px 0 8px;
+}
+
+.section-divider {
+    margin: 16px 0;
+    border: none;
+    border-top: 1px solid #eeeeee;
+}
+
+/* Danh sách review */
+
+.review-list {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 0;
+}
+
+.review-item {
+    padding: 10px 0 12px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.review-item:last-child {
+    border-bottom: none;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.review-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.avatar-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #e0f2f1;
+    color: #00695c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.review-username {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.review-date {
+    font-size: 12px;
+    color: #9e9e9e;
+}
+
+.review-rating {
+    text-align: right;
+    font-size: 14px;
+}
+
+.review-rating .star {
+    font-size: 16px;
+    color: #cfd8dc;
+}
+
+.review-rating .star.filled {
+    color: #ffc107;
+}
+
+.review-rating-number {
+    display: inline-block;
+    margin-left: 4px;
+    font-weight: 600;
+    color: #424242;
+}
+
+.review-content {
+    font-size: 14px;
+    color: #424242;
+    line-height: 1.5;
+    margin-top: 4px;
+}
+
+.review-actions {
+    margin-top: 4px;
+}
+
+.btn-sm {
+    font-size: 12px;
+    padding: 3px 8px;
+}
+
+/* Form đánh giá */
+
+.review-form {
+    margin-top: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.form-select,
+.form-textarea {
+    border-radius: 6px;
+    border: 1px solid #d0d0d0;
+    padding: 6px 8px;
+    font-size: 14px;
+    font-family: inherit;
+}
+
+.form-select:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: #4caf50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.15);
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Thông báo / hint */
+
+.no-review-text,
+.no-permission-text,
+.login-hint {
+    font-size: 14px;
+    color: #616161;
+}
+
+.login-hint a {
+    color: #2e7d32;
+    font-weight: 500;
+}
