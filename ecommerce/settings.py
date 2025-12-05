@@ -44,6 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'myapp',  # <--- Thêm app của bạn vào đây
+    'products',
+    'cart',
+    'orders',   
+    'comments',
 ]
 
 MIDDLEWARE = [
@@ -126,7 +130,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # ⭐️ Cho Django biết thư mục 'static' ở cấp độ gốc
 STATICFILES_DIRS = [
@@ -140,3 +144,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Custom User Model
 AUTH_USER_MODEL = 'myapp.User'
+
+# Dùng trang login admin cho mọi redirect login_required
+LOGIN_URL = '/admin/login/'

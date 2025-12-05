@@ -1,0 +1,389 @@
+.orders-page {
+    max-width: 1100px;
+    margin: 24px auto;
+    padding: 0 16px 32px;
+}
+
+.orders-page .page-title {
+    font-size: 26px;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+/* ====== TABS TRẠNG THÁI ====== */
+
+.order-tabs {
+    display: flex;
+    gap: 8px;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 16px;
+    overflow-x: auto;
+}
+
+.order-tab {
+    padding: 8px 14px;
+    font-size: 14px;
+    text-decoration: none;
+    color: #555;
+    border-radius: 20px 20px 0 0;
+    border: 1px solid transparent;
+    border-bottom: none;
+    white-space: nowrap;
+}
+
+.order-tab:hover {
+    background: #f5f5f5;
+}
+
+.order-tab.active {
+    background: #ffffff;
+    color: #e53935;
+    border-color: #e0e0e0;
+    border-bottom-color: #ffffff;
+    font-weight: 600;
+}
+
+/* ====== BẢNG ĐƠN HÀNG ====== */
+
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.orders-table thead {
+    background: #f1f8e9;
+}
+
+.orders-table th,
+.orders-table td {
+    padding: 12px 14px;
+    font-size: 14px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.orders-table th {
+    font-weight: 600;
+    color: #33691e;
+}
+
+.orders-table tbody tr:nth-child(even) {
+    background: #fafafa;
+}
+
+.orders-table tbody tr:hover {
+    background: #f1f8ff;
+}
+
+.orders-table td:nth-child(2),
+.orders-table td:nth-child(3) {
+    white-space: nowrap;
+}
+
+.order-actions-cell {
+    white-space: nowrap;
+}
+
+/* ====== BADGE TRẠNG THÁI ====== */
+
+.order-status {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.order-status.pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.order-status.confirmed {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+
+.order-status.shipped {
+    background: #e1f5fe;
+    color: #0277bd;
+}
+
+.order-status.completed {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.order-status.cancelled,
+.order-status.rejected {
+    background: #ffebee;
+    color: #c62828;
+}
+
+/* ====== BUTTONS ====== */
+
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    text-decoration: none;
+    line-height: 1.4;
+    background: #fff;
+}
+
+.btn-outline-secondary {
+    border-color: #6c757d;
+    color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+    background: #6c757d;
+    color: #fff;
+}
+
+/* Nút HỦY ĐƠN – màu đỏ giống Shopee */
+.btn-cancel-order {
+    border-color: #e53935;
+    color: #e53935;
+    background: #fff;
+}
+
+.btn-cancel-order:hover {
+    background: #e53935;
+    color: #fff;
+}
+
+/* Form inline trong cell */
+.inline-form {
+    display: inline-block;
+    margin: 0;
+}
+
+.order-detail-card {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 20px 24px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+    margin-bottom: 20px;
+}
+
+.order-header-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    row-gap: 8px;
+}
+
+.order-meta {
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #444;
+}
+
+.order-meta-danger {
+    color: #b42318;
+}
+
+.order-status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 13px;
+    background: #e8f9ef;
+    color: #14804a;
+    font-weight: 600;
+}
+
+.card-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.order-items-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.order-items-table th,
+.order-items-table td {
+    padding: 10px;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 14px;
+}
+
+.order-items-table thead tr {
+    background: #f9fafb;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+.text-muted-small {
+    color: #6b7280;
+    font-size: 12px;
+}
+
+.font-semibold {
+    font-weight: 600;
+}
+
+.font-bold {
+    font-weight: 700;
+}
+
+.order-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+}
+
+/* =========================
+   BUTTON BỔ SUNG
+   ========================= */
+
+.btn-sm {
+    padding: 4px 10px;
+    font-size: 13px;
+}
+
+.btn-primary {
+    background: #ef4444;
+    color: #fff;
+    border-color: #ef4444;
+}
+
+.btn-primary:hover {
+    background: #dc2626;
+    border-color: #dc2626;
+    color: #fff;
+}
+
+.btn-outline-danger {
+    border-color: #f87171;
+    color: #b91c1c;
+    background: #fff;
+}
+
+.btn-outline-danger:hover {
+    background: #f87171;
+    color: #fff;
+}
+
+/* =========================
+   MODAL ĐÁNH GIÁ
+   ========================= */
+
+.review-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+}
+
+.review-modal-backdrop.is-visible {
+    display: flex;
+}
+
+.review-modal {
+    background: #ffffff;
+    border-radius: 10px;
+    max-width: 600px;
+    width: 100%;
+    padding: 18px 20px;
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25);
+}
+
+.review-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.review-modal-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.review-modal-close {
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.review-modal-product {
+    margin-bottom: 10px;
+}
+
+.review-product-name {
+    font-weight: 600;
+}
+
+.review-product-meta {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.form-group label {
+    font-weight: 500;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.form-control {
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    padding: 6px 8px;
+    font-size: 14px;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #ef4444;
+}
+
+.review-hint {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-bottom: 10px;
+}
+
+.review-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}

@@ -19,5 +19,9 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('myapp.urls')),  # Kết nối URL của myapp
+    path('', include('myapp.urls')),  
+    path('products/', include('products.urls')),  
+    path('cart/', include('cart.urls')),  
+    path('orders/', include('orders.urls')),  
+    path('comments/', include('comments.urls')),  
 ]

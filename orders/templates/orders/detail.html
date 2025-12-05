@@ -1,0 +1,263 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Chi tiết đơn hàng #{{ order.id }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/orders.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="orders-page">
+
+  <h1 class="page-title">
+    Chi tiết đơn hàng #{{ order.id }}
+  </h1>
+
+  <!-- CARD THÔNG TIN CHUNG -->
+  <div class="order-detail-card">
+
+    <div class="order-header-row">
+      <div>
+        <p class="order-meta">
+          <strong>Ngày đặt:</strong>
+          {{ order.order_date|date:"d/m/Y H:i" }}
+        </p>
+
+        <p class="order-meta">
+          <strong>Trạng thái:</strong>
+          <span class="order-status-badge {{ order.status }}">
+            {{ order.get_status_display }}
+          </span>
+        </p>
+      </div>
+
+      <div class="order-total">
+        <p class="order-meta">
+          <strong>Tổng tiền:</strong>
+          {{ order.total_amount|floatformat:0 }} VNĐ
+        </p>
+      </div>
+    </div>
+
+    {% if order.shipping_address %}
+      <p class="order-meta">
+        <strong>Địa chỉ giao hàng:</strong> {{ order.shipping_address }}
+      </p>
+    {% endif %}
+
+    {% if order.payment_method %}
+      <p class="order-meta">
+        <strong>Hình thức thanh toán:</strong> {{ order.payment_method }}
+      </p>
+    {% endif %}
+
+    {% if order.rejection_reason %}
+      <p class="order-meta order-meta-danger">
+        <strong>Lý do từ chối / hủy:</strong> {{ order.rejection_reason }}
+      </p>
+    {% endif %}
+  </div>
+
+  <!-- CARD SẢN PHẨM -->
+  <div class="order-detail-card">
+
+    <h3 class="card-title">
+      Sản phẩm trong đơn
+    </h3>
+
+    <div class="table-wrapper">
+      <table class="order-items-table">
+        <thead>
+          <tr>
+            <th>Sản phẩm</th>
+            <th class="text-right">Giá</th>
+            <th class="text-center">Số lượng</th>
+            <th class="text-right">Tạm tính</th>
+            <th class="text-center">Hành động</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for item in items %}
+          <tr>
+            <td>
+              {{ item.product.name }}
+            </td>
+
+            <td class="text-right nowrap">
+              {{ item.price_at_purchase|floatformat:0 }} VNĐ
+            </td>
+
+            <td class="text-center">
+              {{ item.quantity }}
+            </td>
+
+            <td class="text-right nowrap">
+              {{ item.subtotal|floatformat:0 }} VNĐ
+            </td>
+
+            <td class="text-center">
+              {% if item.can_review %}
+                {% if item.user_comment %}
+                  <button type="button"
+                          class="btn btn-outline-secondary btn-sm js-open-review-modal"
+                          data-review-modal="{{ item.id }}">
+                    Chỉnh sửa đánh giá
+                  </button>
+                  <div class="text-muted-small">
+                    Bạn đã đánh giá: {{ item.user_comment.rating }}/5
+                  </div>
+                {% else %}
+                  <button type="button"
+                          class="btn btn-outline-secondary btn-sm js-open-review-modal"
+                          data-review-modal="{{ item.id }}">
+                    Đánh giá sản phẩm
+                  </button>
+                {% endif %}
+              {% elif order.status == 'completed' %}
+                <span class="text-muted-small">
+                  Đã hết hạn đánh giá (sau 7 ngày)
+                </span>
+              {% else %}
+                <span class="text-muted-small">
+                  Chỉ đánh giá khi đơn đã giao thành công
+                </span>
+              {% endif %}
+            </td>
+          </tr>
+
+          {# Modal cho từng item (ẩn mặc định, JS sẽ bật lên) #}
+          {% if item.can_review %}
+            <div id="review-modal-{{ item.id }}" class="review-modal-backdrop">
+              <div class="review-modal">
+                <form method="post" action="{% url 'comments:review_order_item' item.id %}">
+                  {% csrf_token %}
+                  <div class="review-modal-header">
+                    <div class="review-modal-title">
+                      {% if item.user_comment %}
+                        Chỉnh sửa đánh giá
+                      {% else %}
+                        Đánh giá sản phẩm
+                      {% endif %}
+                    </div>
+                    <button type="button"
+                            class="review-modal-close js-close-review-modal"
+                            data-review-modal="{{ item.id }}" aria-label="Đóng hội thoại">
+                          &times;
+                    </button>
+                  </div>
+
+                  <div class="review-modal-product">
+                    <div class="review-product-name">{{ item.product.name }}</div>
+                    <div class="review-product-meta">
+                      Giá: {{ item.price_at_purchase|floatformat:0 }} VNĐ ·
+                      SL: {{ item.quantity }}
+                    </div>
+                  </div>
+
+                  {# ⭐ PREFILL SỐ SAO #}
+                  <div class="form-group">
+                    <label for="rating-{{ item.id }}">Đánh giá (sao)</label>
+                    <select name="rating" id="rating-{{ item.id }}" class="form-control">
+                      <option value="">-- Chọn số sao --</option>
+                      <option value="5"
+                        {% if item.user_comment and item.user_comment.rating == 5 %}selected{% endif %}>
+                        5 sao - Tuyệt vời
+                      </option>
+                      <option value="4"
+                        {% if item.user_comment and item.user_comment.rating == 4 %}selected{% endif %}>
+                        4 sao - Tốt
+                      </option>
+                      <option value="3"
+                        {% if item.user_comment and item.user_comment.rating == 3 %}selected{% endif %}>
+                        3 sao - Bình thường
+                      </option>
+                      <option value="2"
+                        {% if item.user_comment and item.user_comment.rating == 2 %}selected{% endif %}>
+                        2 sao - Chưa hài lòng
+                      </option>
+                      <option value="1"
+                        {% if item.user_comment and item.user_comment.rating == 1 %}selected{% endif %}>
+                        1 sao - Rất tệ
+                      </option>
+                    </select>
+                  </div>
+
+                  {# ⭐ PREFILL NỘI DUNG #}
+                  <div class="form-group">
+                    <label for="content-{{ item.id }}">Nội dung đánh giá</label>
+                    <textarea name="content"
+                              id="content-{{ item.id }}"
+                              rows="3"
+                              class="form-control"
+                              placeholder="Chia sẻ cảm nhận của bạn về sản phẩm...">{% if item.user_comment %}{{ item.user_comment.content }}{% endif %}</textarea>
+                  </div>
+
+                  <p class="review-hint">
+                    Bạn chỉ có thể đánh giá / chỉnh sửa trong vòng 7 ngày
+                    kể từ khi đơn được giao thành công.
+                  </p>
+
+                  <div class="review-modal-actions">
+                    <button type="button"
+                            class="btn btn-outline-secondary js-close-review-modal"
+                            data-review-modal="{{ item.id }}">
+                      Hủy
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                      Hoàn thành
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          {% endif %}
+          {% empty %}
+          <tr>
+            <td colspan="5" class="text-center text-muted">
+              Không có sản phẩm nào trong đơn.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+
+        <tfoot>
+          <tr>
+            <td colspan="3" class="text-right font-semibold">
+              Tổng cộng:
+            </td>
+            <td colspan="2" class="text-right font-bold nowrap">
+              {{ order.total_amount|floatformat:0 }} VNĐ
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="order-actions">
+      <a href="{% url 'orders:list' %}"
+         class="btn btn-outline-secondary">
+        ← Quay lại lịch sử đơn hàng
+      </a>
+
+      {% if order.status == 'pending' %}
+        <form action="{% url 'orders:cancel' order.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit"
+                  class="btn btn-outline-danger"
+                  onclick="return confirm('Bạn chắc chắn muốn hủy đơn này?');">
+            Hủy đơn
+          </button>
+        </form>
+      {% endif %}
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/orders.js' %}"></script>
+{% endblock %}

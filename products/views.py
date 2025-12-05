@@ -1,5 +1,5 @@
 from django.views.generic import ListView, DetailView
-from django.db.models import Avg, Count
+from django.db.models import Avg, Count, Q
 
 from myapp.models import Product, OrderItem  
 from comments.models import Comment
@@ -12,15 +12,14 @@ class ProductListView(ListView):
     paginate_by = 12
 
     def get_queryset(self):
-        qs = Product.objects.all()
-        q = self.request.GET.get('q', '')
+        products_queryset = Product.objects.all()
+        search_query = self.request.GET.get('q', '')
         category = self.request.GET.get('category', '')
-        if q:
-            qs = qs.filter(name__icontains=q) | qs.filter(description__icontains=q)
-        if category:
-            qs = qs.filter(category__name__icontains=category)
-        return qs
-
+        if search_query:
+            products_queryset = products_queryset.filter(Q(name__icontains=search_query) | Q(description__icontains=search_query))
+        # if category:
+        #     products_queryset = products_queryset.filter(category__name__icontains=category)
+        return products_queryset
 
 class ProductDetailView(DetailView):
     model = Product
@@ -33,16 +32,16 @@ class ProductDetailView(DetailView):
 
         # danh sách comment
         comments_qs = Comment.objects.filter(product=product).select_related('user')
-        agg = comments_qs.aggregate(
+        rating_aggregates = comments_qs.aggregate(
             avg_rating=Avg('rating'),
             count_rating=Count('id')
         )
 
         context['comments'] = comments_qs
-        context['average_rating'] = agg['avg_rating']
-        context['rating_count'] = agg['count_rating']
+        context['average_rating'] = rating_aggregates['avg_rating']
+        context['rating_count'] = rating_aggregates['count_rating']
 
-        # 👇 kiểm tra user hiện tại có được comment không
+        # Kiểm tra user hiện tại có mua và nhận sản phẩm này (để được phép đánh giá)
         can_comment = False
         user = self.request.user
         if user.is_authenticated:

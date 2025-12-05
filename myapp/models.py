@@ -1,9 +1,12 @@
+from datetime import timedelta
+from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator
 from decimal import Decimal
 from .enums import ORDER_STATUS_CHOICES
 from .constants import MAX_DIGITS, DECIMAL_PLACES
+from myapp.enums import ORDER_STATUS_COMPLETED
 
 
 # 1. User model (kế thừa AbstractUser)
@@ -208,6 +211,16 @@ class OrderItem(models.Model):
         db_table = 'order_items'
         verbose_name = 'Order Item'
         verbose_name_plural = 'Order Items'
+        
+    @property
+    def subtotal(self):
+        return self.price_at_purchase * self.quantity
+    
+    @property
+    def can_review(self):
+        if self.order.status !=  ORDER_STATUS_COMPLETED:
+            return False
+        return timezone.now() - self.order.updated_at <= timedelta(days=7)   
     
     def __str__(self):
         return f"{self.product.name} x {self.quantity}"

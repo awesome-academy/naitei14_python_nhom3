@@ -1,6 +1,15 @@
 from decimal import Decimal
 from myapp.models import Product   
 class Cart:
+    """
+    Session-based shopping cart implementation.
+
+    Lưu giỏ hàng trong session của user, cho phép:
+    - thêm / bớt / xóa sản phẩm,
+    - duyệt qua các item,
+    - tính tổng tiền.
+    Mỗi item được lưu dưới dạng dict, key là product ID.
+    """
     SESSION_KEY = 'cart'
 
     def __init__(self, request):
@@ -35,7 +44,7 @@ class Cart:
 
     def __iter__(self):
         product_ids = self.cart.keys()
-        products = Product.objects.filter(id__in=product_ids)
+        products = Product.objects.filter(id__in=product_ids).select_related('category')
         for product in products:
             item = self.cart[str(product.id)]
             item['product'] = product

@@ -16,7 +16,7 @@
             <thead>
                 <tr>
                     <th>
-                        <input type="checkbox" id="check-all">
+                        <input type="checkbox" id="check-all" aria-label="Chọn tất cả sản phẩm">
                     </th>
                     <th>Sản phẩm</th>
                     <th>Giá</th>
@@ -28,13 +28,14 @@
             <tbody>
             {% for item in cart %}
                 <tr class="cart-row"
-                    data-subtotal="{{ item.total_price }}">  {# CHÚ Ý: chỉ là số, không có VNĐ #}
+                    data-subtotal="{{ item.total_price|floatformat:2 }}">  
 
                     <td>
                         <input type="checkbox"
                                class="cart-item-checkbox"
                                name="selected_items"
-                               value="{{ item.product.id }}">
+                               value="{{ item.product.id }}"
+                               aria-label="Chọn {{ item.product.name }}">
                     </td>
 
                     <td class="cart-product-name">
@@ -54,6 +55,7 @@
                                    value="{{ item.quantity|add:"-1" }}">
                             <button type="submit"
                                     class="qty-btn qty-btn--minus"
+                                    aria-label="Giảm số lượng {{ item.product.name }}"
                                     {% if item.quantity <= 1 %}disabled{% endif %}>
                                 −
                             </button>
@@ -68,7 +70,8 @@
                             <input type="hidden" name="quantity"
                                    value="{{ item.quantity|add:"1" }}">
                             <button type="submit"
-                                    class="qty-btn qty-btn--plus">
+                                    class="qty-btn qty-btn--plus"
+                                    aria-label="Tăng số lượng {{ item.product.name }}">
                                 +
                             </button>
                         </form>
@@ -123,5 +126,4 @@
     {{ block.super }}
     <script src="{% static 'js/cart.js' %}"></script>
 {% endblock %}
-
 

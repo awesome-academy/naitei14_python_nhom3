@@ -1,6 +1,7 @@
 from django.views import View
 from django.views.generic import TemplateView
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
 from myapp.models import Product
 from .cart import Cart
 
@@ -15,10 +16,22 @@ class CartDetailView(TemplateView):
 
 class CartAddView(View):
     def post(self, request, product_id):
-        product = get_object_or_404(Product, id=product_id)
-        qty = int(request.POST.get('quantity', 1))
         cart = Cart(request)
+        product = get_object_or_404(Product, id=product_id)
+        
+        try:
+            qty = int(request.POST.get('quantity', 1))
+        except (TypeError, ValueError):
+            qty = 1
+        
+        if qty < 1:
+            qty = 1
+            
+        if qty > product.stock_quantity:
+            qty = product.stock_quantity
+                
         cart.add(product=product, quantity=qty)
+        messages.success(request, f'Đã thêm {qty} x "{product.name}" vào giỏ hàng.')
         return redirect('cart:detail')
 
 class CartRemoveView(View):
@@ -33,7 +46,6 @@ class CartUpdateView(View):
         cart = Cart(request)
         product = get_object_or_404(Product, id=product_id)
 
-        # Lấy quantity mới từ form
         try:
             new_quantity = int(request.POST.get("quantity", 1))
         except (TypeError, ValueError):
@@ -42,8 +54,12 @@ class CartUpdateView(View):
         # Nếu <= 0 thì xóa khỏi giỏ
         if new_quantity <= 0:
             cart.remove(product)
-        else:
-            # override_quantity=True => set số lượng đúng bằng new_quantity
-            cart.add(product=product, quantity=new_quantity, override_quantity=True)
-
+            return redirect("cart:detail")
+        
+        #Nếu > tồn kho thì không hợp lệ
+        if new_quantity > product.stock_quantity:
+            return redirect("cart:detail")
+        
+        # override_quantity=True => set số lượng đúng bằng new_quantity
+        cart.add(product=product, quantity=new_quantity, override_quantity=True)
         return redirect("cart:detail")

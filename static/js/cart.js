@@ -1,13 +1,10 @@
-// static/js/cart.js
-
 function calcSelectedTotal() {
     let total = 0;
 
-    // duyệt từng dòng sản phẩm
     document.querySelectorAll('tr.cart-row').forEach(function (row) {
         const checkbox = row.querySelector('.cart-item-checkbox');
         if (checkbox && checkbox.checked) {
-            const raw = row.dataset.subtotal;   // ví dụ "159000.00"
+            const raw = row.dataset.subtotal;  
             const value = parseFloat(raw);
             if (!isNaN(value)) {
                 total += value;
@@ -17,7 +14,11 @@ function calcSelectedTotal() {
 
     const span = document.getElementById('cart-total-amount');
     if (span) {
-        span.textContent = total.toLocaleString('vi-VN') + ' VNĐ';
+        try {
+            span.textContent = total.toLocaleString('vi-VN', { minimumFractionDigits: 0 }) + ' VNĐ';
+        } catch (e) {
+            span.textContent = total.toFixed(0) + ' VNĐ';
+        }
     }
 }
 
