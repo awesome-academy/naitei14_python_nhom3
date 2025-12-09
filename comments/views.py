@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
 
-from myapp.models import Product, OrderItem
+from myapp.models import OrderItem
 from .models import Comment
 
 
@@ -86,9 +86,14 @@ def delete_comment(request, pk):
         .first()
     )
 
-    if request.method == "POST":
-        comment.delete()
-        messages.success(request, "Đã xóa bình luận.")
+    if request.method != "POST":
+        if order_item:
+            return redirect("orders:detail", pk=order_item.order.pk)
+        # fallback
+        return redirect("products:detail", pk=product.pk)
+    
+    comment.delete()
+    messages.success(request, "Đã xóa bình luận.")
 
     if order_item:
         return redirect("orders:detail", pk=order_item.order.pk)

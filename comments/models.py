@@ -27,6 +27,7 @@ class Comment(models.Model):
         ordering = ['-created_at']
         verbose_name = 'Comment'
         verbose_name_plural = 'Comments'
+        unique_together = ('user', 'product')  # 1 user chỉ được comment 1 lần cho 1 product
 
     def __str__(self):
         return f'{self.user.username} - {self.product.name} ({self.rating}⭐)'
