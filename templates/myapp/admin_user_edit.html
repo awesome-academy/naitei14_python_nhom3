@@ -1,0 +1,133 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Chỉnh sửa người dùng - Admin Ecommerce 3{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-pencil"></i> Chỉnh sửa người dùng</h2>
+        <a href="{% url 'myapp:admin_users' %}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Quay lại
+        </a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Thông tin tài khoản: {{ edit_user.username }}</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Tên đăng nhập *</label>
+                            <input type="text" class="form-control" id="username" name="username" 
+                                   value="{{ edit_user.username }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email *</label>
+                            <input type="email" class="form-control" id="email" name="email" 
+                                   value="{{ edit_user.email }}" required>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="first_name" class="form-label">Họ</label>
+                                <input type="text" class="form-control" id="first_name" name="first_name" 
+                                       value="{{ edit_user.first_name }}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="last_name" class="form-label">Tên</label>
+                                <input type="text" class="form-control" id="last_name" name="last_name" 
+                                       value="{{ edit_user.last_name }}">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Vai trò *</label>
+                            <select class="form-select" id="role" name="role" required>
+                                <option value="user" {% if edit_user.role == 'user' %}selected{% endif %}>User</option>
+                                <option value="staff" {% if edit_user.role == 'staff' %}selected{% endif %}>Staff</option>
+                                <option value="admin" {% if edit_user.role == 'admin' %}selected{% endif %}>Admin</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Trạng thái hiện tại</label>
+                            <div>
+                                {% if edit_user.is_active %}
+                                    <span class="badge bg-success">
+                                        <i class="bi bi-check-circle"></i> Đã kích hoạt
+                                    </span>
+                                {% else %}
+                                    <span class="badge bg-secondary">
+                                        <i class="bi bi-x-circle"></i> Chưa kích hoạt
+                                    </span>
+                                {% endif %}
+                            </div>
+                            <small class="text-muted">Sử dụng nút "Khóa/Mở khóa" để thay đổi trạng thái</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <small class="text-muted">
+                                <strong>Ngày tạo:</strong> {{ edit_user.created_at|date:"d/m/Y H:i" }}<br>
+                                <strong>Cập nhật cuối:</strong> {{ edit_user.updated_at|date:"d/m/Y H:i" }}
+                            </small>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save"></i> Lưu thay đổi
+                            </button>
+                            <a href="{% url 'myapp:admin_users' %}" class="btn btn-secondary">
+                                Hủy
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-warning text-white mb-3">
+                <div class="card-body">
+                    <h6><i class="bi bi-exclamation-triangle"></i> Lưu ý</h6>
+                    <ul class="mb-0">
+                        <li>Không thể xóa tài khoản Admin</li>
+                        <li>Không thể tự khóa tài khoản của bạn</li>
+                        <li>Thay đổi vai trò sẽ ảnh hưởng đến quyền truy cập</li>
+                    </ul>
+                </div>
+            </div>
+
+            {% if edit_user.role != 'admin' and edit_user.id != request.user.id %}
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">Thao tác nhanh</h6>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{% url 'myapp:admin_user_toggle_active' edit_user.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn {% if edit_user.is_active %}btn-secondary{% else %}btn-success{% endif %} w-100 mb-2">
+                            <i class="bi {% if edit_user.is_active %}bi-lock{% else %}bi-unlock{% endif %}"></i>
+                            {% if edit_user.is_active %}Khóa tài khoản{% else %}Mở khóa{% endif %}
+                        </button>
+                    </form>
+                    
+                    <form method="post" action="{% url 'myapp:admin_user_delete' edit_user.id %}" 
+                          onsubmit="return confirm('Bạn có chắc chắn muốn xóa người dùng {{ edit_user.username }}?');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger w-100">
+                            <i class="bi bi-trash"></i> Xóa người dùng
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

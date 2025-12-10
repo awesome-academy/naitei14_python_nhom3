@@ -1,0 +1,120 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Chỉnh sửa sản phẩm - Admin Ecommerce 3{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-pencil"></i> Chỉnh sửa sản phẩm</h2>
+        <a href="{% url 'myapp:admin_products' %}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Quay lại
+        </a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Thông tin sản phẩm: {{ product.name }}</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Tên sản phẩm *</label>
+                            <input type="text" class="form-control" id="name" name="name" 
+                                   value="{{ product.name }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Danh mục *</label>
+                            <select class="form-select" id="category" name="category" required>
+                                <option value="">-- Chọn danh mục --</option>
+                                {% for cat in categories %}
+                                <option value="{{ cat.id }}" {% if cat.id == product.category.id %}selected{% endif %}>
+                                    {{ cat.name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                            <small class="text-muted">Danh mục là bắt buộc</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Mô tả</label>
+                            <textarea class="form-control" id="description" name="description" rows="4">{{ product.description }}</textarea>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="price" class="form-label">Giá (VNĐ) *</label>
+                                <input type="number" class="form-control" id="price" name="price" 
+                                       min="0" step="1000" value="{{ product.price }}" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="stock_quantity" class="form-label">Số lượng tồn kho *</label>
+                                <input type="number" class="form-control" id="stock_quantity" name="stock_quantity" 
+                                       min="0" value="{{ product.stock_quantity }}" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="is_featured" name="is_featured"
+                                       {% if product.is_featured %}checked{% endif %}>
+                                <label class="form-check-label" for="is_featured">
+                                    <i class="bi bi-star"></i> Sản phẩm nổi bật
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <small class="text-muted">
+                                <strong>Ngày tạo:</strong> {{ product.created_at|date:"d/m/Y H:i" }}<br>
+                                <strong>Cập nhật cuối:</strong> {{ product.updated_at|date:"d/m/Y H:i" }}
+                            </small>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save"></i> Lưu thay đổi
+                            </button>
+                            <a href="{% url 'myapp:admin_products' %}" class="btn btn-secondary">
+                                Hủy
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-warning text-white mb-3">
+                <div class="card-body">
+                    <h6><i class="bi bi-exclamation-triangle"></i> Lưu ý</h6>
+                    <ul class="mb-0">
+                        <li>Danh mục là bắt buộc</li>
+                        <li>Giá và tồn kho phải là số dương</li>
+                        <li>Thay đổi danh mục có thể ảnh hưởng đến phân loại sản phẩm</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">Thao tác nhanh</h6>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{% url 'myapp:admin_product_delete' product.id %}" 
+                          onsubmit="return confirm('Bạn có chắc chắn muốn xóa sản phẩm {{ product.name }}?');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger w-100">
+                            <i class="bi bi-trash"></i> Xóa sản phẩm
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
