@@ -102,10 +102,11 @@
                 <span id="cart-total-amount">0 VNĐ</span>
             </p>
 
-            {# Chưa làm chức năng đặt hàng / thanh toán nên tạm comment lại #}
-            {% comment %} <a href="{% url 'orders:checkout' %}" class="btn btn-primary">
-                   Đặt hàng
-            </a> {% endcomment %}
+            <button type="button" onclick="proceedToCheckout()" class="btn btn-primary" 
+            style="background: #ff5722; color: white; padding: 10px 20px; border: none; border-radius: 4px; font-size: 16px; cursor: pointer;">
+            Tiến hành đặt hàng
+            </button>
+
 
             <a href="{% url 'orders:list' %}" class="btn btn-outline-secondary">
                 Xem lịch sử đơn hàng
@@ -125,5 +126,19 @@
 {% block scripts %}
     {{ block.super }}
     <script src="{% static 'js/cart.js' %}"></script>
+
+    <script>
+        function proceedToCheckout() {
+            const checkedBoxes = document.querySelectorAll('.cart-item-checkbox:checked');
+            
+            if (checkedBoxes.length === 0) {
+                alert("Vui lòng chọn ít nhất một sản phẩm để thanh toán!");
+                return;
+            }
+            const selectedIds = Array.from(checkedBoxes).map(cb => cb.value).join(',');
+
+            window.location.href = "{% url 'orders:checkout' %}?ids=" + selectedIds;
+        }
+    </script>
 {% endblock %}
 

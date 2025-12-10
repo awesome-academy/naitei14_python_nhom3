@@ -4,6 +4,8 @@ from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
 from myapp.models import Product
 from .cart import Cart
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 class CartDetailView(TemplateView):
     template_name = 'cart/detail.html'
@@ -19,6 +21,10 @@ class CartAddView(View):
         cart = Cart(request)
         product = get_object_or_404(Product, id=product_id)
         
+        if product.stock_quantity <= 0:
+            messages.error(request, f"Rất tiếc, sản phẩm '{product.name}' đã hết hàng!")
+            return redirect(request.META.get('HTTP_REFERER', 'products:list'))
+
         try:
             qty = int(request.POST.get('quantity', 1))
         except (TypeError, ValueError):
@@ -28,10 +34,13 @@ class CartAddView(View):
             qty = 1
             
         if qty > product.stock_quantity:
-            qty = product.stock_quantity
-                
+            messages.warning(request, f"Chỉ còn {product.stock_quantity} sản phẩm '{product.name}' trong kho.")
+            return redirect(request.META.get('HTTP_REFERER', 'products:list'))
+
         cart.add(product=product, quantity=qty)
+        
         messages.success(request, f'Đã thêm {qty} x "{product.name}" vào giỏ hàng.')
+        
         return redirect('cart:detail')
 
 class CartRemoveView(View):

@@ -15,6 +15,8 @@ from django.utils import timezone
 from django.db import transaction
 from django.views.decorators.http import require_POST
 from datetime import timedelta
+
+from myapp.models import Product
 from .constants import ACTIVATION_TOKEN_LENGTH, RESET_TOKEN_LENGTH, RESET_TOKEN_EXPIRY_HOURS, ACTIVATION_TOKEN_EXPIRY_HOURS
 
 User = get_user_model()
@@ -25,8 +27,10 @@ def index(request):
     """
     View hiển thị trang index của myapp
     """
+    featured_products = Product.objects.filter(is_featured=True).order_by('-id')[:8]
+    
     context = {
-        'user_name': 'Django Developer',  # Dữ liệu truyền vào template
+        'featured_products': featured_products
     }
     return render(request, 'myapp/index.html', context)
 
