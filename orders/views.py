@@ -1,13 +1,15 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, View
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
+from django.db import transaction
+from cart.cart import Cart
 from myapp.enums import (
     ORDER_STATUS_CHOICES,
     ORDER_STATUS_PENDING,
     ORDER_STATUS_CANCELLED,
 )
-from myapp.models import Order
+from myapp.models import CartItem, Order, OrderItem
 from comments.models import Comment
 
 class OrderListView(LoginRequiredMixin, ListView):
@@ -80,3 +82,73 @@ class OrderCancelView(LoginRequiredMixin, View):
 
         messages.success(request, 'Đơn hàng đã được hủy thành công.')
         return redirect('orders:detail', pk=order.pk)
+
+class CheckoutView(LoginRequiredMixin, View):
+    def get(self, request):
+        cart = Cart(request)
+        if len(cart) == 0:
+            return redirect('cart:detail')
+        
+        selected_ids_str = request.GET.get('ids', '')
+        
+        if not selected_ids_str:
+            messages.warning(request, "Vui lòng chọn sản phẩm để thanh toán.")
+            return redirect('cart:detail')
+
+        ids_list = selected_ids_str.split(',')
+
+        cart_items = []
+        total_price = 0
+        
+        for item in cart:
+            if str(item['product'].id) in ids_list:
+                cart_items.append(item)
+                total_price += item['total_price']
+        
+        context = {
+            'cart_items': cart_items,    
+            'total_price': total_price, 
+            'selected_ids': selected_ids_str
+        }
+        return render(request, 'orders/checkout.html', context)
+
+    def post(self, request):
+        cart = Cart(request)
+        
+        selected_ids_str = request.POST.get('selected_ids', '')
+        ids_list = selected_ids_str.split(',')
+        
+        items_to_buy = []
+        final_total = 0
+        
+        for item in cart:
+            if str(item['product'].id) in ids_list:
+                items_to_buy.append(item)
+                final_total += item['total_price']
+
+        if not items_to_buy:
+             messages.warning(request, "Danh sách sản phẩm không hợp lệ.")
+             return redirect('cart:detail')
+
+        shipping_address = request.POST.get('address')
+        phone = request.POST.get('phone')
+        
+        order = Order.objects.create(
+            user=request.user,
+            shipping_address=shipping_address,
+            payment_method='COD',
+            total_amount=final_total, 
+            status='pending'
+        )
+
+        for item in items_to_buy:
+            OrderItem.objects.create(
+                order=order,
+                product=item['product'],
+                price_at_purchase=item['price'],
+                quantity=item['quantity']
+            )
+            cart.remove(item['product']) 
+        
+        messages.success(request, f"Đặt hàng thành công! Mã đơn: #{order.id}")
+        return redirect('orders:detail', pk=order.id)

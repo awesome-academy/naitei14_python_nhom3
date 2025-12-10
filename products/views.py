@@ -1,7 +1,7 @@
 from django.views.generic import ListView, DetailView
 from django.db.models import Avg, Count, Q
 
-from myapp.models import Product, OrderItem  
+from myapp.models import Product, OrderItem, Category 
 from comments.models import Comment
 
 
@@ -12,14 +12,38 @@ class ProductListView(ListView):
     paginate_by = 12
 
     def get_queryset(self):
-        products_queryset = Product.objects.all()
+        products_queryset = Product.objects.all().select_related('category') 
+        
         search_query = self.request.GET.get('q', '')
-        category = self.request.GET.get('category', '')
+        category_name = self.request.GET.get('category')
+        min_price = self.request.GET.get('min_price')
+        max_price = self.request.GET.get('max_price')
+
         if search_query:
-            products_queryset = products_queryset.filter(Q(name__icontains=search_query) | Q(description__icontains=search_query))
-        # if category:
-        #     products_queryset = products_queryset.filter(category__name__icontains=category)
+            products_queryset = products_queryset.filter(
+                Q(name__icontains=search_query) | Q(description__icontains=search_query)
+            )
+        
+        if category_name:
+            products_queryset = products_queryset.filter(category__name__iexact=category_name)
+            
+        if min_price and min_price.isdigit(): 
+            products_queryset = products_queryset.filter(price__gte=min_price)
+                
+        if max_price and max_price.isdigit(): 
+            products_queryset = products_queryset.filter(price__lte=max_price)
+
         return products_queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        
+        context['current_q'] = self.request.GET.get('q', '')
+        context['current_category'] = self.request.GET.get('category', '')
+        context['current_min_price'] = self.request.GET.get('min_price', '')
+        context['current_max_price'] = self.request.GET.get('max_price', '')
+        return context
 
 class ProductDetailView(DetailView):
     model = Product

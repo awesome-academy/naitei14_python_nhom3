@@ -15,6 +15,11 @@ from django.utils import timezone
 from django.db import transaction
 from django.views.decorators.http import require_POST
 from datetime import timedelta
+from django.urls import reverse, reverse_lazy
+from django.contrib.auth.views import PasswordChangeView
+
+from myapp.forms import UserUpdateForm, VNPasswordChangeForm
+from myapp.models import Product
 from .constants import ACTIVATION_TOKEN_LENGTH, RESET_TOKEN_LENGTH, RESET_TOKEN_EXPIRY_HOURS, ACTIVATION_TOKEN_EXPIRY_HOURS
 
 User = get_user_model()
@@ -25,8 +30,10 @@ def index(request):
     """
     View hiển thị trang index của myapp
     """
+    featured_products = Product.objects.filter(is_featured=True).order_by('-id')[:8]
+    
     context = {
-        'user_name': 'Django Developer',  # Dữ liệu truyền vào template
+        'featured_products': featured_products
     }
     return render(request, 'myapp/index.html', context)
 
@@ -183,14 +190,6 @@ def logout_user(request):
 
 
 @login_required
-def render_profile_page(request):
-    """
-    Trang thông tin cá nhân
-    """
-    return render(request, 'myapp/profile.html')
-
-
-@login_required
 def update_profile(request):
     """
     Cập nhật thông tin cá nhân
@@ -212,6 +211,52 @@ def update_profile(request):
         return redirect('myapp:profile')
 
     return redirect('myapp:profile')
+
+@login_required(login_url="myapp:login")
+def profile(request):
+    user = request.user
+
+    if request.method == "POST":
+        form = UserUpdateForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Cập nhật hồ sơ thành công!")
+            return redirect("myapp:profile")
+    else:
+        form = UserUpdateForm(instance=user)
+
+    return render(request, "myapp/profile.html", {"form": form})
+
+
+class CustomPasswordChangeView(PasswordChangeView):
+    form_class = VNPasswordChangeForm
+    template_name = "myapp/password_change.html"
+    success_url = reverse_lazy("myapp:profile")
+
+    def form_valid(self, form):
+        messages.success(self.request, "Bạn đã đổi mật khẩu thành công!")
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        old_errors = form.errors.get("old_password", [])
+        if old_errors:
+            for err in old_errors:
+                messages.error(self.request, f"Mật khẩu hiện tại: {err}")
+            return super().form_invalid(form)
+
+        new1_errors = form.errors.get("new_password1", [])
+        for err in new1_errors:
+            messages.error(self.request, f"Mật khẩu mới: {err}")
+
+        new2_errors = form.errors.get("new_password2", [])
+        for err in new2_errors:
+            if "match" in err.lower():
+                messages.error(self.request, "Xác nhận mật khẩu: Hai mật khẩu không trùng khớp.")
+
+        for err in form.non_field_errors():
+            messages.error(self.request, err)
+
+        return super().form_invalid(form)
 
 
 def activate_account(request, token):
