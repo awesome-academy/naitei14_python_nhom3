@@ -1,63 +1,23 @@
-{% extends "base.html" %}
-
-{% block title %}Thông tin cá nhân - E-commerce{% endblock %}
+{% extends 'base.html' %}
+{% block title %}Hồ sơ cá nhân{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card mt-5">
-                <div class="card-header">
-                    <h3>Thông tin cá nhân</h3>
-                </div>
-                <div class="card-body">
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert alert-{{ message.tags }}">
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                    
-                    <form method="post" action="{% url 'myapp:update_profile' %}">
-                        {% csrf_token %}
-                        
-                        <div class="mb-3">
-                            <label class="form-label">Username</label>
-                            <input type="text" class="form-control" value="{{ user.username }}" disabled>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <input type="email" class="form-control" value="{{ user.email }}" disabled>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="full_name" class="form-label">Họ tên</label>
-                            <input type="text" class="form-control" id="full_name" name="full_name" value="{{ user.full_name }}" autocomplete="name">
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="phone_number" class="form-label">Số điện thoại</label>
-                            <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ user.phone_number }}" autocomplete="tel">
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="address" class="form-label">Địa chỉ</label>
-                            <textarea class="form-control" id="address" name="address" rows="3" autocomplete="street-address">{{ user.address }}</textarea>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary">Cập nhật thông tin</button>
-                    </form>
-                    
-                    <hr>
-                    
-                    <div class="mt-3">
-                        <a href="{% url 'myapp:logout' %}" class="btn btn-danger">Đăng xuất</a>
-                    </div>
-                </div>
+<div class="container" style="max-width: 600px; margin: 40px auto;">
+    <h2 class="text-center mb-4">Hồ sơ của bạn</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div class="mb-3">
+                <label class="form-label">{{ field.label }}</label>
+                {{ field }}
+                {{ field.errors }}
             </div>
-        </div>
-    </div>
+        {% endfor %}
+
+        <button class="btn btn-primary">Lưu thay đổi</button>
+        <a href="{% url 'myapp:password_change' %}" class="btn btn-light">Đổi mật khẩu</a>
+    </form>
 </div>
 {% endblock %}
