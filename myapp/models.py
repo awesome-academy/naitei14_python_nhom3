@@ -30,12 +30,28 @@ class User(AbstractUser):
         blank=True,
         help_text='Token kích hoạt tài khoản 1 lần'
     )
+    activation_token_created_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text='Thời gian tạo activation token'
+    )
     reset_token = models.CharField(
         max_length=255,
         blank=True,
         help_text='Token reset mật khẩu 1 lần'
     )
+    reset_token_created_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text='Thời gian tạo reset token'
+    )
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    def save(self, *args, **kwargs):
+        # Auto-activate superusers and staff
+        if self.is_superuser or self.is_staff:
+            self.is_active = True
+        super().save(*args, **kwargs)
     
     class Meta:
         db_table = 'users'

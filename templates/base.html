@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Ecommerce{% endblock %}</title>
 
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <!-- CSS chung -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
@@ -16,11 +19,11 @@
     <header class="site-header">
         <div class="container header-inner">
             <div class="logo">
-                <a href="{% url 'index' %}">Ecommerce<span>Shop</span></a>
+                <a href="{% url 'myapp:index' %}">Ecommerce<span>Shop</span></a>
             </div>
 
             <nav class="main-nav">
-                <a href="{% url 'index' %}">Trang chủ</a>
+                <a href="{% url 'myapp:index' %}">Trang chủ</a>
                 <a href="{% url 'products:list' %}">Sản phẩm</a>
                 <a href="{% url 'cart:detail' %}">Giỏ hàng</a>
                 <a href="{% url 'orders:list' %}">Đơn hàng</a>
@@ -34,9 +37,14 @@
             <div class="user-area">
                 {% if user.is_authenticated %}
                     <span>Xin chào, <strong>{{ user.username }}</strong></span>
-                    <a href="{% url 'admin:logout' %}">Đăng xuất</a>
+                    <a href="{% url 'myapp:profile' %}" aria-label="Hồ sơ cá nhân">Hồ sơ</a>
+                    <form method="post" action="{% url 'myapp:logout' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" style="background: none; border: none; color: inherit; cursor: pointer; text-decoration: underline;">Đăng xuất</button>
+                    </form>
                 {% else %}
-                    <a href="{% url 'admin:login' %}">Đăng nhập</a>
+                    <a href="{% url 'myapp:login' %}">Đăng nhập</a>
+                    <a href="{% url 'myapp:register' %}">Đăng ký</a>
                 {% endif %}
             </div>
         </div>
@@ -50,6 +58,7 @@
         <p>&copy; 2025 My Django Project</p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     {% block scripts %}
     <script src="{% static 'js/main.js' %}"></script>
     {% endblock %}
