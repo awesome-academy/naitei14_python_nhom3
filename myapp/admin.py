@@ -91,3 +91,8 @@ class OrderItemAdmin(admin.ModelAdmin):
     list_filter = ['order__order_date']
     search_fields = ['order__id', 'product__name']
 
+
+# Customize admin site
+admin.site.site_header = "Admin Ecommerce PythonTraining"
+admin.site.site_title = "Ecommerce Admin"
+admin.site.index_title = "Quản lý hệ thống"
