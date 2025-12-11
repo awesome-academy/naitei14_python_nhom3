@@ -234,9 +234,10 @@ class OrderItem(models.Model):
     
     @property
     def can_review(self):
-        if self.order.status !=  ORDER_STATUS_COMPLETED:
+        order = self.order #sử dụng biến dùng chung
+        if order.status !=  ORDER_STATUS_COMPLETED:
             return False
-        return timezone.now() - self.order.updated_at <= timedelta(days=7)   
+        return timezone.now() - order.updated_at <= timedelta(days=7)   
     
     def __str__(self):
         return f"{self.product.name} x {self.quantity}"

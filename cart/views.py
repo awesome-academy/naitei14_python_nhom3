@@ -31,8 +31,11 @@ class CartAddView(View):
             qty = product.stock_quantity
                 
         cart.add(product=product, quantity=qty)
-        messages.success(request, f'Đã thêm {qty} x "{product.name}" vào giỏ hàng.')
-        return redirect('cart:detail')
+        messages.success(request, f'Đã thêm {product.name} vào giỏ hàng.')
+        next_url = (request.POST.get('next') or
+                    request.META.get('HTTP_REFERER') or
+                    reversed('products:list'))
+        return redirect(next_url)
 
 class CartRemoveView(View):
     def post(self, request, product_id):

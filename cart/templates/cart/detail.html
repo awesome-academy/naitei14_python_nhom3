@@ -39,7 +39,21 @@
                     </td>
 
                     <td class="cart-product-name">
-                        {{ item.product.name }}
+                        {% with img=item.product.images.all.0 %}
+                            {% if img %}
+                                <img src="{{ img.image_url }}"
+                                    alt="{{ item.product.name }}"
+                                    class="cart-product-image">
+                            {% else %}
+                                {# fallback nếu sản phẩm chưa có ảnh #}
+                                <img src="{% static 'images/placeholder.png' %}"
+                                    alt="{{ item.product.name }}"
+                                    class="cart-product-image">
+                            {% endif %}
+                        {% endwith %}
+                        <span class="cart-product-text">
+                            {{ item.product.name }}
+                        </span>
                     </td>
 
                     <td class="cart-price">

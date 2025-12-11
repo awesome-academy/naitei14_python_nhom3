@@ -46,7 +46,22 @@
 }
 
 .cart-product-name {
-  font-weight: 600;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cart-product-image {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.cart-product-text {
+    display: inline-block;
 }
 
 .cart-price,
