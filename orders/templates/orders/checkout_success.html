@@ -2,6 +2,6 @@
 {% block content %}
 <h1>Thanh toán thành công</h1>
 <p>Mã đơn hàng: {{ order.id }}</p>
-<p>Tổng tiền: {{ order.total_amount|floatformat:2 }} VNĐ</p>
+<p>Tổng tiền: {{ order.total_amount|floatformat:2}} VNĐ</p>
 <a href="{% url 'orders:list' %}">Xem lịch sử đơn hàng</a>
 {% endblock %}

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'myapp',  # <--- Thêm app của bạn vào đây
     'products',
     'cart',
@@ -94,6 +95,8 @@ DATABASES = {
         'PORT': os.environ.get('DB_PORT', '3306'),
     }
 }
+
+
 
 
 # Password validation

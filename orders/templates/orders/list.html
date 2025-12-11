@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static humanize%}
 
 {% block title %}Lịch sử đơn hàng{% endblock %}
 
@@ -56,7 +56,7 @@
         {% for order in orders %}
         <tr>
           <td>{{ order.order_date|date:"d/m/Y H:i" }}</td>
-          <td>{{ order.total_amount }} VNĐ</td>
+          <td>{{ order.total_amount|floatformat:0|intcomma }} VNĐ</td>
           <td>
             <span class="order-status {{ order.status }}">
               {{ order.get_status_display }}

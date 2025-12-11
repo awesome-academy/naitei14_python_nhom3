@@ -9,6 +9,30 @@ body {
     color: #333;
 }
 
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+.toast {
+    background: #16a34a;
+    color: #fff;
+    padding: 20px 26px;
+    border-radius: 6px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+}
+
+.toast-error {
+    background: #dc2626;
+}
+
+.toast-warning {
+    background: #f97316;
+}
+
 /* ===== HEADER kiểu Shopee ===== */
 
 .site-header {

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static humanize %}
 
 {% block title %}Danh sách sản phẩm{% endblock %}
 
@@ -52,6 +52,21 @@
     <div class="product-grid">
       {% for product in products %}
         <div class="product-card">
+          
+          <div class="product-image" style="height: 180px; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; background: #f9f9f9; border-radius: 4px;">
+              {% if product.images.first %}
+                  {# Nếu có ảnh thì hiển thị ảnh đầu tiên #}
+                  <a href="{% url 'products:detail' product.pk %}" style="display: block; width: 100%; height: 100%;">
+                      <img src="{{ product.images.first.image_url }}" 
+                           alt="{{ product.name }}" 
+                           style="width: 100%; height: 100%; object-fit: contain;">
+                  </a>
+              {% else %}
+                  {# Nếu không có ảnh thì hiện chữ No Image #}
+                  <span style="color: #ccc; font-size: 14px;">No Image</span>
+              {% endif %}
+          </div>
+
           <div class="product-name">
             <a href="{% url 'products:detail' product.pk %}">
               {{ product.name }}
@@ -59,7 +74,7 @@
           </div>
 
           <div class="product-price">
-            {{ product.price }} VNĐ
+            {{ product.price|floatformat:0|intcomma }} VNĐ
           </div>
 
           {% if product.category %}
@@ -76,19 +91,20 @@
             <a href="{% url 'products:detail' product.pk %}" class="btn-outline-custom">
               Xem chi tiết
             </a>
+            
             <form action="{% url 'cart:add' product.id %}" method="post">
               {% csrf_token %}
-              <input type="hidden" name="quantity" value="1">
+              <input type="hidden" name="next" value="{{ request.get_full_path }}">
               {% if product.stock_quantity > 0 %}
-              <button type="submit" class="btn-primary-custom">
-                Thêm vào giỏ
-              </button>
+                <button type="submit" class="btn-primary-custom">
+                  Thêm vào giỏ
+                </button>
               {% else %}
-        <button disabled 
-                style="background: #ccc; color: #fff; border: none; cursor: not-allowed; padding: 6px 12px; border-radius: 4px;">
-            Hết hàng
-        </button>
-    {% endif %}
+                <button disabled 
+                        style="background: #ccc; color: #fff; border: none; cursor: not-allowed; padding: 6px 12px; border-radius: 4px;">
+                    Hết hàng
+                </button>
+              {% endif %}
             </form>
           </div>
         </div>

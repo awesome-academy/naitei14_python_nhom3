@@ -1,10 +1,38 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static humanize %}
 
 {% block title %}Thanh toán{% endblock %}
 
 {% block content %}
-<div class="container" style="max-width: 800px; margin: 30px auto;">
+{# ⭐ CSS FIX LỖI ẢNH TRÀN & CĂN CHỈNH ĐẸP ⭐ #}
+    <style>
+        /* 1. Thu nhỏ ảnh lại kích thước cố định */
+        .cart-product-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover; /* Giữ ảnh không bị méo */
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+            display: block;
+        }
+
+        /* 2. Căn ảnh và tên sản phẩm nằm ngang hàng */
+        .cart-product-name {
+            display: flex;
+            align-items: center;
+            gap: 16px; /* Khoảng cách giữa ảnh và tên */
+            min-width: 300px;
+        }
+        
+        .cart-product-text {
+            font-weight: 600;
+            font-size: 15px;
+            color: #333;
+            line-height: 1.4;
+        }
+        }
+    </style>
+<div class="container" style="max-width: 2000px; margin: 30px auto;">
     <h1 style="margin-bottom: 20px; font-weight: 700;">Thanh toán đơn hàng</h1>
 
     <div class="row" style="display: flex; gap: 30px;">
@@ -42,15 +70,22 @@
             </div>
         </div>
 
-        <div class="col-md-5" style="width: 300px;">
+        <div class="col-md-5" style="width: 500px;">
             <div class="card" style="background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px solid #eee;">
                 <h4 style="margin-bottom: 15px;">Sản phẩm thanh toán</h4>
                 <ul style="list-style: none; padding: 0; margin-bottom: 15px;">
                     
                     {% for item in cart_items %}
                     <li style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px;">
+                        {% with img=item.product.images.all.0 %}
+                                {% if img %}
+                                    <img src="{{ img.image_url }}" 
+                                         alt="{{ item.product.name }}" 
+                                         class="cart-product-image">
+                                {% endif %}
+                            {% endwith %}
                         <span>{{ item.quantity }}x {{ item.product.name }}</span>
-                        <span style="font-weight: 600;">{{ item.total_price|floatformat:0 }} đ</span>
+                        <span style="font-weight: 600;">{{ item.total_price|floatformat:0|intcomma }} đ</span>
                     </li>
                     {% endfor %}
                     
@@ -58,7 +93,7 @@
                 <hr style="border: 0; border-top: 1px solid #ddd;">
                 <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: 700; color: #d0011b;">
                     <span>Tổng cộng:</span>
-                    <span>{{ total_price|floatformat:0 }} VNĐ</span>
+                    <span>{{ total_price|floatformat:0|intcomma }} VNĐ</span>
                 </div>
             </div>
         </div>
