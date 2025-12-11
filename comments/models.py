@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from myapp.models import Product  # Product chuẩn bên myapp
+from myapp.models import Product 
 
 
 class Comment(models.Model):
@@ -27,7 +27,7 @@ class Comment(models.Model):
         ordering = ['-created_at']
         verbose_name = 'Comment'
         verbose_name_plural = 'Comments'
-        unique_together = ('user', 'product')  # 1 user chỉ được comment 1 lần cho 1 product
+        unique_together = ('user', 'product')  
 
     def __str__(self):
         return f'{self.user.username} - {self.product.name} ({self.rating}⭐)'

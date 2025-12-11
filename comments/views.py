@@ -24,7 +24,6 @@ def review_order_item(request, order_item_id):
     order = order_item.order
     product = order_item.product
 
-    # Kiểm tra quyền và thời gian
     if not order_item.can_review:
         messages.error(
             request,

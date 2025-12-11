@@ -43,6 +43,7 @@
             <form action="{% url 'cart:add' product.id %}" method="post">
               {% csrf_token %}
               <input type="hidden" name="quantity" value="1">
+              <input type="hidden" name="next" value="{{ request.get_full_path }}">
               <button type="submit" class="btn-primary-custom">
                 Thêm vào giỏ
               </button>

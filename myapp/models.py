@@ -218,7 +218,7 @@ class OrderItem(models.Model):
     
     @property
     def can_review(self):
-        order = self.order
+        order = self.order #sử dụng biến dùng chung
         if order.status !=  ORDER_STATUS_COMPLETED:
             return False
         return timezone.now() - order.updated_at <= timedelta(days=7)   

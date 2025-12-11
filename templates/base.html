@@ -13,6 +13,26 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
+    {% if messages %}
+      <div class="toast-container">
+        {% for message in messages %}
+          <div class="toast toast-{{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+      <script>
+        // Ẩn toast sau 3 giây
+        setTimeout(function () {
+          const box = document.querySelector('.toast-container');
+          if (box) {
+            box.style.opacity = '0';
+            setTimeout(() => box.remove(), 300); // cho fade-out nhẹ
+          }
+        }, 3000);
+      </script>
+    {% endif %}
+
     <header class="site-header">
         <div class="container header-inner">
             <div class="logo">
