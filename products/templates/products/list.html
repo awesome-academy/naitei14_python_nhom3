@@ -91,6 +91,7 @@
             <a href="{% url 'products:detail' product.pk %}" class="btn-outline-custom">
               Xem chi tiết
             </a>
+<<<<<<< HEAD
             
             <form action="{% url 'cart:add' product.id %}" method="post">
               {% csrf_token %}
@@ -107,6 +108,21 @@
                     Hết hàng
                 </button>
               {% endif %}
+=======
+            <form action="{% url 'cart:add' product.id %}" method="post">
+              {% csrf_token %}
+              <input type="hidden" name="quantity" value="1">
+              {% if product.stock_quantity > 0 %}
+              <button type="submit" class="btn-primary-custom">
+                Thêm vào giỏ
+              </button>
+              {% else %}
+        <button disabled 
+                style="background: #ccc; color: #fff; border: none; cursor: not-allowed; padding: 6px 12px; border-radius: 4px;">
+            Hết hàng
+        </button>
+    {% endif %}
+>>>>>>> 7fc7167ebebdd71fdad2f860f4e2eda3a0804f80
             </form>
           </div>
         </div>

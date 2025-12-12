@@ -160,10 +160,18 @@
                 </span>
             </p>
 
+<<<<<<< HEAD
             <div style="display: flex; gap: 10px; justify-content: flex-end;">
                 <a href="{% url 'orders:list' %}" class="btn btn-outline-secondary">
                     Lịch sử đơn hàng
                 </a>
+=======
+            <button type="button" onclick="proceedToCheckout()" class="btn btn-primary" 
+            style="background: #ff5722; color: white; padding: 10px 20px; border: none; border-radius: 4px; font-size: 16px; cursor: pointer;">
+            Tiến hành đặt hàng
+            </button>
+
+>>>>>>> 7fc7167ebebdd71fdad2f860f4e2eda3a0804f80
 
                 <button type="button" onclick="proceedToCheckout()" class="btn btn-primary" 
                         style="background: #ff5722; color: white; padding: 10px 25px; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; font-weight: bold;">
@@ -187,6 +195,24 @@
 {% block scripts %}
     {{ block.super }}
     <script src="{% static 'js/cart.js' %}"></script>
+<<<<<<< HEAD
+=======
+
+    <script>
+        function proceedToCheckout() {
+            const checkedBoxes = document.querySelectorAll('.cart-item-checkbox:checked');
+            
+            if (checkedBoxes.length === 0) {
+                alert("Vui lòng chọn ít nhất một sản phẩm để thanh toán!");
+                return;
+            }
+            const selectedIds = Array.from(checkedBoxes).map(cb => cb.value).join(',');
+
+            window.location.href = "{% url 'orders:checkout' %}?ids=" + selectedIds;
+        }
+    </script>
+{% endblock %}
+>>>>>>> 7fc7167ebebdd71fdad2f860f4e2eda3a0804f80
 
     <script>
         function proceedToCheckout() {

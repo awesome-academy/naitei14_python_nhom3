@@ -1,5 +1,9 @@
 {% extends "base.html" %}
+<<<<<<< HEAD
 {% load static humanize %}
+=======
+{% load static %}
+>>>>>>> 7fc7167ebebdd71fdad2f860f4e2eda3a0804f80
 
 {% block title %}Trang chủ - E-commerce{% endblock %}
 
@@ -93,7 +97,11 @@
                             </a>
                         </h5>
                         <div class="mt-auto">
+<<<<<<< HEAD
     <p class="card-text fw-bold text-danger mb-2">{{ product.price|floatformat:0|intcomma }} VNĐ</p>
+=======
+    <p class="card-text fw-bold text-danger mb-2">{{ product.price|floatformat:0 }} VNĐ</p>
+>>>>>>> 7fc7167ebebdd71fdad2f860f4e2eda3a0804f80
     
     {% if product.stock_quantity > 0 %}
     <form action="{% url 'cart:add' product.id %}" method="post">
