@@ -39,7 +39,7 @@ class CartAddView(View):
 
         cart.add(product=product, quantity=qty)
         
-        messages.success(request, f'Đã thêm {qty} x "{product.name}" vào giỏ hàng.')
+        messages.success(request, f'Đã thêm "{product.name}" vào giỏ hàng.')
         
         return redirect('cart:detail')
 

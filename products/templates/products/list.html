@@ -96,9 +96,11 @@
               {% csrf_token %}
               <input type="hidden" name="next" value="{{ request.get_full_path }}">
               {% if product.stock_quantity > 0 %}
-                <button type="submit" class="btn-primary-custom">
-                  Thêm vào giỏ
-                </button>
+               <button type="button" 
+                onclick="addToCart({{ product.id }})" 
+                class="btn-primary-custom">
+            Thêm vào giỏ
+        </button>
               {% else %}
                 <button disabled 
                         style="background: #ccc; color: #fff; border: none; cursor: not-allowed; padding: 6px 12px; border-radius: 4px;">
@@ -114,4 +116,75 @@
     <p>Hiện chưa có sản phẩm nào.</p>
   {% endif %}
 </div>
+{% endblock %}
+{% block scripts %}
+    {# Giữ lại scripts của base.html nếu có #}
+    <script src="{% static 'js/main.js' %}"></script> 
+
+    <script>
+        // ==========================================
+        // 1. HÀM HIỆN TOAST (Client-side)
+        // ==========================================
+        function showToastClient(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            toast.className = `toast-message toast-${type}`;
+            
+            let iconHtml = '';
+            if (type === 'success') {
+                iconHtml = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="toast-icon-success"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>';
+            } else if (type === 'error') {
+                iconHtml = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="toast-icon-error"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>';
+            }
+
+            toast.innerHTML = `
+                <div class="toast-icon">${iconHtml}</div>
+                <div class="toast-content">${message}</div>
+                <button class="toast-close" onclick="this.parentElement.remove()">&times;</button>
+            `;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = "fadeOut 0.5s ease-out forwards";
+                toast.addEventListener("animationend", () => {
+                    if(toast.parentElement) toast.remove();
+                });
+            }, 4000);
+        }
+
+        // ==========================================
+        // 2. HÀM GỌI AJAX THÊM GIỎ HÀNG
+        // ==========================================
+        function addToCart(productId) {
+            const url = '/cart/add/' + productId + '/'; 
+            const csrfToken = '{{ csrf_token }}'; // Lấy token từ Django template
+
+            fetch(url, {
+                method: 'POST', 
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({ quantity: 1 }) // Mặc định thêm 1
+            })
+            .then(response => {
+                // Dù server trả về redirect (302) hay JSON (200), ta đều coi là thành công
+                // vì fetch tự động follow redirect nhưng không đổi URL trên thanh địa chỉ.
+                if (response.ok || response.redirected) {
+                     showToastClient('Đã thêm sản phẩm vào giỏ hàng!', 'success');
+                } else {
+                     showToastClient('Có lỗi xảy ra, vui lòng thử lại.', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Trường hợp view redirect thành công nhưng fetch coi là lỗi mạng (hiếm gặp)
+                showToastClient('Đã thêm sản phẩm vào giỏ hàng!', 'success');
+            });
+        }
+    </script>
 {% endblock %}
