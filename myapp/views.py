@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -18,6 +18,7 @@ from django.contrib.auth.views import PasswordChangeView
 from datetime import timedelta
 
 from .constants import ACTIVATION_TOKEN_LENGTH, RESET_TOKEN_LENGTH, RESET_TOKEN_EXPIRY_HOURS, ACTIVATION_TOKEN_EXPIRY_HOURS
+from .models import Category, Product, Order
 
 User = get_user_model()
 from .forms import UserUpdateForm, VNPasswordChangeForm
@@ -166,7 +167,7 @@ def login_user(request):
                 next_url = request.GET.get('next', 'myapp:index')
                 return redirect(next_url)
             else:
-                messages.error(request, 'Tài khoản chưa được kích hoạt')
+                messages.error(request, 'Tài khoản chưa được kích hoạt hoặc đã bị khóa. Vui lòng kiểm tra email để kích hoạt tài khoản.')
         else:
             # Increment failed login attempts
             cache.set(cache_key, attempts + 1, 900)  # 15 minutes TTL
@@ -385,4 +386,377 @@ def reset_password(request, token):
         messages.success(request, 'Đặt lại mật khẩu thành công! Vui lòng đăng nhập.')
         return redirect('myapp:login')
     
+    return render(request, 'myapp/reset_password.html', {'token': token})
+
+
+# Admin views (chỉ cho admin/staff)
+def admin_login_view(request):
+    """Trang login riêng cho admin"""
+    if request.user.is_authenticated:
+        # Nếu đã login và là admin, redirect to dashboard
+        if request.user.role == 'admin' or request.user.is_staff:
+            return redirect('myapp:admin_dashboard')
+        else:
+            # Không phải admin, logout và báo lỗi
+            logout(request)
+            messages.error(request, 'Bạn không có quyền truy cập trang quản trị')
+            return redirect('myapp:admin_site')
+    
+    if request.method == 'POST':
+        username = request.POST.get('username', '').strip()
+        password = request.POST.get('password', '').strip()
+        
+        user = authenticate(request, username=username, password=password)
+        
+        if user is not None:
+            # Check if user is admin
+            if user.role == 'admin' or user.is_staff:
+                login(request, user)
+                messages.success(request, f'Chào mừng Admin {user.username}!')
+                return redirect('myapp:admin_dashboard')
+            else:
+                messages.error(request, 'Bạn không có quyền truy cập. Chỉ dành cho quản trị viên.')
+        else:
+            messages.error(request, 'Username hoặc mật khẩu không đúng')
+    
+    return render(request, 'myapp/admin_login.html')
+
+
+def admin_required(view_func):
+    """Decorator để check user là admin"""
+    def wrapper(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            messages.error(request, 'Vui lòng đăng nhập')
+            return redirect('myapp:admin_site')
+        if request.user.role != 'admin' and not request.user.is_staff:
+            messages.error(request, 'Bạn không có quyền truy cập')
+            return redirect('myapp:admin_site')
+        return view_func(request, *args, **kwargs)
+    return wrapper
+
+
+@admin_required
+def admin_dashboard(request):
+    """Trang dashboard cho admin"""
+    context = {
+        'total_orders': Order.objects.count(),
+        'total_products': Product.objects.count(),
+        'total_users': User.objects.filter(role='user').count(),
+        'total_categories': Category.objects.count(),
+        'recent_orders': Order.objects.select_related('user').order_by('-order_date')[:10],
+        'low_stock_products': Product.objects.filter(stock_quantity__lt=10).select_related('category').order_by('stock_quantity'),
+    }
+    return render(request, 'myapp/admin_dashboard.html', context)
+
+
+@admin_required
+def admin_orders(request):
+    """Quản lý đơn hàng"""
+    orders = Order.objects.select_related('user').order_by('-order_date')
+    return render(request, 'myapp/admin_orders.html', {'orders': orders})
+
+
+@admin_required
+def admin_order_view(request, order_id):
+    """Xem chi tiết đơn hàng"""
+    order = get_object_or_404(Order, id=order_id)
+    order_items = order.items.select_related('product').all()
+    return render(request, 'myapp/admin_order_view.html', {
+        'order': order,
+        'order_items': order_items
+    })
+
+
+@admin_required
+@require_POST
+def admin_order_update_status(request, order_id):
+    """Cập nhật trạng thái đơn hàng"""
+    order = get_object_or_404(Order, id=order_id)
+    new_status = request.POST.get('status')
+    rejection_reason = request.POST.get('rejection_reason', '').strip()
+    
+    # Validate status
+    valid_statuses = ['pending', 'confirmed', 'shipped', 'completed', 'rejected']
+    if new_status not in valid_statuses:
+        messages.error(request, 'Trạng thái không hợp lệ')
+        return redirect('myapp:admin_order_view', order_id=order_id)
+    
+    # Nếu từ chối thì phải có lý do
+    if new_status == 'rejected' and not rejection_reason:
+        messages.error(request, 'Vui lòng nhập lý do từ chối đơn hàng')
+        return redirect('myapp:admin_order_view', order_id=order_id)
+    
+    old_status = order.status
+    order.status = new_status
+    
+    if new_status == 'rejected':
+        order.rejection_reason = rejection_reason
+    
+    order.save()
+    
+    status_text = dict([
+        ('pending', 'Chờ xác nhận'),
+        ('confirmed', 'Đã xác nhận'),
+        ('shipped', 'Đang giao'),
+        ('completed', 'Đã giao thành công'),
+        ('rejected', 'Bị từ chối')
+    ]).get(new_status, new_status)
+    
+    messages.success(request, f'Đã cập nhật trạng thái đơn hàng #{order.id} từ "{old_status}" sang "{status_text}"')
+    return redirect('myapp:admin_order_view', order_id=order_id)
+
+
+@admin_required
+def admin_products(request):
+    """Quản lý sản phẩm"""
+    products = Product.objects.select_related('category').all()
+    return render(request, 'myapp/admin_products.html', {'products': products})
+
+
+@admin_required
+def admin_product_create(request):
+    """Tạo sản phẩm mới"""
+    if request.method == 'POST':
+        name = request.POST.get('name', '').strip()
+        description = request.POST.get('description', '').strip()
+        price = request.POST.get('price', '').strip()
+        stock_quantity = request.POST.get('stock_quantity', '0').strip()
+        category_id = request.POST.get('category')
+        is_featured = request.POST.get('is_featured') == 'on'
+        
+        # Validation
+        if not name:
+            messages.error(request, 'Tên sản phẩm không được để trống')
+        elif not price:
+            messages.error(request, 'Giá sản phẩm không được để trống')
+        elif not category_id:
+            messages.error(request, 'Danh mục là bắt buộc')
+        else:
+            try:
+                category = Category.objects.get(id=category_id)
+                product = Product.objects.create(
+                    name=name,
+                    description=description,
+                    price=price,
+                    stock_quantity=stock_quantity,
+                    category=category,
+                    is_featured=is_featured
+                )
+                messages.success(request, f'Đã tạo sản phẩm {product.name}')
+                return redirect('myapp:admin_products')
+            except Category.DoesNotExist:
+                messages.error(request, 'Danh mục không tồn tại')
+            except Exception as e:
+                messages.error(request, f'Lỗi khi tạo sản phẩm: {str(e)}')
+    
+    categories = Category.objects.all()
+    return render(request, 'myapp/admin_product_create.html', {'categories': categories})
+
+
+@admin_required
+def admin_product_edit(request, product_id):
+    """Chỉnh sửa sản phẩm"""
+    product = get_object_or_404(Product, id=product_id)
+    
+    if request.method == 'POST':
+        name = request.POST.get('name', '').strip()
+        description = request.POST.get('description', '').strip()
+        price = request.POST.get('price', '').strip()
+        stock_quantity = request.POST.get('stock_quantity', '0').strip()
+        category_id = request.POST.get('category')
+        is_featured = request.POST.get('is_featured') == 'on'
+        
+        if not name:
+            messages.error(request, 'Tên sản phẩm không được để trống')
+        elif not price:
+            messages.error(request, 'Giá sản phẩm không được để trống')
+        elif not category_id:
+            messages.error(request, 'Danh mục là bắt buộc')
+        else:
+            try:
+                category = Category.objects.get(id=category_id)
+                product.name = name
+                product.description = description
+                product.price = price
+                product.stock_quantity = stock_quantity
+                product.category = category
+                product.is_featured = is_featured
+                product.save()
+                messages.success(request, f'Đã cập nhật sản phẩm {product.name}')
+                return redirect('myapp:admin_products')
+            except Category.DoesNotExist:
+                messages.error(request, 'Danh mục không tồn tại')
+            except Exception as e:
+                messages.error(request, f'Lỗi khi cập nhật: {str(e)}')
+    
+    categories = Category.objects.all()
+    return render(request, 'myapp/admin_product_edit.html', {
+        'product': product,
+        'categories': categories
+    })
+
+
+@admin_required
+@require_POST
+def admin_product_delete(request, product_id):
+    """Xóa sản phẩm"""
+    product = get_object_or_404(Product, id=product_id)
+    name = product.name
+    product.delete()
+    messages.success(request, f'Đã xóa sản phẩm {name}')
+    return redirect('myapp:admin_products')
+
+
+@admin_required
+def admin_users(request):
+    """Quản lý người dùng"""
+    users = User.objects.exclude(role='admin').order_by('-created_at')
+    return render(request, 'myapp/admin_users.html', {'users': users})
+
+
+@admin_required
+def admin_categories(request):
+    """Quản lý danh mục"""
+    categories = Category.objects.all()
+    return render(request, 'myapp/admin_categories.html', {'categories': categories})
+
+
+@admin_required
+def admin_category_create(request):
+    """Tạo danh mục mới"""
+    if request.method == 'POST':
+        name = request.POST.get('name', '').strip()
+        description = request.POST.get('description', '').strip()
+        
+        if not name:
+            messages.error(request, 'Tên danh mục không được để trống')
+        else:
+            try:
+                category = Category.objects.create(
+                    name=name,
+                    description=description
+                )
+                messages.success(request, f'Đã tạo danh mục {category.name}')
+                return redirect('myapp:admin_categories')
+            except Exception as e:
+                messages.error(request, f'Lỗi khi tạo danh mục: {str(e)}')
+    
+    return render(request, 'myapp/admin_category_create.html')
+
+
+@admin_required
+def admin_category_edit(request, category_id):
+    """Chỉnh sửa danh mục"""
+    category = get_object_or_404(Category, id=category_id)
+    
+    if request.method == 'POST':
+        name = request.POST.get('name', '').strip()
+        description = request.POST.get('description', '').strip()
+        
+        if not name:
+            messages.error(request, 'Tên danh mục không được để trống')
+        else:
+            try:
+                category.name = name
+                category.description = description
+                category.save()
+                messages.success(request, f'Đã cập nhật danh mục {category.name}')
+                return redirect('myapp:admin_categories')
+            except Exception as e:
+                messages.error(request, f'Lỗi khi cập nhật: {str(e)}')
+    
+    return render(request, 'myapp/admin_category_edit.html', {'category': category})
+
+
+@admin_required
+@require_POST
+def admin_category_delete(request, category_id):
+    """Xóa danh mục"""
+    category = get_object_or_404(Category, id=category_id)
+    
+    # Kiểm tra xem danh mục có sản phẩm không
+    if category.products.count() > 0:
+        messages.error(request, f'Không thể xóa danh mục {category.name} vì còn {category.products.count()} sản phẩm')
+        return redirect('myapp:admin_categories')
+    
+    name = category.name
+    category.delete()
+    messages.success(request, f'Đã xóa danh mục {name}')
+    return redirect('myapp:admin_categories')
+
+
+@admin_required
+def admin_user_view(request, user_id):
+    """Xem chi tiết người dùng"""
+    user = get_object_or_404(User, id=user_id)
+    return render(request, 'myapp/admin_user_view.html', {'view_user': user})
+
+
+@admin_required
+def admin_user_edit(request, user_id):
+    """Chỉnh sửa thông tin người dùng"""
+    user = get_object_or_404(User, id=user_id)
+    
+    if request.method == 'POST':
+        user.username = request.POST.get('username', user.username).strip()
+        user.email = request.POST.get('email', user.email).strip()
+        user.first_name = request.POST.get('first_name', '').strip()
+        user.last_name = request.POST.get('last_name', '').strip()
+        user.role = request.POST.get('role', user.role)
+        
+        try:
+            user.save()
+            messages.success(request, f'Đã cập nhật thông tin người dùng {user.username}')
+        except Exception as e:
+            messages.error(request, f'Lỗi khi cập nhật: {str(e)}')
+        
+        return redirect('myapp:admin_users')
+    
+    return render(request, 'myapp/admin_user_edit.html', {'edit_user': user})
+
+
+@admin_required
+@require_POST
+def admin_user_delete(request, user_id):
+    """Xóa người dùng"""
+    user = get_object_or_404(User, id=user_id)
+    
+    # Không cho phép xóa admin
+    if user.role == 'admin':
+        messages.error(request, 'Không thể xóa tài khoản admin!')
+        return redirect('myapp:admin_users')
+    
+    # Không cho phép tự xóa chính mình
+    if user.id == request.user.id:
+        messages.error(request, 'Không thể xóa chính tài khoản của bạn!')
+        return redirect('myapp:admin_users')
+    
+    username = user.username
+    user.delete()
+    messages.success(request, f'Đã xóa người dùng {username}')
+    return redirect('myapp:admin_users')
+
+
+@admin_required
+@require_POST
+def admin_user_toggle_active(request, user_id):
+    """Khóa/Mở khóa tài khoản người dùng"""
+    user = get_object_or_404(User, id=user_id)
+    
+    # Không cho phép khóa admin
+    if user.role == 'admin':
+        messages.error(request, 'Không thể khóa tài khoản admin!')
+        return redirect('myapp:admin_users')
+    
+    # Không cho phép tự khóa chính mình
+    if user.id == request.user.id:
+        messages.error(request, 'Không thể khóa chính tài khoản của bạn!')
+        return redirect('myapp:admin_users')
+    
+    user.is_active = not user.is_active
+    user.save()
+    
+    status = 'mở khóa' if user.is_active else 'khóa'
+    messages.success(request, f'Đã {status} tài khoản {user.username}')
+    return redirect('myapp:admin_users')
     return render(request, 'myapp/reset_password.html', {'token': token})

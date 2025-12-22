@@ -1,0 +1,101 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Quản lý sản phẩm - Admin Ecommerce 3{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2><i class="bi bi-box"></i> Quản lý sản phẩm</h2>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Danh sách sản phẩm</h5>
+                    <div>
+                        <span class="badge bg-primary">Tổng: {{ products.count }}</span>
+                        <a href="{% url 'myapp:admin_product_create' %}" class="btn btn-success btn-sm ms-2">
+                            <i class="bi bi-plus-circle"></i> Thêm sản phẩm
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Mã</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Danh mục</th>
+                                <th>Giá</th>
+                                <th>Tồn kho</th>
+                                <th>Nổi bật</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in products %}
+                            <tr>
+                                <td>#{{ product.id }}</td>
+                                <td>
+                                    <strong>{{ product.name }}</strong>
+                                    {% if product.description %}
+                                        <br><small class="text-muted">{{ product.description|truncatechars:50 }}</small>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <span class="badge bg-secondary">{{ product.category.name }}</span>
+                                </td>
+                                <td>{{ product.price|floatformat:0 }}đ</td>
+                                <td>
+                                    {% if product.stock_quantity == 0 %}
+                                        <span class="badge bg-danger">{{ product.stock_quantity }}</span>
+                                    {% elif product.stock_quantity < 10 %}
+                                        <span class="badge bg-warning">{{ product.stock_quantity }}</span>
+                                    {% else %}
+                                        <span class="badge bg-success">{{ product.stock_quantity }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if product.is_featured %}
+                                        <span class="badge bg-success"><i class="bi bi-star-fill"></i> Có</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Không</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a href="{% url 'myapp:admin_product_edit' product.id %}" class="btn btn-sm btn-warning" title="Chỉnh sửa">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <form method="post" action="{% url 'myapp:admin_product_delete' product.id %}" style="display:inline;" 
+                                              onsubmit="return confirm('Bạn có chắc chắn muốn xóa sản phẩm {{ product.name }}?');">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-sm btn-danger" title="Xóa">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="7" class="text-center text-muted">
+                                    <i class="bi bi-inbox"></i> Chưa có sản phẩm nào
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
