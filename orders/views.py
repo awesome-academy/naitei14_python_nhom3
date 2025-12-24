@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, View
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
+from django.utils.translation import gettext_lazy as _
 from django.db import transaction
 from cart.cart import Cart
 from myapp.enums import (
@@ -11,6 +12,7 @@ from myapp.enums import (
 )
 from myapp.models import CartItem, Order, OrderItem
 from comments.models import Comment
+from django.utils.translation import gettext as _
 
 class OrderListView(LoginRequiredMixin, ListView):
     model = Order
@@ -73,14 +75,14 @@ class OrderCancelView(LoginRequiredMixin, View):
 
         # chỉ cho hủy khi status = 'pending'
         if order.status != ORDER_STATUS_PENDING:
-            messages.error(request, 'Đơn hàng này không thể hủy nữa.')
+            messages.error(request, _('Đơn hàng này không thể hủy nữa.'))
             return redirect('orders:detail', pk=order.pk)
 
         order.status = ORDER_STATUS_CANCELLED
-        order.rejection_reason = 'Người dùng tự hủy đơn.'
+        order.rejection_reason = _('Người dùng tự hủy đơn.')
         order.save(update_fields=['status', 'rejection_reason', 'updated_at'])
 
-        messages.success(request, 'Đơn hàng đã được hủy thành công.')
+        messages.success(request, _('Đơn hàng đã được hủy thành công.'))
         return redirect('orders:detail', pk=order.pk)
 
 class CheckoutView(LoginRequiredMixin, View):
@@ -92,7 +94,7 @@ class CheckoutView(LoginRequiredMixin, View):
         selected_ids_str = request.GET.get('ids', '')
         
         if not selected_ids_str:
-            messages.warning(request, "Vui lòng chọn sản phẩm để thanh toán.")
+            messages.warning(request, _("Vui lòng chọn sản phẩm để thanh toán."))
             return redirect('cart:detail')
 
         ids_list = selected_ids_str.split(',')
@@ -127,8 +129,8 @@ class CheckoutView(LoginRequiredMixin, View):
                 final_total += item['total_price']
 
         if not items_to_buy:
-             messages.warning(request, "Danh sách sản phẩm không hợp lệ.")
-             return redirect('cart:detail')
+            messages.warning(request, _("Danh sách sản phẩm không hợp lệ."))
+            return redirect('cart:detail')
 
         shipping_address = request.POST.get('address')
         phone = request.POST.get('phone')
@@ -150,5 +152,9 @@ class CheckoutView(LoginRequiredMixin, View):
             )
             cart.remove(item['product']) 
         
-        messages.success(request, f"Đặt hàng thành công! Mã đơn: #{order.id}")
+        messages.success(
+            request,
+            _("Đặt hàng thành công! Mã đơn: #%(order_id)s")
+            % {"order_id": order.id},
+        )
         return redirect('orders:detail', pk=order.id)

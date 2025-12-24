@@ -1,6 +1,7 @@
 {% extends "base.html" %}
+{% load i18n %}
 
-{% block title %}Đăng nhập - E-commerce{% endblock %}
+{% block title %}{% trans "Đăng nhập - E-commerce" %}{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -8,7 +9,7 @@
         <div class="col-md-5">
             <div class="card mt-5">
                 <div class="card-header">
-                    <h3>Đăng nhập</h3>
+                    <h3>{% trans "Đăng nhập" %}</h3>
                 </div>
                 <div class="card-body">
                     
@@ -21,16 +22,16 @@
                         </div>
                         
                         <div class="mb-3">
-                            <label for="password" class="form-label">Mật khẩu</label>
+                            <label for="password" class="form-label">{% trans "Mật khẩu" %}</label>
                             <input type="password" class="form-control" id="password" name="password" required autocomplete="current-password">
                         </div>
                         
-                        <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
+                        <button type="submit" class="btn btn-primary w-100">{% trans "Đăng nhập" %}</button>
                     </form>
                     
                     <div class="mt-3 text-center">
-                        <p><a href="{% url 'myapp:forgot_password' %}">Quên mật khẩu?</a></p>
-                        <p>Chưa có tài khoản? <a href="{% url 'myapp:register' %}">Đăng ký</a></p>
+                        <p><a href="{% url 'myapp:forgot_password' %}">{% trans "Quên mật khẩu?" %}</a></p>
+                        <p>{% trans "Chưa có tài khoản?" %} <a href="{% url 'myapp:register' %}">{% trans "Đăng ký" %}</a></p>
                     </div>
                 </div>
             </div>

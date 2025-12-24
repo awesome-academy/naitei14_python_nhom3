@@ -61,7 +61,7 @@ def review_order_item(request, order_item_id):
             comment.content = content
             comment.save()
 
-        messages.success(request, "Đã lưu đánh giá của bạn.")
+        messages.success(request, _("Đã lưu đánh giá của bạn."))
         return redirect("orders:detail", pk=order.pk)
 
     # nếu không phải POST -> quay lại
@@ -93,7 +93,7 @@ def delete_comment(request, pk):
         return redirect("products:detail", pk=product.pk)
 
     comment.delete()
-    messages.success(request, "Đã xóa bình luận.")
+    messages.success(request, _("Đã xóa bình luận."))
 
     if order_item:
         return redirect("orders:detail", pk=order_item.order.pk)

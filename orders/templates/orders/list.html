@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
-{% load static humanize%}
+{% load static humanize i18n %}
 
-{% block title %}Lịch sử đơn hàng{% endblock %}
+{% block title %}{% trans "Lịch sử đơn hàng" %}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/orders.css' %}">
@@ -9,36 +9,36 @@
 
 {% block content %}
 <div class="orders-page">
-  <h1 class="page-title">Lịch sử đơn hàng</h1>
+  <h1 class="page-title">{% trans "Lịch sử đơn hàng" %}</h1>
 
   <div class="order-tabs">
       <a href="{% url 'orders:list' %}"
          class="order-tab {% if not current_status %}active{% endif %}">
-          Tất cả
+          {% trans "Tất cả" %}
       </a>
       <a href="?status=pending"
          class="order-tab {% if current_status == 'pending' %}active{% endif %}">
-          Chờ xác nhận
+          {% trans "Chờ xác nhận" %}
       </a>
       <a href="?status=confirmed"
          class="order-tab {% if current_status == 'confirmed' %}active{% endif %}">
-          Đã xác nhận
+          {% trans "Đã xác nhận" %}
       </a>
       <a href="?status=shipped"
          class="order-tab {% if current_status == 'shipped' %}active{% endif %}">
-          Đang giao
+          {% trans "Đang giao" %}
       </a>
       <a href="?status=completed"
          class="order-tab {% if current_status == 'completed' %}active{% endif %}">
-          Đã giao thành công
+          {% trans "Đã giao thành công" %}
       </a>
       <a href="?status=cancelled"
          class="order-tab {% if current_status == 'cancelled' %}active{% endif %}">
-          Hủy bởi người dùng
+          {% trans "Hủy bởi người dùng" %}
       </a>
       <a href="?status=rejected"
          class="order-tab {% if current_status == 'rejected' %}active{% endif %}">
-          Bị từ chối bởi admin
+          {% trans "Bị từ chối bởi admin" %}
       </a>
   </div>
 
@@ -46,17 +46,17 @@
     <table class="orders-table">
       <thead>
         <tr>
-          <th>Ngày đặt</th>
-          <th>Tổng tiền</th>
-          <th>Trạng thái</th>
-          <th>Hành động</th>
+          <th>{% trans "Ngày đặt" %}</th>
+          <th>{% trans "Tổng tiền" %}</th>
+          <th>{% trans "Trạng thái" %}</th>
+          <th>{% trans "Hành động" %}</th>
         </tr>
       </thead>
       <tbody>
         {% for order in orders %}
         <tr>
           <td>{{ order.order_date|date:"d/m/Y H:i" }}</td>
-          <td>{{ order.total_amount|floatformat:0|intcomma }} VNĐ</td>
+          <td>{{ order.total_amount|floatformat:0|intcomma }} {% trans "VNĐ" %}</td>
           <td>
             <span class="order-status {{ order.status }}">
               {{ order.get_status_display }}
@@ -64,7 +64,7 @@
           </td>
           <td>
             <a href="{% url 'orders:detail' order.id %}" class="btn btn-outline-secondary btn-sm">
-              Xem chi tiết
+              {% trans "Xem chi tiết" %}
             </a>
             {% if order.status == 'pending' %}
               <form action="{% url 'orders:cancel' order.id %}"
@@ -73,8 +73,8 @@
                 {% csrf_token %}
                 <button type="submit"
                         class="btn btn-outline-danger btn-sm"
-                        onclick="return confirm('Bạn chắc chắn muốn hủy đơn này?');">
-                  Hủy đơn
+                        onclick="return confirm('{% trans "Bạn chắc chắn muốn hủy đơn này?" %}');">
+                      {% trans "Hủy đơn" %}
                 </button>
               </form>
             {% endif %}
@@ -84,7 +84,7 @@
       </tbody>
     </table>
   {% else %}
-    <p>Bạn chưa có đơn hàng nào.</p>
+    <p>{% trans "Bạn chưa có đơn hàng nào." %}</p>
   {% endif %}
 </div>
 {% endblock %}

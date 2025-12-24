@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static humanize %}
+{% load static humanize i18n %}
 
 {% block title %}{{ product.name }}{% endblock %}
 
@@ -27,7 +27,7 @@
                      alt="{{ product.name }}" 
                      style="max-width: 100%; max-height: 100%; object-fit: contain;">
             {% else %}
-                <span style="color: #999;">No Image</span>
+                <span style="color: #999;">{% trans "No Image" %}</span>
             {% endif %}
         </div>
 
@@ -53,29 +53,29 @@
          <div class="rating-stars" style="color: #f59e0b;">
              <span style="font-weight: bold;">{{ average_rating|floatformat:1|intcomma }}</span> ★
          </div>
-         <span style="color: #6b7280; font-size: 14px;">({{ rating_count }} đánh giá)</span>
+         <span style="color: #6b7280; font-size: 14px;">({{ rating_count }} {% trans "đánh giá" %})</span>
       </div>
 
       <p class="product-price" style="font-size: 26px; font-weight: 700; color: #dc2626; margin-bottom: 20px;">
-        {{ product.price|floatformat:0|intcomma }} <span class="currency">VNĐ</span>
+        {{ product.price|floatformat:0|intcomma }} <span class="currency">{% trans "VNĐ" %}</span>
       </p>
 
       <div class="product-meta" style="font-size: 14px; color: #4b5563; margin-bottom: 20px;">
-        <p style="margin-bottom: 5px;">Danh mục: <strong>{{ product.category.name|default:"Chưa phân loại" }}</strong></p>
-        <p style="margin-bottom: 5px;">Tình trạng: 
+        <p style="margin-bottom: 5px;">{% trans "Danh mục" %}: <strong>{{ product.category.name|default:"Chưa phân loại" }}</strong></p>
+        <p style="margin-bottom: 5px;">{% trans "Tình trạng" %}: 
             {% if product.stock_quantity > 0 %}
-                <span style="color: #16a34a; font-weight: 600;">Còn hàng ({{ product.stock_quantity }})</span>
+                <span style="color: #16a34a; font-weight: 600;">{% trans "Còn hàng" %} ({{ product.stock_quantity }})</span>
             {% else %}
-                <span style="color: #dc2626; font-weight: 600;">Hết hàng</span>
+                <span style="color: #dc2626; font-weight: 600;">{% trans "Hết hàng" %}</span>
             {% endif %}
         </p>
         {% if product.is_featured %}
-          <span style="background: #f97316; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 12px;">Nổi bật</span>
+          <span style="background: #f97316; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 12px;">{% trans "Nổi bật" %}</span>
         {% endif %}
       </div>
 
       <p class="product-description" style="color: #4b5563; margin-bottom: 30px; line-height: 1.6; border-top: 1px solid #eee; padding-top: 20px;">
-        {{ product.description|default:"Chưa có mô tả chi tiết."|linebreaks }}
+        {{ product.description|default:_("Chưa có mô tả chi tiết.")|linebreaks }}
       </p>
 
       <div class="product-actions" style="margin-top: auto;">
@@ -93,17 +93,17 @@
                         onclick="addToCartDetail({{ product.id }})" 
                         class="btn btn-primary" 
                         style="background: #ff5722; color: white; border: none; padding: 12px 30px; border-radius: 6px; font-weight: 600; cursor: pointer; flex-grow: 1;">
-                    Thêm vào giỏ hàng
+                    {% trans "Thêm vào giỏ hàng" %}
                 </button>
             </div>
         {% else %}
             <button disabled style="width: 100%; background: #e5e7eb; color: #9ca3af; border: none; padding: 12px; border-radius: 6px; cursor: not-allowed; font-weight: 600;">
-                Sản phẩm tạm hết hàng
+              {% trans "Sản phẩm tạm hết hàng" %}
             </button>
         {% endif %}
         {% else %}
             <button disabled style="width: 100%; background: #e5e7eb; color: #9ca3af; border: none; padding: 12px; border-radius: 6px; cursor: not-allowed; font-weight: 600;">
-                Sản phẩm tạm hết hàng
+              {% trans "Sản phẩm tạm hết hàng" %}
             </button>
         {% endif %}
       </div>
@@ -134,11 +134,11 @@
         </div>
 
         <div class="rating-count" style="color: #4b5563;">
-          {{ rating_count }} đánh giá
+          {{ rating_count }} {% trans "đánh giá" %}
         </div>
       {% else %}
         <div class="rating-none" style="color: #6b7280;">
-          Chưa có đánh giá nào cho sản phẩm này.
+          {% trans "Chưa có đánh giá nào cho sản phẩm này." %}
         </div>
       {% endif %}
     </div>
@@ -150,7 +150,7 @@
               box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);">
 
     <h2 class="section-title" style="font-size: 20px; font-weight: 600; margin-bottom: 16px;">
-      Đánh giá &amp; Bình luận
+      {% trans "Đánh giá & Bình luận" %}
     </h2>
 
     {# --- Danh sách bình luận --- #}
@@ -212,7 +212,7 @@
       </ul>
     {% else %}
       <p class="no-review-text" style="color: #6b7280; margin-bottom: 16px;">
-        Chưa có bình luận nào, hãy là người đầu tiên đánh giá sản phẩm này!
+        {% trans "Chưa có bình luận nào, hãy là người đầu tiên đánh giá sản phẩm này!" %}
       </p>
     {% endif %}
 
@@ -220,17 +220,18 @@
 
     {# -- Không còn form đánh giá trực tiếp ở trang product -- #}
     {% if not user.is_authenticated %}
+      {% url 'admin:login' as admin_login_url %}
       <p class="login-hint" style="color: #6b7280;">
-        Bạn cần
-        <a href="{% url 'admin:login' %}?next={{ request.path }}">đăng nhập</a>
-        để xem lịch sử đơn hàng và đánh giá sản phẩm.
+        {% blocktrans with login_url=admin_login_url %}
+        Bạn cần <a href="{{ login_url }}">đăng nhập</a> để xem lịch sử đơn hàng và đánh giá sản phẩm.
+        {% endblocktrans %}
       </p>
     {% else %}
       <p class="no-permission-text" style="color: #6b7280;">
-        Để đánh giá sản phẩm, hãy vào
-        <strong>Đơn hàng → Chi tiết đơn hàng</strong> tương ứng.
-        Bạn có thể đánh giá từng sản phẩm trong vòng
-        <strong>7 ngày</strong> sau khi đơn được giao thành công.
+        {% trans "Để đánh giá sản phẩm, hãy vào" %}
+        <strong>{% trans "Đơn hàng → Chi tiết đơn hàng" %}</strong> {% trans "tương ứng." %}
+        {% trans "Bạn có thể đánh giá từng sản phẩm trong vòng" %}
+        <strong>7 {% trans "ngày" %}</strong> {% trans "sau khi đơn được giao thành công." %}
       </p>
     {% endif %}
   </div>
@@ -286,7 +287,7 @@
         const quantity = parseInt(qtyInput.value);
 
         if (isNaN(quantity) || quantity < 1) {
-            showToastClient('Số lượng không hợp lệ', 'error');
+          showToastClient('{% trans "Số lượng không hợp lệ" %}', 'error');
             return;
         }
 
@@ -302,19 +303,19 @@
             body: formData
         })
         .then(res => {
-            if (!res.ok && res.status !== 400) throw new Error('Lỗi mạng');
+          if (!res.ok && res.status !== 400) throw new Error('{% trans "Lỗi mạng" %}');
             return res.json();
         })
         .then(data => {
             if (data.success) {
-                showToastClient(data.message || 'Đã thêm vào giỏ hàng!', 'success');
+            showToastClient(data.message || '{% trans "Đã thêm vào giỏ hàng!" %}', 'success');
             } else {
-                showToastClient(data.message || 'Có lỗi xảy ra', 'error');
+            showToastClient(data.message || '{% trans "Có lỗi xảy ra" %}', 'error');
             }
         })
         .catch((err) => {
             console.error(err);
-            showToastClient('Có lỗi xảy ra khi kết nối server', 'error');
+          showToastClient('{% trans "Có lỗi xảy ra khi kết nối server" %}', 'error');
         });
     }
 </script>

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.conf import settings
@@ -62,7 +63,7 @@ def register_user(request):
         attempts = cache.get(cache_key, 0)
         
         if attempts >= 3:
-            messages.error(request, 'Quá nhiều lần đăng ký. Vui lòng thử lại sau 1 giờ.')
+            messages.error(request, _('Quá nhiều lần đăng ký. Vui lòng thử lại sau 1 giờ.'))
             return render(request, 'myapp/register.html')
         password = request.POST.get('password', '').strip()
         password_confirm = request.POST.get('password_confirm', '').strip()
@@ -72,7 +73,7 @@ def register_user(request):
 
         # Validate
         if password != password_confirm:
-            messages.error(request, 'Mật khẩu xác nhận không khớp')
+            messages.error(request, _('Mật khẩu xác nhận không khớp'))
             return render(request, 'myapp/register.html')
 
         # Validate email format
@@ -80,7 +81,7 @@ def register_user(request):
         try:
             email_validator(email)
         except ValidationError:
-            messages.error(request, 'Định dạng email không hợp lệ')
+            messages.error(request, _('Định dạng email không hợp lệ'))
             return render(request, 'myapp/register.html')
 
         # Validate password strength
@@ -92,11 +93,11 @@ def register_user(request):
             return render(request, 'myapp/register.html')
 
         if User.objects.filter(username=username).exists():
-            messages.error(request, 'Username đã tồn tại')
+            messages.error(request, _('Username đã tồn tại'))
             return render(request, 'myapp/register.html')
 
         if User.objects.filter(email__iexact=email).exists():
-            messages.error(request, 'Email đã được sử dụng')
+            messages.error(request, _('Email đã được sử dụng'))
             return render(request, 'myapp/register.html')
 
         # Use transaction to ensure user creation and email sending are atomic
@@ -121,20 +122,23 @@ def register_user(request):
                     reverse('myapp:activate_account', args=[activation_token])
                 )
                 send_mail(
-                    subject='Kích hoạt tài khoản',
-                    message=f'Chào {username},\n\nVui lòng click vào link sau để kích hoạt tài khoản:\n{activation_link}',
+                    subject=_('Kích hoạt tài khoản'),
+                    message=_('Chào %(username)s,\n\nVui lòng click vào link sau để kích hoạt tài khoản:\n%(activation_link)s') % {
+                        'username': username,
+                        'activation_link': activation_link,
+                    },
                     from_email=settings.DEFAULT_FROM_EMAIL,
                     recipient_list=[email],
                     fail_silently=False,
                 )
             
-            messages.success(request, 'Đăng ký thành công! Vui lòng kiểm tra email để kích hoạt tài khoản.')
+            messages.success(request, _('Đăng ký thành công! Vui lòng kiểm tra email để kích hoạt tài khoản.'))
             return redirect('myapp:login')
         except Exception as e:
             # Transaction will auto-rollback if email fails
             # Increment rate limit counter
             cache.set(cache_key, attempts + 1, 3600)  # 1 hour TTL
-            messages.error(request, 'Gửi email thất bại. Vui lòng thử lại sau.')
+            messages.error(request, _('Gửi email thất bại. Vui lòng thử lại sau.'))
             return render(request, 'myapp/register.html')
 
     return render(request, 'myapp/register.html')
@@ -156,7 +160,7 @@ def login_user(request):
         attempts = cache.get(cache_key, 0)
         
         if attempts >= 5:
-            messages.error(request, 'Quá nhiều lần đăng nhập thất bại. Vui lòng thử lại sau 15 phút.')
+            messages.error(request, _('Quá nhiều lần đăng nhập thất bại. Vui lòng thử lại sau 15 phút.'))
             return render(request, 'myapp/login.html')
 
         user = authenticate(request, username=username, password=password)
@@ -166,15 +170,15 @@ def login_user(request):
                 # Clear login attempts on successful login
                 cache.delete(cache_key)
                 login(request, user)
-                messages.success(request, f'Chào mừng {user.username}!')
+                messages.success(request, _('Chào mừng %(username)s!') % {'username': user.username})
                 next_url = request.GET.get('next', 'myapp:index')
                 return redirect(next_url)
             else:
-                messages.error(request, 'Tài khoản chưa được kích hoạt')
+                messages.error(request, _('Tài khoản chưa được kích hoạt'))
         else:
             # Increment failed login attempts
             cache.set(cache_key, attempts + 1, 900)  # 15 minutes TTL
-            messages.error(request, 'Username hoặc mật khẩu không đúng')
+            messages.error(request, _('Username hoặc mật khẩu không đúng'))
 
     return render(request, 'myapp/login.html')
 
@@ -185,7 +189,7 @@ def logout_user(request):
     Đăng xuất
     """
     logout(request)
-    messages.success(request, 'Đã đăng xuất thành công')
+    messages.success(request, _('Đã đăng xuất thành công'))
     return redirect('myapp:login')
 
 
@@ -207,7 +211,7 @@ def update_profile(request):
         user.address = address.strip() if isinstance(address, str) else address
         user.save()
 
-        messages.success(request, 'Cập nhật thông tin thành công')
+        messages.success(request, _('Cập nhật thông tin thành công'))
         return redirect('myapp:profile')
 
     return redirect('myapp:profile')
@@ -220,7 +224,7 @@ def profile(request):
         form = UserUpdateForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
-            messages.success(request, "Cập nhật hồ sơ thành công!")
+            messages.success(request, _("Cập nhật hồ sơ thành công!"))
             return redirect("myapp:profile")
     else:
         form = UserUpdateForm(instance=user)
@@ -234,24 +238,24 @@ class CustomPasswordChangeView(PasswordChangeView):
     success_url = reverse_lazy("myapp:profile")
 
     def form_valid(self, form):
-        messages.success(self.request, "Bạn đã đổi mật khẩu thành công!")
-        return super().form_valid(form)
+            messages.success(self.request, _("Bạn đã đổi mật khẩu thành công!"))
+            return super().form_valid(form)
 
     def form_invalid(self, form):
         old_errors = form.errors.get("old_password", [])
         if old_errors:
             for err in old_errors:
-                messages.error(self.request, f"Mật khẩu hiện tại: {err}")
+                    messages.error(self.request, _("Mật khẩu hiện tại: %(error)s") % {"error": err})
             return super().form_invalid(form)
 
         new1_errors = form.errors.get("new_password1", [])
         for err in new1_errors:
-            messages.error(self.request, f"Mật khẩu mới: {err}")
+                messages.error(self.request, _("Mật khẩu mới: %(error)s") % {"error": err})
 
         new2_errors = form.errors.get("new_password2", [])
         for err in new2_errors:
             if "match" in err.lower():
-                messages.error(self.request, "Xác nhận mật khẩu: Hai mật khẩu không trùng khớp.")
+                    messages.error(self.request, _("Xác nhận mật khẩu: Hai mật khẩu không trùng khớp."))
 
         for err in form.non_field_errors():
             messages.error(self.request, err)
@@ -270,18 +274,18 @@ def activate_account(request, token):
         if user.activation_token_created_at:
             expiry_time = user.activation_token_created_at + timedelta(hours=ACTIVATION_TOKEN_EXPIRY_HOURS)
             if timezone.now() > expiry_time:
-                messages.error(request, 'Link kích hoạt đã hết hạn. Vui lòng đăng ký lại.')
-                return redirect('myapp:register')
+                    messages.error(request, _('Link kích hoạt đã hết hạn. Vui lòng đăng ký lại.'))
+            return redirect('myapp:register')
         
         user.is_active = True
         user.activation_token = ''  # Xóa token sau khi kích hoạt
         user.activation_token_created_at = None
         user.save()
-        messages.success(request, 'Kích hoạt tài khoản thành công! Vui lòng đăng nhập.')
+        messages.success(request, _('Kích hoạt tài khoản thành công! Vui lòng đăng nhập.'))
         return redirect('myapp:login')
     except User.DoesNotExist:
-        messages.error(request, 'Link kích hoạt không hợp lệ hoặc đã hết hạn.')
-        return redirect('myapp:register')
+            messages.error(request, _('Link kích hoạt không hợp lệ hoặc đã hết hạn.'))
+            return redirect('myapp:register')
 
 
 def forgot_password(request):
@@ -296,8 +300,8 @@ def forgot_password(request):
         request_count = cache.get(cache_key, 0)
         
         if request_count >= 3:
-            messages.error(request, 'Bạn đã yêu cầu quá nhiều lần. Vui lòng thử lại sau 1 giờ.')
-            return render(request, 'myapp/forgot_password.html')
+                messages.error(request, _('Bạn đã yêu cầu quá nhiều lần. Vui lòng thử lại sau 1 giờ.'))
+        return render(request, 'myapp/forgot_password.html')
         
         try:
             user = User.objects.get(email__iexact=email)
@@ -315,7 +319,10 @@ def forgot_password(request):
             try:
                 send_mail(
                     subject='Đặt lại mật khẩu',
-                    message=f'Chào {user.username},\n\nClick vào link sau để đặt lại mật khẩu:\n{reset_link}\n\nLink này chỉ sử dụng được 1 lần.',
+                        message=_('Chào %(username)s,\n\nClick vào link sau để đặt lại mật khẩu:\n%(reset_link)s\n\nLink này chỉ sử dụng được 1 lần.') % {
+                            'username': user.username,
+                            'reset_link': reset_link,
+                        },
                     from_email=settings.DEFAULT_FROM_EMAIL,
                     recipient_list=[email],
                     fail_silently=False,
@@ -324,16 +331,16 @@ def forgot_password(request):
                 # Increment rate limit counter
                 cache.set(cache_key, request_count + 1, 3600)  # 1 hour TTL
                 
-                messages.success(request, 'Đã gửi link đặt lại mật khẩu vào email của bạn.')
+                messages.success(request, _('Đã gửi link đặt lại mật khẩu vào email của bạn.'))
             except Exception as e:
-                messages.error(request, 'Có lỗi khi gửi email. Vui lòng thử lại sau.')
+                    messages.error(request, _('Có lỗi khi gửi email. Vui lòng thử lại sau.'))
             
             return redirect('myapp:login')
         except User.DoesNotExist:
             # Don't reveal if email exists or not (security)
             # Still increment counter to prevent enumeration attacks
             cache.set(cache_key, request_count + 1, 3600)
-            messages.success(request, 'Nếu email tồn tại trong hệ thống, bạn sẽ nhận được link đặt lại mật khẩu.')
+            messages.success(request, _('Nếu email tồn tại trong hệ thống, bạn sẽ nhận được link đặt lại mật khẩu.'))
             return redirect('myapp:login')
     
     return render(request, 'myapp/forgot_password.html')
@@ -348,18 +355,18 @@ def reset_password(request, token):
         
         # Check if token is empty (already used)
         if not user.reset_token:
-            messages.error(request, 'Link đặt lại mật khẩu đã được sử dụng.')
+            messages.error(request, _('Link đặt lại mật khẩu đã được sử dụng.'))
             return redirect('myapp:forgot_password')
         
         # Validate token expiration
         if user.reset_token_created_at:
             expiry_time = user.reset_token_created_at + timedelta(hours=RESET_TOKEN_EXPIRY_HOURS)
             if timezone.now() > expiry_time:
-                messages.error(request, 'Link đặt lại mật khẩu đã hết hạn. Vui lòng yêu cầu link mới.')
+                messages.error(request, _('Link đặt lại mật khẩu đã hết hạn. Vui lòng yêu cầu link mới.'))
                 return redirect('myapp:forgot_password')
         
     except User.DoesNotExist:
-        messages.error(request, 'Link đặt lại mật khẩu không hợp lệ.')
+        messages.error(request, _('Link đặt lại mật khẩu không hợp lệ.'))
         return redirect('myapp:forgot_password')
     
     if request.method == 'POST':
@@ -367,7 +374,7 @@ def reset_password(request, token):
         password_confirm = request.POST.get('password_confirm')
         
         if password != password_confirm:
-            messages.error(request, 'Mật khẩu xác nhận không khớp')
+            messages.error(request, _('Mật khẩu xác nhận không khớp'))
             return render(request, 'myapp/reset_password.html', {'token': token})
         
         # Validate password strength
@@ -384,7 +391,7 @@ def reset_password(request, token):
         user.reset_token_created_at = None
         user.save()
         
-        messages.success(request, 'Đặt lại mật khẩu thành công! Vui lòng đăng nhập.')
+        messages.success(request, _('Đặt lại mật khẩu thành công! Vui lòng đăng nhập.'))
         return redirect('myapp:login')
     
     return render(request, 'myapp/reset_password.html', {'token': token})

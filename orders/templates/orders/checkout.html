@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
-{% load static humanize %}
+{% load static humanize i18n %}
 
-{% block title %}Thanh toán{% endblock %}
+{% block title %}{% trans "Thanh toán" %}{% endblock %}
 
 {% block content %}
     <style>
@@ -28,38 +28,38 @@
         }
     </style>
 <div class="container" style="max-width: 2000px; margin: 30px auto;">
-    <h1 style="margin-bottom: 20px; font-weight: 700;">Thanh toán đơn hàng</h1>
+    <h1 style="margin-bottom: 20px; font-weight: 700;">{% trans "Thanh toán đơn hàng" %}</h1>
 
     <div class="row" style="display: flex; gap: 30px;">
         <div class="col-md-7" style="flex: 1;">
             <div class="card" style="background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                <h4 style="margin-bottom: 15px;">Thông tin giao hàng</h4>
+                <h4 style="margin-bottom: 15px;">{% trans "Thông tin giao hàng" %}</h4>
                 <form method="post">
                     {% csrf_token %}
                     
                     <input type="hidden" name="selected_ids" value="{{ selected_ids }}">
 
                     <div class="form-group" style="margin-bottom: 15px;">
-                        <label>Người nhận:</label>
+                        <label>{% trans "Người nhận:" %}</label>
                         <input type="text" class="form-control" value="{{ user.full_name|default:user.username }}" disabled 
                                style="width: 100%; padding: 8px; background: #f9f9f9; border: 1px solid #ddd;">
                     </div>
 
                     <div class="form-group" style="margin-bottom: 15px;">
-                        <label>Số điện thoại:</label>
+                        <label>{% trans "Số điện thoại:" %}</label>
                         <input type="text" name="phone" class="form-control" value="{{ user.phone_number }}" required
                                style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
                     </div>
 
                     <div class="form-group" style="margin-bottom: 15px;">
-                        <label>Địa chỉ nhận hàng:</label>
+                        <label>{% trans "Địa chỉ nhận hàng:" %}</label>
                         <textarea name="address" rows="3" class="form-control" required
                                   style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">{{ user.address }}</textarea>
                     </div>
 
                     <button type="submit" class="btn btn-primary" 
                             style="width: 100%; padding: 12px; background: #ff5722; color: #fff; border: none; border-radius: 4px; font-weight: bold; font-size: 16px; cursor: pointer;">
-                        XÁC NHẬN ĐẶT HÀNG
+                        {% trans "XÁC NHẬN ĐẶT HÀNG" %}
                     </button>
                 </form>
             </div>
@@ -67,7 +67,7 @@
 
         <div class="col-md-5" style="width: 500px;">
             <div class="card" style="background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px solid #eee;">
-                <h4 style="margin-bottom: 15px;">Sản phẩm thanh toán</h4>
+                <h4 style="margin-bottom: 15px;">{% trans "Sản phẩm thanh toán" %}</h4>
                 <ul style="list-style: none; padding: 0; margin-bottom: 15px;">
                     
                     {% for item in cart_items %}
@@ -80,15 +80,15 @@
                                 {% endif %}
                             {% endwith %}
                         <span>{{ item.quantity }}x {{ item.product.name }}</span>
-                        <span style="font-weight: 600;">{{ item.total_price|floatformat:0|intcomma }} đ</span>
+                        <span style="font-weight: 600;">{{ item.total_price|floatformat:0|intcomma }} {% trans "VNĐ" %}</span>
                     </li>
                     {% endfor %}
                     
                 </ul>
                 <hr style="border: 0; border-top: 1px solid #ddd;">
                 <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: 700; color: #d0011b;">
-                    <span>Tổng cộng:</span>
-                    <span>{{ total_price|floatformat:0|intcomma }} VNĐ</span>
+                    <span>{% trans "Tổng cộng:" %}</span>
+                    <span>{{ total_price|floatformat:0|intcomma }} {% trans "VNĐ" %}</span>
                 </div>
             </div>
         </div>

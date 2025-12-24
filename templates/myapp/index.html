@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-{% load static humanize %}
+{% load static humanize i18n %}
 
-{% block title %}Trang chủ - E-commerce{% endblock %}
+{% block title %}{% trans "Trang chủ - E-commerce" %}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
@@ -45,12 +45,12 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6">
-                <h1 class="display-4 fw-bold mb-4">Chào mừng đến với E-commerce Shop</h1>
-                <p class="lead mb-4">Khám phá hàng ngàn sản phẩm chất lượng với giá tốt nhất.</p>
+                <h1 class="display-4 fw-bold mb-4">{% trans "Chào mừng đến với E-commerce Shop" %}</h1>
+                <p class="lead mb-4">{% trans "Khám phá hàng ngàn sản phẩm chất lượng với giá tốt nhất." %}</p>
                 <div class="d-flex gap-3">
-                    <a href="{% url 'products:list' %}" class="btn btn-light btn-lg">Mua sắm ngay</a>
+                    <a href="{% url 'products:list' %}" class="btn btn-light btn-lg">{% trans "Mua sắm ngay" %}</a>
                     {% if not user.is_authenticated %}
-                        <a href="{% url 'myapp:register' %}" class="btn btn-outline-light btn-lg">Đăng ký</a>
+                        <a href="{% url 'myapp:register' %}" class="btn btn-outline-light btn-lg">{% trans "Đăng ký" %}</a>
                     {% endif %}
                 </div>
             </div>
@@ -63,27 +63,27 @@
 
 <section class="py-5">
     <div class="container">
-        <h2 class="text-center mb-5 fw-bold">Tại sao chọn chúng tôi?</h2>
+        <h2 class="text-center mb-5 fw-bold">{% trans "Tại sao chọn chúng tôi?" %}</h2>
         <div class="row g-4">
             <div class="col-md-4">
                 <div class="card h-100 text-center border-0 shadow-sm py-3">
                     <i class="bi bi-truck feature-icon text-primary"></i>
-                    <h5 class="card-title">Giao hàng nhanh</h5>
-                    <p class="card-text text-muted">Giao hàng toàn quốc 24-48h</p>
+                    <h5 class="card-title">{% trans "Giao hàng nhanh" %}</h5>
+                    <p class="card-text text-muted">{% trans "Giao hàng toàn quốc 24-48h" %}</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="card h-100 text-center border-0 shadow-sm py-3">
                     <i class="bi bi-shield-check feature-icon text-success"></i>
-                    <h5 class="card-title">Thanh toán an toàn</h5>
-                    <p class="card-text text-muted">Bảo mật thông tin 100%</p>
+                    <h5 class="card-title">{% trans "Thanh toán an toàn" %}</h5>
+                    <p class="card-text text-muted">{% trans "Bảo mật thông tin 100%" %}</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="card h-100 text-center border-0 shadow-sm py-3">
                     <i class="bi bi-headset feature-icon text-danger"></i>
-                    <h5 class="card-title">Hỗ trợ 24/7</h5>
-                    <p class="card-text text-muted">Chăm sóc khách hàng tận tình</p>
+                    <h5 class="card-title">{% trans "Hỗ trợ 24/7" %}</h5>
+                    <p class="card-text text-muted">{% trans "Chăm sóc khách hàng tận tình" %}</p>
                 </div>
             </div>
         </div>
@@ -93,8 +93,8 @@
 <section class="py-5 bg-light">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="fw-bold mb-0">🔥 Sản phẩm nổi bật</h2>
-            <a href="{% url 'products:list' %}" class="text-decoration-none">Xem tất cả <i class="bi bi-arrow-right"></i></a>
+            <h2 class="fw-bold mb-0">🔥 {% trans "Sản phẩm nổi bật" %}</h2>
+            <a href="{% url 'products:list' %}" class="text-decoration-none">{% trans "Xem tất cả" %} <i class="bi bi-arrow-right"></i></a>
         </div>
 
         {% if featured_products %}
@@ -118,18 +118,18 @@
                         </h5>
                         
                         <div class="mt-auto">
-                            <p class="fw-bold text-danger mb-2">{{ product.price|floatformat:0|intcomma }} VNĐ</p>
+                            <p class="fw-bold text-danger mb-2">{{ product.price|floatformat:0|intcomma }} {% trans "VNĐ" %}</p>
                             
                             {% if product.stock_quantity > 0 %}
                                 <form action="{% url 'cart:add' product.id %}" method="post" class="js-add-cart-form">
                                     {% csrf_token %}
                                     <input type="hidden" name="quantity" value="1">
                                     <button type="submit" class="btn btn-outline-primary w-100 btn-sm">
-                                        <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                                        <i class="bi bi-cart-plus"></i> {% trans "Thêm vào giỏ" %}
                                     </button>
                                 </form>
                             {% else %}
-                                <button disabled class="btn btn-secondary w-100 btn-sm">Hết hàng</button>
+                                <button disabled class="btn btn-secondary w-100 btn-sm">{% trans "Hết hàng" %}</button>
                             {% endif %}
                         </div>
                     </div>
@@ -138,16 +138,16 @@
             {% endfor %}
         </div>
         {% else %}
-            <div class="text-center py-5 text-muted">Chưa có sản phẩm nổi bật nào.</div>
+            <div class="text-center py-5 text-muted">{% trans "Chưa có sản phẩm nổi bật nào." %}</div>
         {% endif %}
     </div>
 </section>
 
 <section class="py-5 text-center">
     <div class="container">
-        <h2 class="fw-bold mb-3">Sẵn sàng mua sắm?</h2>
-        <p class="lead text-muted mb-4">Hàng nghìn sản phẩm đang chờ bạn khám phá!</p>
-        <a href="{% url 'products:list' %}" class="btn btn-primary btn-lg px-5">Xem tất cả sản phẩm</a>
+        <h2 class="fw-bold mb-3">{% trans "Sẵn sàng mua sắm?" %}</h2>
+        <p class="lead text-muted mb-4">{% trans "Hàng nghìn sản phẩm đang chờ bạn khám phá!" %}</p>
+        <a href="{% url 'products:list' %}" class="btn btn-primary btn-lg px-5">{% trans "Xem tất cả sản phẩm" %}</a>
     </div>
 </section>
 {% endblock %}
@@ -208,11 +208,14 @@
             if (!res.ok && res.status !== 400) throw new Error(`HTTP Error: ${res.status}`);
 
             const data = await res.json();
-            showToast(data.message || (data.success ? 'Thêm thành công!' : 'Có lỗi xảy ra'), data.success ? 'success' : 'error');
+            showToast(
+                data.message || (data.success ? '{% trans "Thêm thành công!" %}' : '{% trans "Có lỗi xảy ra" %}'),
+                data.success ? 'success' : 'error'
+            );
 
         } catch (error) {
             console.error('Cart Error:', error);
-            showToast('Lỗi kết nối server, vui lòng thử lại.', 'error');
+            showToast('{% trans "Lỗi kết nối server, vui lòng thử lại." %}', 'error');
         }
     });
 </script>

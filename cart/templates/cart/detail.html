@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
-{% load static humanize %}
+{% load static humanize i18n %}
 
-{% block title %}Giỏ hàng{% endblock %}
+{% block title %}{% trans "Giỏ hàng" %}{% endblock %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/cart.css' %}">
@@ -54,7 +54,7 @@
 
 {% block content %}
 <div class="cart-container">
-    <h1 class="cart-title">Giỏ hàng</h1>
+    <h1 class="cart-title">{% trans "Giỏ hàng" %}</h1>
 
     {% if cart|length > 0 %}
         <table class="cart-table">
@@ -63,11 +63,11 @@
                     <th style="width: 50px; text-align: center;">
                         <input type="checkbox" id="check-all" aria-label="Chọn tất cả sản phẩm">
                     </th>
-                    <th>Sản phẩm</th>
-                    <th>Giá</th>
-                    <th>Số lượng</th>
-                    <th>Tạm tính</th>
-                    <th>Hành động</th>
+                    <th>{% trans "Sản phẩm" %}</th>
+                    <th>{% trans "Giá" %}</th>
+                    <th>{% trans "Số lượng" %}</th>
+                    <th>{% trans "Tạm tính" %}</th>
+                    <th>{% trans "Hành động" %}</th>
                 </tr>
             </thead>
             <tbody>
@@ -108,7 +108,7 @@
 
                     {# 3. Giá đơn vị #}
                     <td class="cart-price">
-                        {{ item.price|floatformat:0|intcomma }} VNĐ
+                        {{ item.price|floatformat:0|intcomma }} {% trans "VNĐ" %}
                     </td>
 
                     {# 4. Nút tăng giảm số lượng #}
@@ -133,7 +133,7 @@
 
                     {# 5. Tổng tiền từng món #}
                     <td class="cart-subtotal" style="font-weight: bold; color: #d0011b;">
-                        {{ item.total_price|floatformat:0|intcomma }} VNĐ
+                        {{ item.total_price|floatformat:0|intcomma }} {% trans "VNĐ" %}
                     </td>
 
                     {# 6. Nút xóa #}
@@ -141,7 +141,7 @@
                         <form method="post" action="{% url 'cart:remove' item.product.id %}">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-outline-danger btn-sm">
-                                Xóa
+                                {% trans "Xóa" %}
                             </button>
                         </form>
                     </td>
@@ -153,20 +153,20 @@
         {# PHẦN TỔNG KẾT VÀ NÚT THANH TOÁN #}
         <div class="cart-summary">
             <p class="cart-total">
-                Tổng thanh toán: 
+                {% trans "Tổng thanh toán:" %} 
                 <span id="cart-total-amount" style="color: #d0011b; font-size: 20px; font-weight: bold;">
-                    {{ cart.get_total_price|floatformat:0|intcomma }} VNĐ
+                    {{ cart.get_total_price|floatformat:0|intcomma }} {% trans "VNĐ" %}
                 </span>
             </p>
 
             <div style="display: flex; gap: 10px; justify-content: flex-end;">
                 <a href="{% url 'orders:list' %}" class="btn btn-outline-secondary">
-                    Lịch sử đơn hàng
+                    {% trans "Lịch sử đơn hàng" %}
                 </a>
 
                 <button type="button" onclick="proceedToCheckout()" class="btn btn-primary" 
                         style="background: #ff5722; color: white; padding: 10px 25px; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; font-weight: bold;">
-                    Tiến hành đặt hàng
+                    {% trans "Tiến hành đặt hàng" %}
                 </button>
             </div>
         </div>
@@ -174,9 +174,9 @@
     {% else %}
         {# TRẠNG THÁI GIỎ HÀNG TRỐNG #}
         <div class="cart-empty" style="text-align: center; padding: 50px;">
-            <p style="font-size: 18px; color: #666; margin-bottom: 20px;">Giỏ hàng của bạn đang trống.</p>
+            <p style="font-size: 18px; color: #666; margin-bottom: 20px;">{% trans "Giỏ hàng của bạn đang trống." %}</p>
             <a href="{% url 'products:list' %}" class="btn btn-primary" style="padding: 10px 20px;">
-                Đi mua sắm ngay
+                {% trans "Đi mua sắm ngay" %}
             </a>
         </div>
     {% endif %}
@@ -195,7 +195,7 @@
             // 2. Kiểm tra nếu chưa chọn gì
             if (checkedBoxes.length === 0) {
                 // Dùng alert hoặc Toast nếu bạn đã tích hợp
-                alert("Vui lòng chọn ít nhất một sản phẩm để thanh toán!");
+                alert("{% trans "Vui lòng chọn ít nhất một sản phẩm để thanh toán!" %}");
                 return;
             }
 

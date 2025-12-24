@@ -6,7 +6,7 @@ from django.contrib import messages
 from myapp.models import Product
 from .cart import Cart
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from django.utils.translation import gettext as _
 
 class CartDetailView(TemplateView):
     template_name = 'cart/detail.html'
@@ -54,8 +54,9 @@ class CartAddView(View):
         cart.add(product=product, quantity=qty)
         
         # === TRẢ VỀ KẾT QUẢ ===
-        msg_success = f'Đã thêm "{product.name}" vào giỏ hàng.'
-        
+        # msg_success = f'Đã thêm "{product.name}" vào giỏ hàng.'
+        msg_success = _('Added "%(product_name)s" to cart.') % {'product_name': product.name}
+        # messages.success(request, msg_success)        
         if is_ajax:
             return JsonResponse({
                 'success': True, 
@@ -64,7 +65,7 @@ class CartAddView(View):
             })
         
         # Nếu không phải Ajax: Redirect như cũ
-        messages.success(request, msg_success)
+        messages.success(request, _(msg_success))
         return redirect('cart:detail')
 
 class CartRemoveView(View):
