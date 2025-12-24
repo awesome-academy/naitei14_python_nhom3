@@ -47,6 +47,30 @@
 
 .cart-product-name {
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+.cart-product-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  /* Quan trọng: giúp ảnh vuông vắn không bị dẹt */
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+/* Giúp ô chứa ảnh và tên sản phẩm thẳng hàng */
+.cart-table td.cart-product-name {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.cart-product-text {
+  display: inline-block;
 }
 
 .cart-price,

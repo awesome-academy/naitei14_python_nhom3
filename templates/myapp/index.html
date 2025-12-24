@@ -1,81 +1,222 @@
 {% extends "base.html" %}
+{% load static humanize i18n %}
 
-{% block title %}Trang chủ - E-commerce{% endblock %}
+{% block title %}{% trans "Trang chủ - E-commerce" %}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+<style>
+    /* --- Layout & Components --- */
+    .hero-section { background: var(--bs-primary, #0d6efd); }
+    .hero-icon { font-size: 10rem; opacity: 0.3; }
+    
+    .feature-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .img-wrapper { height: 200px; background: #fff; display: flex; align-items: center; justify-content: center; }
+    .img-fit { max-width: 100%; max-height: 100%; object-fit: contain; }
+    
+    .product-card { transition: transform 0.2s, box-shadow 0.2s; border: none; }
+    .product-card:hover { transform: translateY(-5px); box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important; }
+    .stretched-link-fix { position: relative; z-index: 2; } /* Fix link đè nhau */
+
+    /* --- Toast Notification --- */
+    #toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+    .toast-msg { 
+        display: flex; align-items: center; background: #fff; border-radius: 8px; padding: 12px 16px; 
+        min-width: 300px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-left: 5px solid #ccc;
+        animation: slideIn 0.3s ease-out forwards; overflow: hidden;
+    }
+    .toast-msg.success { border-left-color: #28a745; }
+    .toast-msg.success .t-icon { color: #28a745; }
+    .toast-msg.error { border-left-color: #dc3545; }
+    .toast-msg.error .t-icon { color: #dc3545; }
+    
+    .t-icon { margin-right: 12px; display: flex; }
+    .t-content { flex-grow: 1; font-size: 14px; font-weight: 500; color: #333; }
+    .t-close { background: none; border: none; font-size: 20px; color: #999; cursor: pointer; line-height: 1; }
+    .t-close:hover { color: #333; }
+
+    @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes fadeOut { to { transform: translateX(100%); opacity: 0; } }
+</style>
+{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="hero-section bg-primary text-white py-5">
+<section class="hero-section text-white py-5">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6">
-                <h1 class="display-4 fw-bold mb-4">Chào mừng đến với E-commerce Shop</h1>
-                <p class="lead mb-4">Khám phá hàng ngàn sản phẩm chất lượng với giá tốt nhất. Mua sắm dễ dàng, giao hàng nhanh chóng!</p>
+                <h1 class="display-4 fw-bold mb-4">{% trans "Chào mừng đến với E-commerce Shop" %}</h1>
+                <p class="lead mb-4">{% trans "Khám phá hàng ngàn sản phẩm chất lượng với giá tốt nhất." %}</p>
                 <div class="d-flex gap-3">
-                    <a href="{% url 'products:list' %}" class="btn btn-light btn-lg">Mua sắm ngay</a>
+                    <a href="{% url 'products:list' %}" class="btn btn-light btn-lg">{% trans "Mua sắm ngay" %}</a>
                     {% if not user.is_authenticated %}
-                    <a href="{% url 'myapp:register' %}" class="btn btn-outline-light btn-lg">Đăng ký</a>
+                        <a href="{% url 'myapp:register' %}" class="btn btn-outline-light btn-lg">{% trans "Đăng ký" %}</a>
                     {% endif %}
                 </div>
             </div>
             <div class="col-lg-6 text-center">
-                <i class="bi bi-cart-check" style="font-size: 10rem; opacity: 0.3;"></i>
+                <i class="bi bi-cart-check hero-icon"></i>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Features Section -->
-<section class="features-section py-5">
+<section class="py-5">
     <div class="container">
-        <h2 class="text-center mb-5">Tại sao chọn chúng tôi?</h2>
+        <h2 class="text-center mb-5 fw-bold">{% trans "Tại sao chọn chúng tôi?" %}</h2>
         <div class="row g-4">
             <div class="col-md-4">
-                <div class="card h-100 text-center border-0 shadow-sm">
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <i class="bi bi-truck" style="font-size: 3rem; color: #0d6efd;"></i>
-                        </div>
-                        <h5 class="card-title">Giao hàng nhanh</h5>
-                        <p class="card-text">Giao hàng toàn quốc trong 24-48h</p>
-                    </div>
+                <div class="card h-100 text-center border-0 shadow-sm py-3">
+                    <i class="bi bi-truck feature-icon text-primary"></i>
+                    <h5 class="card-title">{% trans "Giao hàng nhanh" %}</h5>
+                    <p class="card-text text-muted">{% trans "Giao hàng toàn quốc 24-48h" %}</p>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card h-100 text-center border-0 shadow-sm">
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <i class="bi bi-shield-check" style="font-size: 3rem; color: #198754;"></i>
-                        </div>
-                        <h5 class="card-title">Thanh toán an toàn</h5>
-                        <p class="card-text">Bảo mật thông tin 100%</p>
-                    </div>
+                <div class="card h-100 text-center border-0 shadow-sm py-3">
+                    <i class="bi bi-shield-check feature-icon text-success"></i>
+                    <h5 class="card-title">{% trans "Thanh toán an toàn" %}</h5>
+                    <p class="card-text text-muted">{% trans "Bảo mật thông tin 100%" %}</p>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card h-100 text-center border-0 shadow-sm">
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <i class="bi bi-headset" style="font-size: 3rem; color: #dc3545;"></i>
-                        </div>
-                        <h5 class="card-title">Hỗ trợ 24/7</h5>
-                        <p class="card-text">Chăm sóc khách hàng tận tình</p>
-                    </div>
+                <div class="card h-100 text-center border-0 shadow-sm py-3">
+                    <i class="bi bi-headset feature-icon text-danger"></i>
+                    <h5 class="card-title">{% trans "Hỗ trợ 24/7" %}</h5>
+                    <p class="card-text text-muted">{% trans "Chăm sóc khách hàng tận tình" %}</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- CTA Section -->
-<section class="cta-section bg-light py-5">
-    <div class="container text-center">
-        <h2 class="mb-4">Sẵn sàng mua sắm?</h2>
-        <p class="lead mb-4">Hàng nghìn sản phẩm đang chờ bạn khám phá!</p>
-        <a href="{% url 'products:list' %}" class="btn btn-primary btn-lg">Xem sản phẩm</a>
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold mb-0">🔥 {% trans "Sản phẩm nổi bật" %}</h2>
+            <a href="{% url 'products:list' %}" class="text-decoration-none">{% trans "Xem tất cả" %} <i class="bi bi-arrow-right"></i></a>
+        </div>
+
+        {% if featured_products %}
+        <div class="row g-4">
+            {% for product in featured_products %}
+            <div class="col-6 col-md-3">
+                <div class="card h-100 shadow-sm product-card">
+                    <div class="img-wrapper position-relative">
+                        {% if product.images.first %}
+                            <img src="{{ product.images.first.image_url }}" class="card-img-top img-fit" alt="{{ product.name }}">
+                        {% else %}
+                            <span class="text-muted">No Image</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title fs-6">
+                            <a href="{% url 'products:detail' product.id %}" class="text-decoration-none text-dark stretched-link-fix">
+                                {{ product.name|truncatechars:40 }}
+                            </a>
+                        </h5>
+                        
+                        <div class="mt-auto">
+                            <p class="fw-bold text-danger mb-2">{{ product.price|floatformat:0|intcomma }} {% trans "VNĐ" %}</p>
+                            
+                            {% if product.stock_quantity > 0 %}
+                                <form action="{% url 'cart:add' product.id %}" method="post" class="js-add-cart-form">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button type="submit" class="btn btn-outline-primary w-100 btn-sm">
+                                        <i class="bi bi-cart-plus"></i> {% trans "Thêm vào giỏ" %}
+                                    </button>
+                                </form>
+                            {% else %}
+                                <button disabled class="btn btn-secondary w-100 btn-sm">{% trans "Hết hàng" %}</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+            <div class="text-center py-5 text-muted">{% trans "Chưa có sản phẩm nổi bật nào." %}</div>
+        {% endif %}
+    </div>
+</section>
+
+<section class="py-5 text-center">
+    <div class="container">
+        <h2 class="fw-bold mb-3">{% trans "Sẵn sàng mua sắm?" %}</h2>
+        <p class="lead text-muted mb-4">{% trans "Hàng nghìn sản phẩm đang chờ bạn khám phá!" %}</p>
+        <a href="{% url 'products:list' %}" class="btn btn-primary btn-lg px-5">{% trans "Xem tất cả sản phẩm" %}</a>
     </div>
 </section>
 {% endblock %}
 
-{% block extra_css %}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+{% block scripts %}
+{{ block.super }}
+<script>
+    // --- Config & Icons ---
+    const TOAST_ICONS = {
+        success: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>`,
+        error: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>`
+    };
+
+    // --- Toast Function ---
+    function showToast(message, type = 'success') {
+        let container = document.getElementById('toast-container');
+        if (!container) {
+            document.body.insertAdjacentHTML('beforeend', '<div id="toast-container"></div>');
+            container = document.getElementById('toast-container');
+        }
+
+        const toast = document.createElement('div');
+        toast.className = `toast-msg ${type}`;
+        toast.innerHTML = `
+            <div class="t-icon">${TOAST_ICONS[type] || TOAST_ICONS.success}</div>
+            <div class="t-content">${message}</div>
+            <button class="t-close" onclick="this.parentElement.remove()">&times;</button>
+        `;
+        
+        container.appendChild(toast);
+        
+        // Auto remove
+        setTimeout(() => {
+            toast.style.animation = "fadeOut 0.5s ease-out forwards";
+            toast.addEventListener("animationend", () => toast.remove());
+        }, 4000);
+    }
+
+    // --- Add to Cart Handler (Async/Await) ---
+    document.addEventListener('submit', async function (e) {
+        if (!e.target.classList.contains('js-add-cart-form')) return;
+        e.preventDefault();
+
+        const form = e.target;
+        const formData = new FormData(form);
+
+        try {
+            const res = await fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                },
+                body: formData
+            });
+
+            // Nếu status != 200 và != 400 thì ném lỗi
+            if (!res.ok && res.status !== 400) throw new Error(`HTTP Error: ${res.status}`);
+
+            const data = await res.json();
+            showToast(
+                data.message || (data.success ? '{% trans "Thêm thành công!" %}' : '{% trans "Có lỗi xảy ra" %}'),
+                data.success ? 'success' : 'error'
+            );
+
+        } catch (error) {
+            console.error('Cart Error:', error);
+            showToast('{% trans "Lỗi kết nối server, vui lòng thử lại." %}', 'error');
+        }
+    });
+</script>
 {% endblock %}

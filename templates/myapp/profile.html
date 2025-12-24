@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
-{% block title %}Hồ sơ cá nhân{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Hồ sơ cá nhân" %}{% endblock %}
 
 {% block content %}
 <div class="container" style="max-width: 600px; margin: 40px auto;">
-    <h2 class="text-center mb-4">Hồ sơ của bạn</h2>
+    <h2 class="text-center mb-4">{% trans "Hồ sơ của bạn" %}</h2>
 
     <form method="post">
         {% csrf_token %}
@@ -16,8 +17,8 @@
             </div>
         {% endfor %}
 
-        <button class="btn btn-primary">Lưu thay đổi</button>
-        <a href="{% url 'myapp:password_change' %}" class="btn btn-light">Đổi mật khẩu</a>
+        <button class="btn btn-primary">{% trans "Lưu thay đổi" %}</button>
+        <a href="{% url 'myapp:password_change' %}" class="btn btn-light">{% trans "Đổi mật khẩu" %}</a>
     </form>
 </div>
 {% endblock %}

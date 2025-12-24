@@ -1,0 +1,739 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-24 10:10+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: .\cart\templates\cart\detail.html:4 .\cart\templates\cart\detail.html:57
+#: .\templates\base.html:92
+msgid "Giỏ hàng"
+msgstr "Giỏ hàng"
+
+#: .\cart\templates\cart\detail.html:66
+#: .\orders\templates\orders\detail.html:73 .\templates\base.html:91
+msgid "Sản phẩm"
+msgstr "Sản phẩm"
+
+#: .\cart\templates\cart\detail.html:67
+#: .\orders\templates\orders\detail.html:74
+msgid "Giá"
+msgstr ""
+
+#: .\cart\templates\cart\detail.html:68
+#: .\orders\templates\orders\detail.html:75
+msgid "Số lượng"
+msgstr ""
+
+#: .\cart\templates\cart\detail.html:69
+#: .\orders\templates\orders\detail.html:76
+msgid "Tạm tính"
+msgstr ""
+
+#: .\cart\templates\cart\detail.html:70
+#: .\orders\templates\orders\detail.html:77
+#: .\orders\templates\orders\list.html:52
+msgid "Hành động"
+msgstr ""
+
+#: .\cart\templates\cart\detail.html:111 .\cart\templates\cart\detail.html:136
+#: .\cart\templates\cart\detail.html:158
+#: .\orders\templates\orders\checkout.html:83
+#: .\orders\templates\orders\checkout.html:91
+#: .\orders\templates\orders\checkout_success.html:7
+#: .\orders\templates\orders\detail.html:38
+#: .\orders\templates\orders\detail.html:89
+#: .\orders\templates\orders\detail.html:97
+#: .\orders\templates\orders\detail.html:154
+#: .\orders\templates\orders\detail.html:231
+#: .\orders\templates\orders\list.html:59
+#: .\products\templates\products\detail.html:60
+#: .\products\templates\products\list.html:77 .\templates\myapp\index.html:121
+msgid "VNĐ"
+msgstr ""
+
+#: .\cart\templates\cart\detail.html:144
+msgid "Xóa"
+msgstr ""
+
+#: .\cart\templates\cart\detail.html:156
+msgid "Tổng thanh toán:"
+msgstr ""
+
+#: .\cart\templates\cart\detail.html:164 .\orders\templates\orders\list.html:4
+#: .\orders\templates\orders\list.html:12
+msgid "Lịch sử đơn hàng"
+msgstr ""
+
+#: .\cart\templates\cart\detail.html:169
+msgid "Tiến hành đặt hàng"
+msgstr ""
+
+#: .\cart\templates\cart\detail.html:177
+msgid "Giỏ hàng của bạn đang trống."
+msgstr ""
+
+#: .\cart\templates\cart\detail.html:179
+msgid "Đi mua sắm ngay"
+msgstr ""
+
+#: .\cart\templates\cart\detail.html:198
+msgid "Vui lòng chọn ít nhất một sản phẩm để thanh toán!"
+msgstr ""
+
+#: .\orders\templates\orders\checkout.html:4
+msgid "Thanh toán"
+msgstr ""
+
+#: .\orders\templates\orders\checkout.html:31
+msgid "Thanh toán đơn hàng"
+msgstr ""
+
+#: .\orders\templates\orders\checkout.html:36
+msgid "Thông tin giao hàng"
+msgstr ""
+
+#: .\orders\templates\orders\checkout.html:43
+msgid "Người nhận:"
+msgstr ""
+
+#: .\orders\templates\orders\checkout.html:49
+msgid "Số điện thoại:"
+msgstr ""
+
+#: .\orders\templates\orders\checkout.html:55
+msgid "Địa chỉ nhận hàng:"
+msgstr ""
+
+#: .\orders\templates\orders\checkout.html:62
+msgid "XÁC NHẬN ĐẶT HÀNG"
+msgstr ""
+
+#: .\orders\templates\orders\checkout.html:70
+#, fuzzy
+#| msgid "Sản phẩm"
+msgid "Sản phẩm thanh toán"
+msgstr "Sản phẩm"
+
+#: .\orders\templates\orders\checkout.html:90
+#: .\orders\templates\orders\detail.html:228
+msgid "Tổng cộng:"
+msgstr ""
+
+#: .\orders\templates\orders\checkout_success.html:5
+msgid "Thanh toán thành công"
+msgstr ""
+
+#: .\orders\templates\orders\checkout_success.html:6
+#, fuzzy
+#| msgid "Đơn hàng"
+msgid "Mã đơn hàng:"
+msgstr "Đơn hàng"
+
+#: .\orders\templates\orders\checkout_success.html:7
+#: .\orders\templates\orders\detail.html:37
+msgid "Tổng tiền:"
+msgstr ""
+
+#: .\orders\templates\orders\checkout_success.html:8
+msgid "Xem lịch sử đơn hàng"
+msgstr ""
+
+#: .\orders\templates\orders\detail.html:4
+#: .\orders\templates\orders\detail.html:14
+#, fuzzy
+#| msgid "Đơn hàng"
+msgid "Chi tiết đơn hàng"
+msgstr "Đơn hàng"
+
+#: .\orders\templates\orders\detail.html:23
+msgid "Ngày đặt:"
+msgstr ""
+
+#: .\orders\templates\orders\detail.html:28
+msgid "Trạng thái:"
+msgstr ""
+
+#: .\orders\templates\orders\detail.html:45
+msgid "Địa chỉ giao hàng:"
+msgstr ""
+
+#: .\orders\templates\orders\detail.html:51
+msgid "Hình thức thanh toán:"
+msgstr ""
+
+#: .\orders\templates\orders\detail.html:57
+msgid "Lý do từ chối / hủy:"
+msgstr ""
+
+#: .\orders\templates\orders\detail.html:66
+#, fuzzy
+#| msgid "Sản phẩm"
+msgid "Sản phẩm trong đơn"
+msgstr "Sản phẩm"
+
+#: .\orders\templates\orders\detail.html:106
+#: .\orders\templates\orders\detail.html:139
+msgid "Chỉnh sửa đánh giá"
+msgstr ""
+
+#: .\orders\templates\orders\detail.html:109
+msgid "Bạn đã đánh giá:"
+msgstr ""
+
+#: .\orders\templates\orders\detail.html:115
+#: .\orders\templates\orders\detail.html:141
+#, fuzzy
+#| msgid "Tìm kiếm sản phẩm"
+msgid "Đánh giá sản phẩm"
+msgstr "Tìm kiếm sản phẩm"
+
+#: .\orders\templates\orders\detail.html:120
+msgid "Đã hết hạn đánh giá (sau 7 ngày)"
+msgstr ""
+
+#: .\orders\templates\orders\detail.html:124
+msgid "Chỉ đánh giá khi đơn đã giao thành công"
+msgstr ""
+
+#: .\orders\templates\orders\detail.html:154
+msgid "Giá:"
+msgstr ""
+
+#: .\orders\templates\orders\detail.html:155
+msgid "SL:"
+msgstr ""
+
+#: .\orders\templates\orders\detail.html:161
+msgid "Đánh giá (sao)"
+msgstr ""
+
+#: .\orders\templates\orders\detail.html:163
+msgid "Chọn số sao"
+msgstr ""
+
+#: .\orders\templates\orders\detail.html:166
+msgid "5 sao - Tuyệt vời"
+msgstr ""
+
+#: .\orders\templates\orders\detail.html:170
+msgid "4 sao - Tốt"
+msgstr ""
+
+#: .\orders\templates\orders\detail.html:174
+msgid "3 sao - Bình thường"
+msgstr ""
+
+#: .\orders\templates\orders\detail.html:178
+msgid "2 sao - Chưa hài lòng"
+msgstr ""
+
+#: .\orders\templates\orders\detail.html:182
+msgid "1 sao - Rất tệ"
+msgstr ""
+
+#: .\orders\templates\orders\detail.html:189
+msgid "Nội dung đánh giá"
+msgstr ""
+
+#: .\orders\templates\orders\detail.html:194
+msgid "Chia sẻ cảm nhận của bạn về sản phẩm..."
+msgstr ""
+
+#: .\orders\templates\orders\detail.html:198
+msgid "Bạn chỉ có thể đánh giá / chỉnh sửa trong vòng 7 ngày"
+msgstr ""
+
+#: .\orders\templates\orders\detail.html:199
+msgid "kể từ khi đơn được giao thành công."
+msgstr ""
+
+#: .\orders\templates\orders\detail.html:206
+#: .\templates\myapp\password_change.html:31
+msgid "Hủy"
+msgstr ""
+
+#: .\orders\templates\orders\detail.html:209
+msgid "Hoàn thành"
+msgstr ""
+
+#: .\orders\templates\orders\detail.html:219
+msgid "Không có sản phẩm nào trong đơn."
+msgstr ""
+
+#: .\orders\templates\orders\detail.html:241
+msgid "Quay lại lịch sử đơn hàng"
+msgstr ""
+
+#: .\orders\templates\orders\detail.html:249
+#: .\orders\templates\orders\list.html:76
+msgid "Bạn chắc chắn muốn hủy đơn này?"
+msgstr ""
+
+#: .\orders\templates\orders\detail.html:250
+#: .\orders\templates\orders\list.html:77
+msgid "Hủy đơn"
+msgstr ""
+
+#: .\orders\templates\orders\list.html:17
+msgid "Tất cả"
+msgstr ""
+
+#: .\orders\templates\orders\list.html:21
+msgid "Chờ xác nhận"
+msgstr ""
+
+#: .\orders\templates\orders\list.html:25
+msgid "Đã xác nhận"
+msgstr ""
+
+#: .\orders\templates\orders\list.html:29
+msgid "Đang giao"
+msgstr ""
+
+#: .\orders\templates\orders\list.html:33
+msgid "Đã giao thành công"
+msgstr ""
+
+#: .\orders\templates\orders\list.html:37
+msgid "Hủy bởi người dùng"
+msgstr ""
+
+#: .\orders\templates\orders\list.html:41
+msgid "Bị từ chối bởi admin"
+msgstr ""
+
+#: .\orders\templates\orders\list.html:49
+msgid "Ngày đặt"
+msgstr ""
+
+#: .\orders\templates\orders\list.html:50
+msgid "Tổng tiền"
+msgstr ""
+
+#: .\orders\templates\orders\list.html:51
+msgid "Trạng thái"
+msgstr ""
+
+#: .\orders\templates\orders\list.html:67
+#: .\products\templates\products\list.html:92
+msgid "Xem chi tiết"
+msgstr ""
+
+#: .\orders\templates\orders\list.html:87
+msgid "Bạn chưa có đơn hàng nào."
+msgstr ""
+
+#: .\products\templates\products\detail.html:30
+msgid "No Image"
+msgstr ""
+
+#: .\products\templates\products\detail.html:56
+#: .\products\templates\products\detail.html:137
+msgid "đánh giá"
+msgstr ""
+
+#: .\products\templates\products\detail.html:64
+#: .\products\templates\products\list.html:19
+#: .\products\templates\products\list.html:82
+msgid "Danh mục"
+msgstr ""
+
+#: .\products\templates\products\detail.html:65
+msgid "Tình trạng"
+msgstr ""
+
+#: .\products\templates\products\detail.html:67
+#, fuzzy
+#| msgid "Đơn hàng"
+msgid "Còn hàng"
+msgstr "Đơn hàng"
+
+#: .\products\templates\products\detail.html:69
+#: .\products\templates\products\list.html:107 .\templates\myapp\index.html:132
+#, fuzzy
+#| msgid "Giỏ hàng"
+msgid "Hết hàng"
+msgstr "Giỏ hàng"
+
+#: .\products\templates\products\detail.html:73
+msgid "Nổi bật"
+msgstr ""
+
+#: .\products\templates\products\detail.html:78
+msgid "Chưa có mô tả chi tiết."
+msgstr ""
+
+#: .\products\templates\products\detail.html:96
+#, fuzzy
+#| msgid "Giỏ hàng"
+msgid "Thêm vào giỏ hàng"
+msgstr "Giỏ hàng"
+
+#: .\products\templates\products\detail.html:101
+#: .\products\templates\products\detail.html:106
+#, fuzzy
+#| msgid "Sản phẩm"
+msgid "Sản phẩm tạm hết hàng"
+msgstr "Sản phẩm"
+
+#: .\products\templates\products\detail.html:141
+msgid "Chưa có đánh giá nào cho sản phẩm này."
+msgstr ""
+
+#: .\products\templates\products\detail.html:153
+msgid "Đánh giá & Bình luận"
+msgstr ""
+
+#: .\products\templates\products\detail.html:215
+msgid "Chưa có bình luận nào, hãy là người đầu tiên đánh giá sản phẩm này!"
+msgstr ""
+
+#: .\products\templates\products\detail.html:225
+#, python-format
+msgid ""
+"\n"
+"        Bạn cần <a href=\"%(login_url)s\">đăng nhập</a> để xem lịch sử đơn "
+"hàng và đánh giá sản phẩm.\n"
+"        "
+msgstr ""
+
+#: .\products\templates\products\detail.html:231
+msgid "Để đánh giá sản phẩm, hãy vào"
+msgstr ""
+
+#: .\products\templates\products\detail.html:232
+msgid "Đơn hàng → Chi tiết đơn hàng"
+msgstr ""
+
+#: .\products\templates\products\detail.html:232
+msgid "tương ứng."
+msgstr ""
+
+#: .\products\templates\products\detail.html:233
+msgid "Bạn có thể đánh giá từng sản phẩm trong vòng"
+msgstr ""
+
+#: .\products\templates\products\detail.html:234
+msgid "ngày"
+msgstr ""
+
+#: .\products\templates\products\detail.html:234
+msgid "sau khi đơn được giao thành công."
+msgstr ""
+
+#: .\products\templates\products\detail.html:290
+msgid "Số lượng không hợp lệ"
+msgstr ""
+
+#: .\products\templates\products\detail.html:306
+msgid "Lỗi mạng"
+msgstr ""
+
+#: .\products\templates\products\detail.html:311
+msgid "Đã thêm vào giỏ hàng!"
+msgstr ""
+
+#: .\products\templates\products\detail.html:313
+msgid "Có lỗi xảy ra"
+msgstr ""
+
+#: .\products\templates\products\detail.html:318
+msgid "Có lỗi xảy ra khi kết nối server"
+msgstr ""
+
+#: .\products\templates\products\list.html:4
+#: .\products\templates\products\list.html:12
+#, fuzzy
+#| msgid "Sản phẩm"
+msgid "Danh sách sản phẩm"
+msgstr "Sản phẩm"
+
+#: .\products\templates\products\list.html:29
+msgid "Giá từ"
+msgstr ""
+
+#: .\products\templates\products\list.html:34
+msgid "Đến"
+msgstr ""
+
+#: .\products\templates\products\list.html:41
+msgid "Lọc"
+msgstr ""
+
+#: .\products\templates\products\list.html:47
+msgid "Reset"
+msgstr ""
+
+#: .\products\templates\products\list.html:87
+msgid "Còn lại"
+msgstr ""
+
+#: .\products\templates\products\list.html:102 .\templates\myapp\index.html:128
+msgid "Thêm vào giỏ"
+msgstr ""
+
+#: .\products\templates\products\list.html:116
+msgid "Hiện chưa có sản phẩm nào."
+msgstr ""
+
+#: .\products\templates\products\list.html:178
+#: .\products\templates\products\list.html:186
+msgid "Đã thêm sản phẩm vào giỏ hàng!"
+msgstr ""
+
+#: .\products\templates\products\list.html:180
+msgid "Có lỗi xảy ra, vui lòng thử lại."
+msgstr ""
+
+#: .\templates\base.html:8 .\templates\base.html:86
+msgid "Ecommerce"
+msgstr ""
+
+#: .\templates\base.html:86
+msgid "Shop"
+msgstr "Shop"
+
+#: .\templates\base.html:90
+msgid "Trang chủ"
+msgstr "Trang chủ"
+
+#: .\templates\base.html:93
+msgid "Đơn hàng"
+msgstr "Đơn hàng"
+
+#: .\templates\base.html:97
+msgid "Tìm kiếm sản phẩm..."
+msgstr "Tìm kiếm sản phẩm..."
+
+#: .\templates\base.html:97
+msgid "Tìm kiếm sản phẩm"
+msgstr "Tìm kiếm sản phẩm"
+
+#: .\templates\base.html:103
+msgid "Xin chào"
+msgstr "Xin chào"
+
+#: .\templates\base.html:104 .\templates\myapp\profile.html:3
+msgid "Hồ sơ cá nhân"
+msgstr "Hồ sơ cá nhân"
+
+#: .\templates\base.html:104
+msgid "Hồ sơ"
+msgstr "Hồ sơ"
+
+#: .\templates\base.html:107
+msgid "Đăng xuất"
+msgstr "Đăng xuất"
+
+#: .\templates\base.html:110 .\templates\myapp\login.html:12
+#: .\templates\myapp\login.html:29 .\templates\myapp\register.html:58
+msgid "Đăng nhập"
+msgstr "Đăng nhập"
+
+#: .\templates\base.html:111 .\templates\myapp\index.html:53
+#: .\templates\myapp\login.html:34 .\templates\myapp\register.html:54
+msgid "Đăng ký"
+msgstr "Đăng ký"
+
+#: .\templates\base.html:132
+msgid "My Django Project"
+msgstr "Dự án E-commerce"
+
+#: .\templates\myapp\forgot_password.html:4
+#, fuzzy
+#| msgid "Trang chủ"
+msgid "Quên mật khẩu - E-commerce"
+msgstr "Trang chủ"
+
+#: .\templates\myapp\forgot_password.html:12
+msgid "Quên mật khẩu"
+msgstr ""
+
+#: .\templates\myapp\forgot_password.html:16
+msgid "Nhập email đã đăng ký, chúng tôi sẽ gửi link đặt lại mật khẩu."
+msgstr ""
+
+#: .\templates\myapp\forgot_password.html:26
+msgid "Gửi link đặt lại mật khẩu"
+msgstr ""
+
+#: .\templates\myapp\forgot_password.html:30
+#, fuzzy
+#| msgid "Đăng nhập"
+msgid "Quay lại đăng nhập"
+msgstr "Đăng nhập"
+
+#: .\templates\myapp\index.html:4
+#, fuzzy
+#| msgid "Trang chủ"
+msgid "Trang chủ - E-commerce"
+msgstr "Trang chủ"
+
+#: .\templates\myapp\index.html:48
+msgid "Chào mừng đến với E-commerce Shop"
+msgstr ""
+
+#: .\templates\myapp\index.html:49
+msgid "Khám phá hàng ngàn sản phẩm chất lượng với giá tốt nhất."
+msgstr ""
+
+#: .\templates\myapp\index.html:51
+msgid "Mua sắm ngay"
+msgstr ""
+
+#: .\templates\myapp\index.html:66
+msgid "Tại sao chọn chúng tôi?"
+msgstr ""
+
+#: .\templates\myapp\index.html:71
+msgid "Giao hàng nhanh"
+msgstr ""
+
+#: .\templates\myapp\index.html:72
+msgid "Giao hàng toàn quốc 24-48h"
+msgstr ""
+
+#: .\templates\myapp\index.html:78
+msgid "Thanh toán an toàn"
+msgstr ""
+
+#: .\templates\myapp\index.html:79
+#, python-format
+msgid "Bảo mật thông tin 100%%"
+msgstr ""
+
+#: .\templates\myapp\index.html:85
+msgid "Hỗ trợ 24/7"
+msgstr ""
+
+#: .\templates\myapp\index.html:86
+msgid "Chăm sóc khách hàng tận tình"
+msgstr ""
+
+#: .\templates\myapp\index.html:96
+#, fuzzy
+#| msgid "Sản phẩm"
+msgid "Sản phẩm nổi bật"
+msgstr "Sản phẩm"
+
+#: .\templates\myapp\index.html:97
+msgid "Xem tất cả"
+msgstr ""
+
+#: .\templates\myapp\index.html:141
+msgid "Chưa có sản phẩm nổi bật nào."
+msgstr ""
+
+#: .\templates\myapp\index.html:148
+msgid "Sẵn sàng mua sắm?"
+msgstr ""
+
+#: .\templates\myapp\index.html:149
+msgid "Hàng nghìn sản phẩm đang chờ bạn khám phá!"
+msgstr ""
+
+#: .\templates\myapp\index.html:150
+#, fuzzy
+#| msgid "Tìm kiếm sản phẩm"
+msgid "Xem tất cả sản phẩm"
+msgstr "Tìm kiếm sản phẩm"
+
+#: .\templates\myapp\login.html:4
+#, fuzzy
+#| msgid "Trang chủ"
+msgid "Đăng nhập - E-commerce"
+msgstr "Trang chủ"
+
+#: .\templates\myapp\login.html:25 .\templates\myapp\register.html:30
+msgid "Mật khẩu"
+msgstr ""
+
+#: .\templates\myapp\login.html:33
+msgid "Quên mật khẩu?"
+msgstr ""
+
+#: .\templates\myapp\login.html:34
+msgid "Chưa có tài khoản?"
+msgstr ""
+
+#: .\templates\myapp\password_change.html:4
+#: .\templates\myapp\password_change.html:8 .\templates\myapp\profile.html:21
+msgid "Đổi mật khẩu"
+msgstr ""
+
+#: .\templates\myapp\password_change.html:30
+msgid "Xác nhận đổi"
+msgstr ""
+
+#: .\templates\myapp\profile.html:7
+#, fuzzy
+#| msgid "Hồ sơ cá nhân"
+msgid "Hồ sơ của bạn"
+msgstr "Hồ sơ cá nhân"
+
+#: .\templates\myapp\profile.html:20
+msgid "Lưu thay đổi"
+msgstr ""
+
+#: .\templates\myapp\register.html:4
+#, fuzzy
+#| msgid "Trang chủ"
+msgid "Đăng ký - E-commerce"
+msgstr "Trang chủ"
+
+#: .\templates\myapp\register.html:12
+#, fuzzy
+#| msgid "Đăng ký"
+msgid "Đăng ký tài khoản"
+msgstr "Đăng ký"
+
+#: .\templates\myapp\register.html:35
+msgid "Xác nhận mật khẩu"
+msgstr ""
+
+#: .\templates\myapp\register.html:40
+msgid "Họ tên"
+msgstr ""
+
+#: .\templates\myapp\register.html:45
+msgid "Số điện thoại"
+msgstr ""
+
+#: .\templates\myapp\register.html:50
+msgid "Địa chỉ"
+msgstr ""
+
+#: .\templates\myapp\register.html:58
+msgid "Đã có tài khoản?"
+msgstr ""
+
+#: .\templates\myapp\reset_password.html:4
+msgid "Đặt lại mật khẩu - E-commerce"
+msgstr ""
+
+#: .\templates\myapp\reset_password.html:12
+#: .\templates\myapp\reset_password.html:36
+msgid "Đặt lại mật khẩu"
+msgstr ""
+
+#: .\templates\myapp\reset_password.html:27
+msgid "Mật khẩu mới"
+msgstr ""
+
+#: .\templates\myapp\reset_password.html:32
+msgid "Xác nhận mật khẩu mới"
+msgstr ""

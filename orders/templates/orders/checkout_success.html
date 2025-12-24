@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
+{% load i18n humanize %}
+
 {% block content %}
-<h1>Thanh toán thành công</h1>
-<p>Mã đơn hàng: {{ order.id }}</p>
-<p>Tổng tiền: {{ order.total_amount|floatformat:2 }} VNĐ</p>
-<a href="{% url 'orders:list' %}">Xem lịch sử đơn hàng</a>
+<h1>{% trans "Thanh toán thành công" %}</h1>
+<p>{% trans "Mã đơn hàng:" %} {{ order.id }}</p>
+<p>{% trans "Tổng tiền:" %} {{ order.total_amount|floatformat:2}} {% trans "VNĐ" %}</p>
+<a href="{% url 'orders:list' %}">{% trans "Xem lịch sử đơn hàng" %}</a>
 {% endblock %}
