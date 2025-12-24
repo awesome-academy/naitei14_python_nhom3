@@ -55,14 +55,14 @@
       <tbody>
         {% for order in orders %}
         <tr>
-          <td>{{ order.order_date|date:"d/m/Y H:i" }}</td>
-          <td>{{ order.total_amount|floatformat:0|intcomma }} {% trans "VNĐ" %}</td>
-          <td>
+          <td data-label="{% trans "Ngày đặt" %}">{{ order.order_date|date:"d/m/Y H:i" }}</td>
+          <td data-label="{% trans "Tổng tiền" %}">{{ order.total_amount|floatformat:0|intcomma }} {% trans "VNĐ" %}</td>
+          <td data-label="{% trans "Trạng thái" %}">
             <span class="order-status {{ order.status }}">
               {{ order.get_status_display }}
             </span>
           </td>
-          <td>
+          <td data-label="{% trans "Hành động" %}">
             <a href="{% url 'orders:detail' order.id %}" class="btn btn-outline-secondary btn-sm">
               {% trans "Xem chi tiết" %}
             </a>

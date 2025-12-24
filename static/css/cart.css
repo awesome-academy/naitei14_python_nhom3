@@ -235,3 +235,38 @@ button.qty-btn:disabled {
   margin-bottom: 16px;
   font-size: 15px;
 }
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 768px) {
+  .cart-container {
+    padding: 16px 8px 32px;
+  }
+
+  .cart-title {
+    font-size: 22px;
+    text-align: center;
+  }
+
+  .cart-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .cart-table thead,
+  .cart-table tbody,
+  .cart-table tr,
+  .cart-table th,
+  .cart-table td {
+    white-space: nowrap;
+  }
+
+  .cart-product-name {
+    min-width: 220px;
+  }
+
+  .cart-summary {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

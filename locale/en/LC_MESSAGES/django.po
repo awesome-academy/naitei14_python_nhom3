@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-24 11:59+0700\n"
+"POT-Creation-Date: 2025-12-24 13:04+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,12 +18,12 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: .\cart\templates\cart\detail.html:4 .\cart\templates\cart\detail.html:57
-#: .\templates\base.html:92
+#: .\templates\base.html:96
 msgid "Giỏ hàng"
 msgstr "Cart"
 
 #: .\cart\templates\cart\detail.html:66
-#: .\orders\templates\orders\detail.html:73 .\templates\base.html:91
+#: .\orders\templates\orders\detail.html:73 .\templates\base.html:95
 msgid "Sản phẩm"
 msgstr "Products"
 
@@ -45,6 +45,7 @@ msgstr "Subtotal"
 #: .\cart\templates\cart\detail.html:70
 #: .\orders\templates\orders\detail.html:77
 #: .\orders\templates\orders\list.html:52
+#: .\orders\templates\orders\list.html:65
 msgid "Hành động"
 msgstr "Action"
 
@@ -60,11 +61,12 @@ msgstr "Action"
 #: .\orders\templates\orders\detail.html:231
 #: .\orders\templates\orders\list.html:59
 #: .\products\templates\products\detail.html:60
-#: .\products\templates\products\list.html:77 .\templates\myapp\index.html:121
+#: .\products\templates\products\list.html:76 .\templates\myapp\index.html:121
 msgid "VNĐ"
 msgstr "VND"
 
 #: .\cart\templates\cart\detail.html:144
+#: .\products\templates\products\detail.html:206
 msgid "Xóa"
 msgstr "Delete"
 
@@ -549,19 +551,22 @@ msgid "Tất cả"
 msgstr "All"
 
 #: .\orders\templates\orders\list.html:49
+#: .\orders\templates\orders\list.html:58
 msgid "Ngày đặt"
 msgstr "Order Date"
 
 #: .\orders\templates\orders\list.html:50
+#: .\orders\templates\orders\list.html:59
 msgid "Tổng tiền"
 msgstr "Total"
 
 #: .\orders\templates\orders\list.html:51
+#: .\orders\templates\orders\list.html:60
 msgid "Trạng thái"
 msgstr "Status"
 
 #: .\orders\templates\orders\list.html:67
-#: .\products\templates\products\list.html:92
+#: .\products\templates\products\list.html:91
 msgid "Xem chi tiết"
 msgstr "View Details"
 
@@ -604,8 +609,8 @@ msgid "đánh giá"
 msgstr "review"
 
 #: .\products\templates\products\detail.html:64
-#: .\products\templates\products\list.html:19
-#: .\products\templates\products\list.html:82
+#: .\products\templates\products\list.html:18
+#: .\products\templates\products\list.html:81
 msgid "Danh mục"
 msgstr "Categories"
 
@@ -618,7 +623,7 @@ msgid "Còn hàng"
 msgstr "In stock"
 
 #: .\products\templates\products\detail.html:69
-#: .\products\templates\products\list.html:107 .\templates\myapp\index.html:132
+#: .\products\templates\products\list.html:106 .\templates\myapp\index.html:132
 msgid "Hết hàng"
 msgstr "Sold Out"
 
@@ -714,40 +719,40 @@ msgstr "Server connection error"
 msgid "Danh sách sản phẩm"
 msgstr "Product List"
 
-#: .\products\templates\products\list.html:29
+#: .\products\templates\products\list.html:28
 msgid "Giá từ"
 msgstr "Price from"
 
-#: .\products\templates\products\list.html:34
+#: .\products\templates\products\list.html:33
 msgid "Đến"
 msgstr "to"
 
-#: .\products\templates\products\list.html:41
+#: .\products\templates\products\list.html:40
 msgid "Lọc"
 msgstr "Filter"
 
-#: .\products\templates\products\list.html:47
+#: .\products\templates\products\list.html:45
 msgid "Reset"
 msgstr "Reset"
 
-#: .\products\templates\products\list.html:87
+#: .\products\templates\products\list.html:86
 msgid "Còn lại"
 msgstr "In Stock"
 
-#: .\products\templates\products\list.html:102 .\templates\myapp\index.html:128
+#: .\products\templates\products\list.html:101 .\templates\myapp\index.html:128
 msgid "Thêm vào giỏ"
 msgstr "Add to cart"
 
-#: .\products\templates\products\list.html:116
+#: .\products\templates\products\list.html:115
 msgid "Hiện chưa có sản phẩm nào."
 msgstr "There are currently no products."
 
-#: .\products\templates\products\list.html:178
-#: .\products\templates\products\list.html:186
+#: .\products\templates\products\list.html:177
+#: .\products\templates\products\list.html:185
 msgid "Đã thêm sản phẩm vào giỏ hàng!"
 msgstr "Product added to cart!"
 
-#: .\products\templates\products\list.html:180
+#: .\products\templates\products\list.html:179
 msgid "Có lỗi xảy ra, vui lòng thử lại."
 msgstr "Something went wrong. Please try again."
 
@@ -759,53 +764,53 @@ msgstr "Ecommerce"
 msgid "Shop"
 msgstr "Shop"
 
-#: .\templates\base.html:90
+#: .\templates\base.html:94
 msgid "Trang chủ"
 msgstr "Home"
 
-#: .\templates\base.html:93
+#: .\templates\base.html:97
 msgid "Đơn hàng"
 msgstr "Orders"
 
-#: .\templates\base.html:97
+#: .\templates\base.html:101
 msgid "Tìm kiếm sản phẩm..."
 msgstr "Search products..."
 
-#: .\templates\base.html:97
+#: .\templates\base.html:101
 msgid "Tìm kiếm sản phẩm"
 msgstr "Search products"
 
-#: .\templates\base.html:98
+#: .\templates\base.html:102
 msgid "Tìm"
 msgstr "Search"
 
-#: .\templates\base.html:103
+#: .\templates\base.html:107
 msgid "Xin chào"
 msgstr "Hello"
 
-#: .\templates\base.html:104 .\templates\myapp\profile.html:3
+#: .\templates\base.html:108 .\templates\myapp\profile.html:3
 msgid "Hồ sơ cá nhân"
 msgstr "Profile"
 
-#: .\templates\base.html:104
+#: .\templates\base.html:108
 msgid "Hồ sơ"
 msgstr "Profile"
 
-#: .\templates\base.html:107
+#: .\templates\base.html:111
 msgid "Đăng xuất"
 msgstr "Log out"
 
-#: .\templates\base.html:110 .\templates\myapp\login.html:12
+#: .\templates\base.html:114 .\templates\myapp\login.html:12
 #: .\templates\myapp\login.html:29 .\templates\myapp\register.html:58
 msgid "Đăng nhập"
 msgstr "Log in"
 
-#: .\templates\base.html:111 .\templates\myapp\index.html:53
+#: .\templates\base.html:115 .\templates\myapp\index.html:53
 #: .\templates\myapp\login.html:34 .\templates\myapp\register.html:54
 msgid "Đăng ký"
 msgstr "Register"
 
-#: .\templates\base.html:132
+#: .\templates\base.html:136
 msgid "My Django Project"
 msgstr "Ecommerce"
 
@@ -972,3 +977,7 @@ msgstr "Reset Password"
 #: .\templates\myapp\reset_password.html:32
 msgid "Xác nhận mật khẩu mới"
 msgstr "Confirm New Password"
+
+msgid "Xóa"
+msgstr "Delete"
+

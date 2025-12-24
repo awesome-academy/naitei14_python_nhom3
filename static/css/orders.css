@@ -1,3 +1,109 @@
+@media (max-width: 768px) {
+
+    /* Ẩn tiêu đề bảng gốc */
+    .orders-table thead {
+        display: none;
+    }
+
+    /* Đưa bảng về dạng khối xếp chồng */
+    .orders-table,
+    .orders-table tbody,
+    .orders-table tr,
+    .orders-table td {
+        display: block;
+        width: 100%;
+    }
+
+    /* Tạo khoảng cách và bo góc cho mỗi đơn hàng */
+    .orders-table tr {
+        margin-bottom: 20px;
+        border: 1px solid #eee;
+        border-radius: 12px;
+        padding: 15px;
+        /* Tăng padding để thoáng hơn */
+        background: #fff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Xử lý từng dòng dữ liệu trong Card */
+    .orders-table td {
+        display: flex;
+        /* Sử dụng Flexbox để nhãn và nội dung nằm ngang hàng */
+        justify-content: space-between;
+        /* Đẩy nhãn sang trái, nội dung sang phải */
+        align-items: center;
+        padding: 10px 0;
+        border: none;
+        border-bottom: 1px solid #f9f9f9;
+        text-align: right;
+    }
+
+    /* Xóa đường kẻ ở dòng cuối cùng của Card */
+    .orders-table td:last-child {
+        border-bottom: none;
+    }
+
+    /* Hiển thị nhãn lấy từ data-label */
+    .orders-table td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        text-align: left;
+        color: #555;
+        flex-shrink: 0;
+        /* Không cho nhãn bị co lại */
+        margin-right: 15px;
+    }
+
+    /* Điều chỉnh các nút bấm */
+    .orders-table .btn {
+        width: 100%;
+        /* Nút bấm chiếm hết chiều rộng trên mobile */
+        margin-top: 10px;
+        display: block;
+    }
+
+    /* Xử lý thanh Tab trạng thái bị tràn */
+    .order-tabs {
+        display: flex;
+        overflow-x: auto;
+        /* Cho phép vuốt ngang */
+        white-space: nowrap;
+        gap: 8px;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        -webkit-overflow-scrolling: touch;
+        /* Vuốt mượt trên iOS */
+    }
+
+    /* Cấu hình chung cho ô Action */
+    .orders-table td[data-label="{% trans 'Hành động' %}"],
+    .orders-table td:last-child {
+        display: block;
+        /* Đảm bảo ô này là khối riêng */
+        text-align: center;
+        padding: 15px 10px;
+    }
+
+    /* Làm cho các nút bấm bằng nhau */
+    .orders-table .btn,
+    .orders-table .inline-form,
+    .orders-table .inline-form button {
+        display: block;
+        width: 100%;
+        /* Chiếm hết chiều rộng của Card */
+        margin: 5px 0;
+        /* Tạo khoảng cách giữa 2 nút */
+        box-sizing: border-box;
+    }
+
+    /* Đảm bảo form bao quanh nút Cancel không làm lệch kích thước */
+    .inline-form {
+        margin-top: 5px;
+    }
+}
+
+
+
 .orders-page {
     max-width: 1100px;
     margin: 24px auto;
@@ -386,4 +492,77 @@
     display: flex;
     justify-content: flex-end;
     gap: 8px;
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 768px) {
+    .orders-page {
+        padding: 0 8px 24px;
+    }
+
+    .orders-page .page-title {
+        font-size: 22px;
+    }
+
+    .orders-table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .orders-table thead,
+    .orders-table tbody,
+    .orders-table tr,
+    .orders-table th,
+    .orders-table td {
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 600px) {
+    .orders-table {
+        border: 0;
+    }
+
+    .orders-table thead {
+        display: none;
+    }
+
+    .orders-table tbody,
+    .orders-table tr,
+    .orders-table td {
+        display: block;
+        width: 100%;
+        white-space: normal;
+    }
+
+    .orders-table tr {
+        margin-bottom: 12px;
+        background: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+    }
+
+    .orders-table td {
+        padding: 8px 10px;
+        font-size: 13px;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .orders-table td:last-child {
+        border-bottom: none;
+    }
+
+    .orders-table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #555;
+        display: block;
+        margin-bottom: 4px;
+    }
+
+    .order-actions-cell {
+        white-space: normal;
+    }
 }

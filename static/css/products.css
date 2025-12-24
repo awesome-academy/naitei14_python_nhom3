@@ -1,4 +1,61 @@
 /* ========== LIST SẢN PHẨM ========== */
+/* Tối ưu hóa cho Mobile (Màn hình nhỏ hơn 576px) */
+@media (max-width: 576px) {
+
+    /* 1. Sửa bộ lọc (Filter) */
+    .filter-section form {
+        display: flex;
+        flex-direction: column;
+        /* Xếp chồng các ô nhập liệu */
+        gap: 10px;
+    }
+
+    .filter-section .price-range {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .filter-section input {
+        width: 100%;
+        /* Ô nhập giá chiếm hết chiều rộng */
+    }
+
+    /* 2. Sửa Card sản phẩm */
+    .product-card {
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+
+    .product-info h3 {
+        font-size: 1rem;
+        /* Giảm cỡ chữ tiêu đề sản phẩm */
+        margin-bottom: 8px;
+    }
+
+    .product-price {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+    }
+
+    /* 3. Làm các nút bấm bằng nhau và xếp chồng */
+    .product-actions {
+        display: flex;
+        flex-direction: column;
+        /* Xếp chồng nút thay vì để ngang */
+        gap: 8px;
+    }
+
+    .product-actions .btn {
+        width: 100%;
+        /* Cả 2 nút đều dài bằng nhau, chiếm 100% card */
+        margin: 0;
+        padding: 10px;
+        font-size: 0.9rem;
+        box-sizing: border-box;
+        /* Đảm bảo padding không làm tràn nút */
+    }
+}
 
 .container {
     max-width: 1200px;
@@ -12,6 +69,61 @@
     margin-bottom: 20px;
 }
 
+/* Form lọc sản phẩm */
+.filter-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.filter-category {
+    padding: 6px 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    max-width: 220px;
+}
+
+.filter-input {
+    padding: 6px 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    max-width: 110px;
+}
+
+.filter-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.filter-actions .btn-primary-custom,
+.filter-actions .btn-outline-custom {
+    padding: 7px 16px;
+}
+
+@media (max-width: 576px) {
+    .filter-form {
+        gap: 8px;
+    }
+
+    .filter-category {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+
+    .filter-input {
+        flex: 1 1 calc(50% - 4px);
+        max-width: none;
+    }
+
+    .filter-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
+
 /* Lưới sản phẩm */
 .product-grid {
     display: grid;
@@ -19,12 +131,19 @@
     gap: 18px;
 }
 
+@media (max-width: 900px) {
+    .product-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+}
+
 /* Card mỗi sản phẩm */
 .product-card {
     background: #ffffff;
     border-radius: 10px;
     padding: 14px 16px 16px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -33,10 +152,14 @@
 
 .product-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
 }
 
 /* Tên sản phẩm */
+.product-name {
+    min-height: 40px;
+}
+
 .product-name a {
     font-size: 16px;
     font-weight: 600;
@@ -68,10 +191,16 @@
 
 /* Nút hành động */
 .product-actions {
-    margin-top: 10px;
+    margin-top: auto;
     display: flex;
     gap: 8px;
     align-items: center;
+}
+
+@media (max-width: 900px) {
+    .product-actions {
+        justify-content: center;
+    }
 }
 
 /* Nút giống bạn đang dùng chung */
@@ -79,9 +208,9 @@
     background: #ff5722;
     color: #fff;
     border: none;
-    padding: 6px 12px;
+    padding: 8px 14px;
     border-radius: 4px;
-    font-size: 13px;
+    font-size: 14px;
     cursor: pointer;
     font-weight: 600;
 }
