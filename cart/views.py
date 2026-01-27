@@ -1,9 +1,12 @@
+from django.http import JsonResponse
 from django.views import View
 from django.views.generic import TemplateView
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
 from myapp.models import Product
 from .cart import Cart
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils.translation import gettext as _
 
 class CartDetailView(TemplateView):
     template_name = 'cart/detail.html'
@@ -19,6 +22,17 @@ class CartAddView(View):
         cart = Cart(request)
         product = get_object_or_404(Product, id=product_id)
         
+        is_ajax = request.headers.get('x-requested-with') == 'XMLHttpRequest'
+
+        # 1. Kiểm tra hết hàng
+        if product.stock_quantity <= 0:
+            msg = f"Rất tiếc, sản phẩm '{product.name}' đã hết hàng!"
+            if is_ajax:
+                return JsonResponse({'success': False, 'message': msg}, status=400)
+            
+            messages.error(request, msg)
+            return redirect(request.META.get('HTTP_REFERER', 'products:list'))
+        
         try:
             qty = int(request.POST.get('quantity', 1))
         except (TypeError, ValueError):
@@ -27,11 +41,31 @@ class CartAddView(View):
         if qty < 1:
             qty = 1
             
+        # 2. Kiểm tra số lượng tồn kho
         if qty > product.stock_quantity:
-            qty = product.stock_quantity
+            msg = f"Chỉ còn {product.stock_quantity} sản phẩm '{product.name}' trong kho."
+            if is_ajax:
+                return JsonResponse({'success': False, 'message': msg}, status=400)
                 
+            messages.warning(request, msg)
+            return redirect(request.META.get('HTTP_REFERER', 'products:list'))
+
+        # 3. Thêm vào giỏ
         cart.add(product=product, quantity=qty)
-        messages.success(request, f'Đã thêm {qty} x "{product.name}" vào giỏ hàng.')
+        
+        # === TRẢ VỀ KẾT QUẢ ===
+        # msg_success = f'Đã thêm "{product.name}" vào giỏ hàng.'
+        msg_success = _('Added "%(product_name)s" to cart.') % {'product_name': product.name}
+        # messages.success(request, msg_success)        
+        if is_ajax:
+            return JsonResponse({
+                'success': True, 
+                'message': msg_success,
+                'cart_total': len(cart) 
+            })
+        
+        # Nếu không phải Ajax: Redirect như cũ
+        messages.success(request, _(msg_success))
         return redirect('cart:detail')
 
 class CartRemoveView(View):

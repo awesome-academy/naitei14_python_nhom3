@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static humanize i18n %}
 
-{% block title %}Chi tiết đơn hàng #{{ order.id }}{% endblock %}
+{% block title %}{% trans "Chi tiết đơn hàng" %} #{{ order.id }}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/orders.css' %}">
@@ -11,7 +11,7 @@
 <div class="orders-page">
 
   <h1 class="page-title">
-    Chi tiết đơn hàng #{{ order.id }}
+    {% trans "Chi tiết đơn hàng" %} #{{ order.id }}
   </h1>
 
   <!-- CARD THÔNG TIN CHUNG -->
@@ -20,12 +20,12 @@
     <div class="order-header-row">
       <div>
         <p class="order-meta">
-          <strong>Ngày đặt:</strong>
+          <strong>{% trans "Ngày đặt:" %}</strong>
           {{ order.order_date|date:"d/m/Y H:i" }}
         </p>
 
         <p class="order-meta">
-          <strong>Trạng thái:</strong>
+          <strong>{% trans "Trạng thái:" %}</strong>
           <span class="order-status-badge {{ order.status }}">
             {{ order.get_status_display }}
           </span>
@@ -34,27 +34,27 @@
 
       <div class="order-total">
         <p class="order-meta">
-          <strong>Tổng tiền:</strong>
-          {{ order.total_amount|floatformat:0 }} VNĐ
+          <strong>{% trans "Tổng tiền:" %}</strong>
+          {{ order.total_amount|floatformat:0|intcomma }} {% trans "VNĐ" %}
         </p>
       </div>
     </div>
 
     {% if order.shipping_address %}
       <p class="order-meta">
-        <strong>Địa chỉ giao hàng:</strong> {{ order.shipping_address }}
+        <strong>{% trans "Địa chỉ giao hàng:" %}</strong> {{ order.shipping_address }}
       </p>
     {% endif %}
 
     {% if order.payment_method %}
       <p class="order-meta">
-        <strong>Hình thức thanh toán:</strong> {{ order.payment_method }}
+        <strong>{% trans "Hình thức thanh toán:" %}</strong> {{ order.payment_method }}
       </p>
     {% endif %}
 
     {% if order.rejection_reason %}
       <p class="order-meta order-meta-danger">
-        <strong>Lý do từ chối / hủy:</strong> {{ order.rejection_reason }}
+        <strong>{% trans "Lý do từ chối / hủy:" %}</strong> {{ order.rejection_reason }}
       </p>
     {% endif %}
   </div>
@@ -63,18 +63,18 @@
   <div class="order-detail-card">
 
     <h3 class="card-title">
-      Sản phẩm trong đơn
+      {% trans "Sản phẩm trong đơn" %}
     </h3>
 
     <div class="table-wrapper">
       <table class="order-items-table">
         <thead>
           <tr>
-            <th>Sản phẩm</th>
-            <th class="text-right">Giá</th>
-            <th class="text-center">Số lượng</th>
-            <th class="text-right">Tạm tính</th>
-            <th class="text-center">Hành động</th>
+            <th>{% trans "Sản phẩm" %}</th>
+            <th class="text-right">{% trans "Giá" %}</th>
+            <th class="text-center">{% trans "Số lượng" %}</th>
+            <th class="text-right">{% trans "Tạm tính" %}</th>
+            <th class="text-center">{% trans "Hành động" %}</th>
           </tr>
         </thead>
 
@@ -86,7 +86,7 @@
             </td>
 
             <td class="text-right nowrap">
-              {{ item.price_at_purchase|floatformat:0 }} VNĐ
+              {{ item.price_at_purchase|floatformat:0|intcomma }} {% trans "VNĐ" %}
             </td>
 
             <td class="text-center">
@@ -94,7 +94,7 @@
             </td>
 
             <td class="text-right nowrap">
-              {{ item.subtotal|floatformat:0 }} VNĐ
+              {{ item.subtotal|floatformat:0|intcomma }} {% trans "VNĐ" %}
             </td>
 
             <td class="text-center">
@@ -103,25 +103,25 @@
                   <button type="button"
                           class="btn btn-outline-secondary btn-sm js-open-review-modal"
                           data-review-modal="{{ item.id }}">
-                    Chỉnh sửa đánh giá
+                    {% trans "Chỉnh sửa đánh giá" %}
                   </button>
                   <div class="text-muted-small">
-                    Bạn đã đánh giá: {{ item.user_comment.rating }}/5
+                    {% trans "Bạn đã đánh giá:" %} {{ item.user_comment.rating }}/5
                   </div>
                 {% else %}
                   <button type="button"
                           class="btn btn-outline-secondary btn-sm js-open-review-modal"
                           data-review-modal="{{ item.id }}">
-                    Đánh giá sản phẩm
+                    {% trans "Đánh giá sản phẩm" %}
                   </button>
                 {% endif %}
               {% elif order.status == 'completed' %}
                 <span class="text-muted-small">
-                  Đã hết hạn đánh giá (sau 7 ngày)
+                  {% trans "Đã hết hạn đánh giá (sau 7 ngày)" %}
                 </span>
               {% else %}
                 <span class="text-muted-small">
-                  Chỉ đánh giá khi đơn đã giao thành công
+                  {% trans "Chỉ đánh giá khi đơn đã giao thành công" %}
                 </span>
               {% endif %}
             </td>
@@ -136,9 +136,9 @@
                   <div class="review-modal-header">
                     <div class="review-modal-title">
                       {% if item.user_comment %}
-                        Chỉnh sửa đánh giá
+                        {% trans "Chỉnh sửa đánh giá" %}
                       {% else %}
-                        Đánh giá sản phẩm
+                        {% trans "Đánh giá sản phẩm" %}
                       {% endif %}
                     </div>
                     <button type="button"
@@ -151,62 +151,62 @@
                   <div class="review-modal-product">
                     <div class="review-product-name">{{ item.product.name }}</div>
                     <div class="review-product-meta">
-                      Giá: {{ item.price_at_purchase|floatformat:0 }} VNĐ ·
-                      SL: {{ item.quantity }}
+                      {% trans "Giá:" %} {{ item.price_at_purchase|floatformat:0|intcomma }} {% trans "VNĐ" %} ·
+                      {% trans "SL:" %} {{ item.quantity }}
                     </div>
                   </div>
 
                   {# ⭐ PREFILL SỐ SAO #}
                   <div class="form-group">
-                    <label for="rating-{{ item.id }}">Đánh giá (sao)</label>
+                    <label for="rating-{{ item.id }}">{% trans "Đánh giá (sao)" %}</label>
                     <select name="rating" id="rating-{{ item.id }}" class="form-control">
-                      <option value="">-- Chọn số sao --</option>
+                      <option value="">-- {% trans "Chọn số sao" %} --</option>
                       <option value="5"
                         {% if item.user_comment and item.user_comment.rating == 5 %}selected{% endif %}>
-                        5 sao - Tuyệt vời
+                        {% trans "5 sao - Tuyệt vời" %}
                       </option>
                       <option value="4"
                         {% if item.user_comment and item.user_comment.rating == 4 %}selected{% endif %}>
-                        4 sao - Tốt
+                        {% trans "4 sao - Tốt" %}
                       </option>
                       <option value="3"
                         {% if item.user_comment and item.user_comment.rating == 3 %}selected{% endif %}>
-                        3 sao - Bình thường
+                        {% trans "3 sao - Bình thường" %}
                       </option>
                       <option value="2"
                         {% if item.user_comment and item.user_comment.rating == 2 %}selected{% endif %}>
-                        2 sao - Chưa hài lòng
+                        {% trans "2 sao - Chưa hài lòng" %}
                       </option>
                       <option value="1"
                         {% if item.user_comment and item.user_comment.rating == 1 %}selected{% endif %}>
-                        1 sao - Rất tệ
+                        {% trans "1 sao - Rất tệ" %}
                       </option>
                     </select>
                   </div>
 
                   {# ⭐ PREFILL NỘI DUNG #}
                   <div class="form-group">
-                    <label for="content-{{ item.id }}">Nội dung đánh giá</label>
+                    <label for="content-{{ item.id }}">{% trans "Nội dung đánh giá" %}</label>
                     <textarea name="content"
                               id="content-{{ item.id }}"
                               rows="3"
                               class="form-control"
-                              placeholder="Chia sẻ cảm nhận của bạn về sản phẩm...">{% if item.user_comment %}{{ item.user_comment.content }}{% endif %}</textarea>
+                              placeholder="{% trans "Chia sẻ cảm nhận của bạn về sản phẩm..." %}">{% if item.user_comment %}{{ item.user_comment.content }}{% endif %}</textarea>
                   </div>
 
                   <p class="review-hint">
-                    Bạn chỉ có thể đánh giá / chỉnh sửa trong vòng 7 ngày
-                    kể từ khi đơn được giao thành công.
+                    {% trans "Bạn chỉ có thể đánh giá / chỉnh sửa trong vòng 7 ngày" %}
+                    {% trans "kể từ khi đơn được giao thành công." %}
                   </p>
 
                   <div class="review-modal-actions">
                     <button type="button"
                             class="btn btn-outline-secondary js-close-review-modal"
                             data-review-modal="{{ item.id }}">
-                      Hủy
+                      {% trans "Hủy" %}
                     </button>
                     <button type="submit" class="btn btn-primary">
-                      Hoàn thành
+                      {% trans "Hoàn thành" %}
                     </button>
                   </div>
                 </form>
@@ -216,7 +216,7 @@
           {% empty %}
           <tr>
             <td colspan="5" class="text-center text-muted">
-              Không có sản phẩm nào trong đơn.
+              {% trans "Không có sản phẩm nào trong đơn." %}
             </td>
           </tr>
           {% endfor %}
@@ -225,10 +225,10 @@
         <tfoot>
           <tr>
             <td colspan="3" class="text-right font-semibold">
-              Tổng cộng:
+              {% trans "Tổng cộng:" %}
             </td>
             <td colspan="2" class="text-right font-bold nowrap">
-              {{ order.total_amount|floatformat:0 }} VNĐ
+              {{ order.total_amount|floatformat:0|intcomma }} {% trans "VNĐ" %}
             </td>
           </tr>
         </tfoot>
@@ -238,7 +238,7 @@
     <div class="order-actions">
       <a href="{% url 'orders:list' %}"
          class="btn btn-outline-secondary">
-        ← Quay lại lịch sử đơn hàng
+        ← {% trans "Quay lại lịch sử đơn hàng" %}
       </a>
 
       {% if order.status == 'pending' %}
@@ -246,8 +246,8 @@
           {% csrf_token %}
           <button type="submit"
                   class="btn btn-outline-danger"
-                  onclick="return confirm('Bạn chắc chắn muốn hủy đơn này?');">
-            Hủy đơn
+                  onclick="return confirm('{% trans "Bạn chắc chắn muốn hủy đơn này?" %}');">
+            {% trans "Hủy đơn" %}
           </button>
         </form>
       {% endif %}

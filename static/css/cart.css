@@ -47,6 +47,30 @@
 
 .cart-product-name {
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+.cart-product-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  /* Quan trọng: giúp ảnh vuông vắn không bị dẹt */
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+/* Giúp ô chứa ảnh và tên sản phẩm thẳng hàng */
+.cart-table td.cart-product-name {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.cart-product-text {
+  display: inline-block;
 }
 
 .cart-price,
@@ -210,4 +234,39 @@ button.qty-btn:disabled {
 .cart-empty p {
   margin-bottom: 16px;
   font-size: 15px;
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 768px) {
+  .cart-container {
+    padding: 16px 8px 32px;
+  }
+
+  .cart-title {
+    font-size: 22px;
+    text-align: center;
+  }
+
+  .cart-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .cart-table thead,
+  .cart-table tbody,
+  .cart-table tr,
+  .cart-table th,
+  .cart-table td {
+    white-space: nowrap;
+  }
+
+  .cart-product-name {
+    min-width: 220px;
+  }
+
+  .cart-summary {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

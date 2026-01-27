@@ -1,93 +1,147 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static humanize i18n %}
 
-{% block title %}Giỏ hàng{% endblock %}
+{% block title %}{% trans "Giỏ hàng" %}{% endblock %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+    
+    <style>
+        /* 1. Thu nhỏ ảnh lại kích thước cố định */
+        .cart-product-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover; /* Giữ ảnh không bị méo */
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+            display: block;
+        }
+
+        /* 2. Căn ảnh và tên sản phẩm nằm ngang hàng */
+        .cart-product-name {
+            display: flex;
+            align-items: center;
+            gap: 16px; /* Khoảng cách giữa ảnh và tên */
+            min-width: 300px;
+        }
+        
+        .cart-product-text {
+            font-weight: 600;
+            font-size: 15px;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        /* 3. Căn chỉnh ô số lượng */
+        .cart-qty-cell {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .qty-form {
+            display: inline-block;
+            margin: 0;
+        }
+        
+        /* Căn giữa nội dung trong bảng */
+        .cart-table td {
+            vertical-align: middle;
+            padding: 15px 10px;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
 <div class="cart-container">
-    <h1 class="cart-title">Giỏ hàng</h1>
+    <h1 class="cart-title">{% trans "Giỏ hàng" %}</h1>
 
     {% if cart|length > 0 %}
         <table class="cart-table">
             <thead>
                 <tr>
-                    <th>
+                    <th style="width: 50px; text-align: center;">
                         <input type="checkbox" id="check-all" aria-label="Chọn tất cả sản phẩm">
                     </th>
-                    <th>Sản phẩm</th>
-                    <th>Giá</th>
-                    <th>Số lượng</th>
-                    <th>Tạm tính</th>
-                    <th>Hành động</th>
+                    <th>{% trans "Sản phẩm" %}</th>
+                    <th>{% trans "Giá" %}</th>
+                    <th>{% trans "Số lượng" %}</th>
+                    <th>{% trans "Tạm tính" %}</th>
+                    <th>{% trans "Hành động" %}</th>
                 </tr>
             </thead>
             <tbody>
             {% for item in cart %}
-                <tr class="cart-row"
-                    data-subtotal="{{ item.total_price|floatformat:2 }}">  
-
-                    <td>
-                        <input type="checkbox"
-                               class="cart-item-checkbox"
-                               name="selected_items"
+                <tr class="cart-row" data-subtotal="{{ item.total_price|floatformat:2 }}">   
+                    
+                    {# 1. Checkbox chọn sản phẩm #}
+                    <td style="text-align: center;">
+                        <input type="checkbox" 
+                               class="cart-item-checkbox" 
+                               name="selected_items" 
                                value="{{ item.product.id }}"
+                               {% if item.selected %}checked{% endif %}
                                aria-label="Chọn {{ item.product.name }}">
                     </td>
 
-                    <td class="cart-product-name">
-                        {{ item.product.name }}
-                    </td>
-
-                    <td class="cart-price">
-                        {{ item.price }} VNĐ
-                    </td>
-
-                    <td class="cart-qty-cell">
-                        <form method="post"
-                              action="{% url 'cart:update' item.product.id %}"
-                              class="qty-form">
-                            {% csrf_token %}
-                            <input type="hidden" name="quantity"
-                                   value="{{ item.quantity|add:"-1" }}">
-                            <button type="submit"
-                                    class="qty-btn qty-btn--minus"
-                                    aria-label="Giảm số lượng {{ item.product.name }}"
-                                    {% if item.quantity <= 1 %}disabled{% endif %}>
-                                −
-                            </button>
-                        </form>
-
-                        <span class="cart-qty">{{ item.quantity }}</span>
-
-                        <form method="post"
-                              action="{% url 'cart:update' item.product.id %}"
-                              class="qty-form">
-                            {% csrf_token %}
-                            <input type="hidden" name="quantity"
-                                   value="{{ item.quantity|add:"1" }}">
-                            <button type="submit"
-                                    class="qty-btn qty-btn--plus"
-                                    aria-label="Tăng số lượng {{ item.product.name }}">
-                                +
-                            </button>
-                        </form>
-                    </td>
-
-                    <td class="cart-subtotal">
-                        {{ item.total_price }} VNĐ
-                    </td>
-
+                    {# 2. Tên và Ảnh sản phẩm (Đã fix layout) #}
                     <td>
-                        <form method="post"
-                              action="{% url 'cart:remove' item.product.id %}">
+                        <div class="cart-product-name">
+                            {% with img=item.product.images.all.0 %}
+                                {% if img %}
+                                    <img src="{{ img.image_url }}" 
+                                         alt="{{ item.product.name }}" 
+                                         class="cart-product-image">
+                                {% else %}
+                                    {# Ảnh mặc định nếu không có ảnh #}
+                                    <div class="cart-product-image" style="background: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #999; font-size: 10px;">
+                                        No Image
+                                    </div>
+                                {% endif %}
+                            {% endwith %}
+                            
+                            <a href="{% url 'products:detail' item.product.id %}" class="cart-product-text" style="text-decoration: none; color: inherit;">
+                                {{ item.product.name }}
+                            </a>
+                        </div>
+                    </td>
+
+                    {# 3. Giá đơn vị #}
+                    <td class="cart-price">
+                        {{ item.price|floatformat:0|intcomma }} {% trans "VNĐ" %}
+                    </td>
+
+                    {# 4. Nút tăng giảm số lượng #}
+                    <td>
+                        <div class="cart-qty-cell">
+                            <form method="post" action="{% url 'cart:update' item.product.id %}" class="qty-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="quantity" value="{{ item.quantity|add:"-1" }}">
+                                <button type="submit" class="qty-btn qty-btn--minus" 
+                                        {% if item.quantity <= 1 %}disabled{% endif %}>−</button>
+                            </form>
+
+                            <span class="cart-qty" style="margin: 0 10px; font-weight: bold;">{{ item.quantity }}</span>
+
+                            <form method="post" action="{% url 'cart:update' item.product.id %}" class="qty-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="quantity" value="{{ item.quantity|add:"1" }}">
+                                <button type="submit" class="qty-btn qty-btn--plus">+</button>
+                            </form>
+                        </div>
+                    </td>
+
+                    {# 5. Tổng tiền từng món #}
+                    <td class="cart-subtotal" style="font-weight: bold; color: #d0011b;">
+                        {{ item.total_price|floatformat:0|intcomma }} {% trans "VNĐ" %}
+                    </td>
+
+                    {# 6. Nút xóa #}
+                    <td>
+                        <form method="post" action="{% url 'cart:remove' item.product.id %}">
                             {% csrf_token %}
-                            <button type="submit"
-                                    class="btn btn-outline-danger btn-sm">
-                                Xóa
+                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                {% trans "Xóa" %}
                             </button>
                         </form>
                     </td>
@@ -96,26 +150,33 @@
             </tbody>
         </table>
 
+        {# PHẦN TỔNG KẾT VÀ NÚT THANH TOÁN #}
         <div class="cart-summary">
             <p class="cart-total">
-                Tổng thanh toán:
-                <span id="cart-total-amount">0 VNĐ</span>
+                {% trans "Tổng thanh toán:" %} 
+                <span id="cart-total-amount" style="color: #d0011b; font-size: 20px; font-weight: bold;">
+                    {{ cart.get_total_price|floatformat:0|intcomma }} {% trans "VNĐ" %}
+                </span>
             </p>
 
-            {# Chưa làm chức năng đặt hàng / thanh toán nên tạm comment lại #}
-            {% comment %} <a href="{% url 'orders:checkout' %}" class="btn btn-primary">
-                   Đặt hàng
-            </a> {% endcomment %}
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <a href="{% url 'orders:list' %}" class="btn btn-outline-secondary">
+                    {% trans "Lịch sử đơn hàng" %}
+                </a>
 
-            <a href="{% url 'orders:list' %}" class="btn btn-outline-secondary">
-                Xem lịch sử đơn hàng
-            </a>
+                <button type="button" onclick="proceedToCheckout()" class="btn btn-primary" 
+                        style="background: #ff5722; color: white; padding: 10px 25px; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; font-weight: bold;">
+                    {% trans "Tiến hành đặt hàng" %}
+                </button>
+            </div>
         </div>
+
     {% else %}
-        <div class="cart-empty">
-            <p>Giỏ hàng của bạn đang trống.</p>
-            <a href="{% url 'products:list' %}" class="btn btn-primary">
-                Đi mua sắm ngay
+        {# TRẠNG THÁI GIỎ HÀNG TRỐNG #}
+        <div class="cart-empty" style="text-align: center; padding: 50px;">
+            <p style="font-size: 18px; color: #666; margin-bottom: 20px;">{% trans "Giỏ hàng của bạn đang trống." %}</p>
+            <a href="{% url 'products:list' %}" class="btn btn-primary" style="padding: 10px 20px;">
+                {% trans "Đi mua sắm ngay" %}
             </a>
         </div>
     {% endif %}
@@ -125,5 +186,30 @@
 {% block scripts %}
     {{ block.super }}
     <script src="{% static 'js/cart.js' %}"></script>
-{% endblock %}
 
+    <script>
+        function proceedToCheckout() {
+            // 1. Lấy tất cả checkbox được chọn
+            const checkedBoxes = document.querySelectorAll('.cart-item-checkbox:checked');
+            
+            // 2. Kiểm tra nếu chưa chọn gì
+            if (checkedBoxes.length === 0) {
+                // Dùng alert hoặc Toast nếu bạn đã tích hợp
+                alert("{% trans "Vui lòng chọn ít nhất một sản phẩm để thanh toán!" %}");
+                return;
+            }
+
+            // 3. Gom ID sản phẩm thành chuỗi (ví dụ: "1,5,8")
+            const selectedIds = Array.from(checkedBoxes).map(cb => cb.value).join(',');
+
+            // 4. Chuyển hướng
+            window.location.href = "{% url 'orders:checkout' %}?ids=" + selectedIds;
+        }
+        
+        // (Tùy chọn) Script để nút "Chọn tất cả" hoạt động
+        document.getElementById('check-all')?.addEventListener('change', function() {
+            const checkboxes = document.querySelectorAll('.cart-item-checkbox');
+            checkboxes.forEach(cb => cb.checked = this.checked);
+        });
+    </script>
+{% endblock %}

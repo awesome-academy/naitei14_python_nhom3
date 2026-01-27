@@ -1,0 +1,983 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-24 13:04+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\cart\templates\cart\detail.html:4 .\cart\templates\cart\detail.html:57
+#: .\templates\base.html:96
+msgid "Giỏ hàng"
+msgstr "Cart"
+
+#: .\cart\templates\cart\detail.html:66
+#: .\orders\templates\orders\detail.html:73 .\templates\base.html:95
+msgid "Sản phẩm"
+msgstr "Products"
+
+#: .\cart\templates\cart\detail.html:67
+#: .\orders\templates\orders\detail.html:74
+msgid "Giá"
+msgstr "Price"
+
+#: .\cart\templates\cart\detail.html:68
+#: .\orders\templates\orders\detail.html:75
+msgid "Số lượng"
+msgstr "Quantity"
+
+#: .\cart\templates\cart\detail.html:69
+#: .\orders\templates\orders\detail.html:76
+msgid "Tạm tính"
+msgstr "Subtotal"
+
+#: .\cart\templates\cart\detail.html:70
+#: .\orders\templates\orders\detail.html:77
+#: .\orders\templates\orders\list.html:52
+#: .\orders\templates\orders\list.html:65
+msgid "Hành động"
+msgstr "Action"
+
+#: .\cart\templates\cart\detail.html:111 .\cart\templates\cart\detail.html:136
+#: .\cart\templates\cart\detail.html:158
+#: .\orders\templates\orders\checkout.html:83
+#: .\orders\templates\orders\checkout.html:91
+#: .\orders\templates\orders\checkout_success.html:7
+#: .\orders\templates\orders\detail.html:38
+#: .\orders\templates\orders\detail.html:89
+#: .\orders\templates\orders\detail.html:97
+#: .\orders\templates\orders\detail.html:154
+#: .\orders\templates\orders\detail.html:231
+#: .\orders\templates\orders\list.html:59
+#: .\products\templates\products\detail.html:60
+#: .\products\templates\products\list.html:76 .\templates\myapp\index.html:121
+msgid "VNĐ"
+msgstr "VND"
+
+#: .\cart\templates\cart\detail.html:144
+#: .\products\templates\products\detail.html:206
+msgid "Xóa"
+msgstr "Delete"
+
+#: .\cart\templates\cart\detail.html:156
+msgid "Tổng thanh toán:"
+msgstr "Total amount:"
+
+#: .\cart\templates\cart\detail.html:164 .\orders\templates\orders\list.html:4
+#: .\orders\templates\orders\list.html:12
+msgid "Lịch sử đơn hàng"
+msgstr "Order History"
+
+#: .\cart\templates\cart\detail.html:169
+msgid "Tiến hành đặt hàng"
+msgstr "Proceed to Checkout"
+
+#: .\cart\templates\cart\detail.html:177
+msgid "Giỏ hàng của bạn đang trống."
+msgstr "Your cart is empty."
+
+#: .\cart\templates\cart\detail.html:179
+msgid "Đi mua sắm ngay"
+msgstr "Shop now"
+
+#: .\cart\templates\cart\detail.html:198
+msgid "Vui lòng chọn ít nhất một sản phẩm để thanh toán!"
+msgstr "Please select at least one product to checkout!"
+
+#: .\cart\views.py:58
+#, python-format
+msgid "Added \"%(product_name)s\" to cart."
+msgstr ""
+
+#: .\comments\views.py:64
+msgid "Đã lưu đánh giá của bạn."
+msgstr ""
+
+#: .\comments\views.py:96
+#, fuzzy
+#| msgid "Đã xác nhận"
+msgid "Đã xóa bình luận."
+msgstr "Order Confirmed"
+
+#: .\myapp\enums.py:13 .\orders\templates\orders\list.html:21
+msgid "Chờ xác nhận"
+msgstr "Pending Confirmation"
+
+#: .\myapp\enums.py:14 .\orders\templates\orders\list.html:25
+msgid "Đã xác nhận"
+msgstr "Order Confirmed"
+
+#: .\myapp\enums.py:15 .\orders\templates\orders\list.html:29
+msgid "Đang giao"
+msgstr "Shipping"
+
+#: .\myapp\enums.py:16 .\orders\templates\orders\list.html:33
+msgid "Đã giao thành công"
+msgstr "Successfully Delivered"
+
+#: .\myapp\enums.py:17 .\orders\templates\orders\list.html:37
+msgid "Hủy bởi người dùng"
+msgstr "Cancelled by User"
+
+#: .\myapp\enums.py:18 .\orders\templates\orders\list.html:41
+msgid "Bị từ chối bởi admin"
+msgstr "Rejected by Admin"
+
+# Profile / password related labels
+#: .\myapp\forms.py:17
+msgid "Tên đăng nhập"
+msgstr "Username"
+
+#: .\myapp\forms.py:18
+msgid "Email"
+msgstr ""
+
+#: .\myapp\forms.py:19
+msgid "Họ và tên"
+msgstr "Full name"
+
+#: .\myapp\forms.py:20 .\templates\myapp\register.html:45
+msgid "Số điện thoại"
+msgstr "Phone number"
+
+#: .\myapp\forms.py:21 .\templates\myapp\register.html:50
+msgid "Địa chỉ"
+msgstr "Address"
+
+#: .\myapp\forms.py:35
+msgid "Mật khẩu hiện tại không chính xác."
+msgstr "The current password is incorrect."
+
+#: .\myapp\forms.py:36
+msgid "Hai mật khẩu bạn nhập không trùng khớp."
+msgstr "The two password fields didn’t match."
+
+#: .\myapp\forms.py:40
+msgid "Mật khẩu hiện tại"
+msgstr "Current password"
+
+#: .\myapp\forms.py:43
+msgid "Nhập mật khẩu hiện tại"
+msgstr "Enter current password"
+
+#: .\myapp\forms.py:47 .\templates\myapp\reset_password.html:27
+msgid "Mật khẩu mới"
+msgstr "New Password"
+
+#: .\myapp\forms.py:50
+msgid "Nhập mật khẩu mới"
+msgstr "Enter new password"
+
+#: .\myapp\forms.py:54 .\myapp\forms.py:57
+msgid "Nhập lại mật khẩu mới"
+msgstr "Confirm new password"
+
+#: .\myapp\forms.py:75
+msgid "Mật khẩu quá ngắn, phải có ít nhất 8 ký tự."
+msgstr "Password is too short, it must contain at least 8 characters."
+
+#: .\myapp\forms.py:78
+msgid "Mật khẩu quá phổ biến, vui lòng chọn mật khẩu mạnh hơn."
+msgstr "Password is too common, please choose a stronger one."
+
+#: .\myapp\forms.py:81
+msgid "Mật khẩu không được chỉ chứa số."
+msgstr "Password cannot be entirely numeric."
+
+#: .\myapp\forms.py:84
+msgid "Mật khẩu quá giống tên đăng nhập."
+msgstr "Password is too similar to the username."
+
+#: .\myapp\forms.py:87
+msgid "Mật khẩu quá giống email."
+msgstr "Password is too similar to the email."
+
+# Order-related system messages and labels
+#: .\myapp\views.py:66
+msgid "Quá nhiều lần đăng ký. Vui lòng thử lại sau 1 giờ."
+msgstr "Too many registration attempts. Please try again in 1 hour."
+
+#: .\myapp\views.py:76 .\myapp\views.py:377
+msgid "Mật khẩu xác nhận không khớp"
+msgstr "Password confirmation does not match."
+
+#: .\myapp\views.py:84
+msgid "Định dạng email không hợp lệ"
+msgstr "Invalid email format."
+
+#: .\myapp\views.py:96
+msgid "Username đã tồn tại"
+msgstr "Username already exists."
+
+#: .\myapp\views.py:100
+msgid "Email đã được sử dụng"
+msgstr "Email is already in use."
+
+#: .\myapp\views.py:125
+msgid "Kích hoạt tài khoản"
+msgstr "Activate account"
+
+#: .\myapp\views.py:126
+#, python-format
+msgid ""
+"Chào %(username)s,\n"
+"\n"
+"Vui lòng click vào link sau để kích hoạt tài khoản:\n"
+"%(activation_link)s"
+msgstr ""
+"Hello %(username)s,\n"
+"\n"
+"Please click the link below to activate your account:\n"
+"%(activation_link)s"
+
+#: .\myapp\views.py:135
+msgid "Đăng ký thành công! Vui lòng kiểm tra email để kích hoạt tài khoản."
+msgstr ""
+"Registration successful! Please check your email to activate your account."
+
+#: .\myapp\views.py:141
+msgid "Gửi email thất bại. Vui lòng thử lại sau."
+msgstr "Failed to send email. Please try again later."
+
+# Additional myapp message translations
+#: .\myapp\views.py:163
+msgid "Quá nhiều lần đăng nhập thất bại. Vui lòng thử lại sau 15 phút."
+msgstr "Too many failed login attempts. Please try again in 15 minutes."
+
+#: .\myapp\views.py:173
+#, python-format
+msgid "Chào mừng %(username)s!"
+msgstr "Welcome %(username)s!"
+
+#: .\myapp\views.py:177
+msgid "Tài khoản chưa được kích hoạt"
+msgstr "Account has not been activated."
+
+#: .\myapp\views.py:181
+msgid "Username hoặc mật khẩu không đúng"
+msgstr "Incorrect username or password."
+
+#: .\myapp\views.py:192
+msgid "Đã đăng xuất thành công"
+msgstr "You have been logged out successfully."
+
+#: .\myapp\views.py:214
+msgid "Cập nhật thông tin thành công"
+msgstr "Profile information updated successfully."
+
+#: .\myapp\views.py:227
+msgid "Cập nhật hồ sơ thành công!"
+msgstr "Profile updated successfully!"
+
+#: .\myapp\views.py:241
+msgid "Bạn đã đổi mật khẩu thành công!"
+msgstr "You have changed your password successfully!"
+
+#: .\myapp\views.py:248
+#, python-format
+msgid "Mật khẩu hiện tại: %(error)s"
+msgstr "Current password: %(error)s"
+
+#: .\myapp\views.py:253
+#, python-format
+msgid "Mật khẩu mới: %(error)s"
+msgstr "New password: %(error)s"
+
+#: .\myapp\views.py:258
+msgid "Xác nhận mật khẩu: Hai mật khẩu không trùng khớp."
+msgstr "Confirm password: The two passwords do not match."
+
+#: .\myapp\views.py:277
+msgid "Link kích hoạt đã hết hạn. Vui lòng đăng ký lại."
+msgstr "The activation link has expired. Please register again."
+
+#: .\myapp\views.py:284
+msgid "Kích hoạt tài khoản thành công! Vui lòng đăng nhập."
+msgstr "Account activated successfully! Please log in."
+
+#: .\myapp\views.py:287
+msgid "Link kích hoạt không hợp lệ hoặc đã hết hạn."
+msgstr "The activation link is invalid or has expired."
+
+#: .\myapp\views.py:303
+msgid "Bạn đã yêu cầu quá nhiều lần. Vui lòng thử lại sau 1 giờ."
+msgstr "You have requested too many times. Please try again in 1 hour."
+
+#: .\myapp\views.py:322
+#, python-format
+msgid ""
+"Chào %(username)s,\n"
+"\n"
+"Click vào link sau để đặt lại mật khẩu:\n"
+"%(reset_link)s\n"
+"\n"
+"Link này chỉ sử dụng được 1 lần."
+msgstr ""
+"Hello %(username)s,\n"
+"\n"
+"Click the link below to reset your password:\n"
+"%(reset_link)s\n"
+"\n"
+"This link can only be used once."
+
+#: .\myapp\views.py:334
+msgid "Đã gửi link đặt lại mật khẩu vào email của bạn."
+msgstr "A password reset link has been sent to your email."
+
+#: .\myapp\views.py:336
+msgid "Có lỗi khi gửi email. Vui lòng thử lại sau."
+msgstr "An error occurred while sending the email. Please try again later."
+
+#: .\myapp\views.py:343
+msgid ""
+"Nếu email tồn tại trong hệ thống, bạn sẽ nhận được link đặt lại mật khẩu."
+msgstr ""
+"If the email exists in our system, you will receive a password reset link."
+
+# Reset-password flow messages
+#: .\myapp\views.py:358
+msgid "Link đặt lại mật khẩu đã được sử dụng."
+msgstr "The reset password link has already been used."
+
+#: .\myapp\views.py:365
+msgid "Link đặt lại mật khẩu đã hết hạn. Vui lòng yêu cầu link mới."
+msgstr "The reset password link has expired. Please request a new link."
+
+#: .\myapp\views.py:369
+msgid "Link đặt lại mật khẩu không hợp lệ."
+msgstr "The reset password link is invalid."
+
+#: .\myapp\views.py:394
+msgid "Đặt lại mật khẩu thành công! Vui lòng đăng nhập."
+msgstr "Password reset successful! Please log in."
+
+#: .\orders\templates\orders\checkout.html:4
+msgid "Thanh toán"
+msgstr "Checkout"
+
+#: .\orders\templates\orders\checkout.html:31
+msgid "Thanh toán đơn hàng"
+msgstr "Order checkout"
+
+#: .\orders\templates\orders\checkout.html:36
+msgid "Thông tin giao hàng"
+msgstr "Shipping information"
+
+#: .\orders\templates\orders\checkout.html:43
+msgid "Người nhận:"
+msgstr "Recipient:"
+
+#: .\orders\templates\orders\checkout.html:49
+msgid "Số điện thoại:"
+msgstr "Phone number:"
+
+#: .\orders\templates\orders\checkout.html:55
+msgid "Địa chỉ nhận hàng:"
+msgstr "Shipping address:"
+
+#: .\orders\templates\orders\checkout.html:62
+msgid "XÁC NHẬN ĐẶT HÀNG"
+msgstr "CONFIRM ORDER"
+
+#: .\orders\templates\orders\checkout.html:70
+msgid "Sản phẩm thanh toán"
+msgstr "Order items"
+
+#: .\orders\templates\orders\checkout.html:90
+#: .\orders\templates\orders\detail.html:228
+msgid "Tổng cộng:"
+msgstr "Total:"
+
+#: .\orders\templates\orders\checkout_success.html:5
+msgid "Thanh toán thành công"
+msgstr "Payment successful"
+
+#: .\orders\templates\orders\checkout_success.html:6
+msgid "Mã đơn hàng:"
+msgstr "Order ID:"
+
+#: .\orders\templates\orders\checkout_success.html:7
+#: .\orders\templates\orders\detail.html:37
+msgid "Tổng tiền:"
+msgstr "Total amount:"
+
+#: .\orders\templates\orders\checkout_success.html:8
+msgid "Xem lịch sử đơn hàng"
+msgstr "View order history"
+
+#: .\orders\templates\orders\detail.html:4
+#: .\orders\templates\orders\detail.html:14
+msgid "Chi tiết đơn hàng"
+msgstr "Order details"
+
+#: .\orders\templates\orders\detail.html:23
+msgid "Ngày đặt:"
+msgstr "Order date:"
+
+#: .\orders\templates\orders\detail.html:28
+msgid "Trạng thái:"
+msgstr "Status:"
+
+#: .\orders\templates\orders\detail.html:45
+msgid "Địa chỉ giao hàng:"
+msgstr "Shipping address:"
+
+#: .\orders\templates\orders\detail.html:51
+msgid "Hình thức thanh toán:"
+msgstr "Payment Method:"
+
+#: .\orders\templates\orders\detail.html:57
+msgid "Lý do từ chối / hủy:"
+msgstr "Reason for rejection/cancellation:"
+
+#: .\orders\templates\orders\detail.html:66
+msgid "Sản phẩm trong đơn"
+msgstr "Products in order"
+
+#: .\orders\templates\orders\detail.html:106
+#: .\orders\templates\orders\detail.html:139
+msgid "Chỉnh sửa đánh giá"
+msgstr "Edit review"
+
+#: .\orders\templates\orders\detail.html:109
+msgid "Bạn đã đánh giá:"
+msgstr "You rated:"
+
+#: .\orders\templates\orders\detail.html:115
+#: .\orders\templates\orders\detail.html:141
+msgid "Đánh giá sản phẩm"
+msgstr "Review product"
+
+#: .\orders\templates\orders\detail.html:120
+msgid "Đã hết hạn đánh giá (sau 7 ngày)"
+msgstr "Review period has expired (after 7 days)"
+
+#: .\orders\templates\orders\detail.html:124
+msgid "Chỉ đánh giá khi đơn đã giao thành công"
+msgstr "You can only review after the order has been delivered successfully"
+
+#: .\orders\templates\orders\detail.html:154
+msgid "Giá:"
+msgstr "Price:"
+
+#: .\orders\templates\orders\detail.html:155
+msgid "SL:"
+msgstr "Quantity:"
+
+#: .\orders\templates\orders\detail.html:161
+msgid "Đánh giá (sao)"
+msgstr "Rating (stars)"
+
+#: .\orders\templates\orders\detail.html:163
+msgid "Chọn số sao"
+msgstr "Select Rating"
+
+#: .\orders\templates\orders\detail.html:166
+msgid "5 sao - Tuyệt vời"
+msgstr "5 Stars - Excellent"
+
+#: .\orders\templates\orders\detail.html:170
+msgid "4 sao - Tốt"
+msgstr "4 Stars - Very Good"
+
+#: .\orders\templates\orders\detail.html:174
+msgid "3 sao - Bình thường"
+msgstr "3 Stars - Average"
+
+#: .\orders\templates\orders\detail.html:178
+msgid "2 sao - Chưa hài lòng"
+msgstr "2 Stars - Unsatisfied"
+
+#: .\orders\templates\orders\detail.html:182
+msgid "1 sao - Rất tệ"
+msgstr "1 Star - Very Poor"
+
+#: .\orders\templates\orders\detail.html:189
+msgid "Nội dung đánh giá"
+msgstr "Review content"
+
+#: .\orders\templates\orders\detail.html:194
+msgid "Chia sẻ cảm nhận của bạn về sản phẩm..."
+msgstr "Share your thoughts about this product..."
+
+#: .\orders\templates\orders\detail.html:198
+msgid "Bạn chỉ có thể đánh giá / chỉnh sửa trong vòng 7 ngày"
+msgstr "You can only review / edit within 7 days"
+
+#: .\orders\templates\orders\detail.html:199
+msgid "kể từ khi đơn được giao thành công."
+msgstr "from the time the order is successfully delivered."
+
+#: .\orders\templates\orders\detail.html:206
+#: .\templates\myapp\password_change.html:31
+msgid "Hủy"
+msgstr "Cancel"
+
+#: .\orders\templates\orders\detail.html:209
+msgid "Hoàn thành"
+msgstr "Completed"
+
+#: .\orders\templates\orders\detail.html:219
+msgid "Không có sản phẩm nào trong đơn."
+msgstr "There are no products in this order."
+
+#: .\orders\templates\orders\detail.html:241
+msgid "Quay lại lịch sử đơn hàng"
+msgstr "Back to order history"
+
+#: .\orders\templates\orders\detail.html:249
+#: .\orders\templates\orders\list.html:76
+msgid "Bạn chắc chắn muốn hủy đơn này?"
+msgstr "Are you sure you want to cancel this order?"
+
+#: .\orders\templates\orders\detail.html:250
+#: .\orders\templates\orders\list.html:77
+msgid "Hủy đơn"
+msgstr "Cancel Order"
+
+#: .\orders\templates\orders\list.html:17
+msgid "Tất cả"
+msgstr "All"
+
+#: .\orders\templates\orders\list.html:49
+#: .\orders\templates\orders\list.html:58
+msgid "Ngày đặt"
+msgstr "Order Date"
+
+#: .\orders\templates\orders\list.html:50
+#: .\orders\templates\orders\list.html:59
+msgid "Tổng tiền"
+msgstr "Total"
+
+#: .\orders\templates\orders\list.html:51
+#: .\orders\templates\orders\list.html:60
+msgid "Trạng thái"
+msgstr "Status"
+
+#: .\orders\templates\orders\list.html:67
+#: .\products\templates\products\list.html:91
+msgid "Xem chi tiết"
+msgstr "View Details"
+
+#: .\orders\templates\orders\list.html:87
+msgid "Bạn chưa có đơn hàng nào."
+msgstr "You have no orders yet."
+
+#: .\orders\views.py:78
+msgid "Đơn hàng này không thể hủy nữa."
+msgstr "This order can no longer be cancelled."
+
+#: .\orders\views.py:82
+msgid "Người dùng tự hủy đơn."
+msgstr "Order cancelled by user."
+
+#: .\orders\views.py:85
+msgid "Đơn hàng đã được hủy thành công."
+msgstr "The order has been cancelled successfully."
+
+#: .\orders\views.py:97
+msgid "Vui lòng chọn sản phẩm để thanh toán."
+msgstr "Please select products to checkout."
+
+#: .\orders\views.py:132
+msgid "Danh sách sản phẩm không hợp lệ."
+msgstr "The product list is invalid."
+
+#: .\orders\views.py:157
+#, python-format
+msgid "Đặt hàng thành công! Mã đơn: #%(order_id)s"
+msgstr "Order placed successfully! Order ID: #%(order_id)s"
+
+#: .\products\templates\products\detail.html:30
+msgid "No Image"
+msgstr "No Image"
+
+#: .\products\templates\products\detail.html:56
+#: .\products\templates\products\detail.html:137
+msgid "đánh giá"
+msgstr "review"
+
+#: .\products\templates\products\detail.html:64
+#: .\products\templates\products\list.html:18
+#: .\products\templates\products\list.html:81
+msgid "Danh mục"
+msgstr "Categories"
+
+#: .\products\templates\products\detail.html:65
+msgid "Tình trạng"
+msgstr "Status"
+
+#: .\products\templates\products\detail.html:67
+msgid "Còn hàng"
+msgstr "In stock"
+
+#: .\products\templates\products\detail.html:69
+#: .\products\templates\products\list.html:106 .\templates\myapp\index.html:132
+msgid "Hết hàng"
+msgstr "Sold Out"
+
+#: .\products\templates\products\detail.html:73
+msgid "Nổi bật"
+msgstr "Featured"
+
+#: .\products\templates\products\detail.html:78
+msgid "Chưa có mô tả chi tiết."
+msgstr "No detailed description yet."
+
+#: .\products\templates\products\detail.html:96
+msgid "Thêm vào giỏ hàng"
+msgstr "Add to cart"
+
+#: .\products\templates\products\detail.html:101
+#: .\products\templates\products\detail.html:106
+msgid "Sản phẩm tạm hết hàng"
+msgstr "Product temporarily out of stock"
+
+#: .\products\templates\products\detail.html:141
+msgid "Chưa có đánh giá nào cho sản phẩm này."
+msgstr "There are no reviews for this product yet."
+
+#: .\products\templates\products\detail.html:153
+msgid "Đánh giá & Bình luận"
+msgstr "Ratings & Reviews"
+
+#: .\products\templates\products\detail.html:215
+msgid "Chưa có bình luận nào, hãy là người đầu tiên đánh giá sản phẩm này!"
+msgstr "No comments yet. Share your thoughts with us!"
+
+#: .\products\templates\products\detail.html:225
+#, python-format
+msgid ""
+"\n"
+"        Bạn cần <a href=\"%(login_url)s\">đăng nhập</a> để xem lịch sử đơn "
+"hàng và đánh giá sản phẩm.\n"
+"        "
+msgstr ""
+"\n"
+"        Please <a href=\"%(login_url)s\">log in</a> to view your order "
+"history and review products.\n"
+"        "
+
+#: .\products\templates\products\detail.html:231
+msgid "Để đánh giá sản phẩm, hãy vào"
+msgstr "To review this product, please go to"
+
+#: .\products\templates\products\detail.html:232
+msgid "Đơn hàng → Chi tiết đơn hàng"
+msgstr "Orders → Order Details"
+
+#: .\products\templates\products\detail.html:232
+msgid "tương ứng."
+msgstr "corresponding"
+
+#: .\products\templates\products\detail.html:233
+msgid "Bạn có thể đánh giá từng sản phẩm trong vòng"
+msgstr "You can review each product within"
+
+#: .\products\templates\products\detail.html:234
+msgid "ngày"
+msgstr "day"
+
+#: .\products\templates\products\detail.html:234
+msgid "sau khi đơn được giao thành công."
+msgstr "after the order is successfully delivered."
+
+#: .\products\templates\products\detail.html:290
+msgid "Số lượng không hợp lệ"
+msgstr "Invalid quantity"
+
+#: .\products\templates\products\detail.html:306
+msgid "Lỗi mạng"
+msgstr "Network error"
+
+#: .\products\templates\products\detail.html:311
+msgid "Đã thêm vào giỏ hàng!"
+msgstr "Added to cart!"
+
+#: .\products\templates\products\detail.html:313
+#: .\templates\myapp\index.html:212
+msgid "Có lỗi xảy ra"
+msgstr "An error occurred"
+
+#: .\products\templates\products\detail.html:318
+msgid "Có lỗi xảy ra khi kết nối server"
+msgstr "Server connection error"
+
+#: .\products\templates\products\list.html:4
+#: .\products\templates\products\list.html:12
+msgid "Danh sách sản phẩm"
+msgstr "Product List"
+
+#: .\products\templates\products\list.html:28
+msgid "Giá từ"
+msgstr "Price from"
+
+#: .\products\templates\products\list.html:33
+msgid "Đến"
+msgstr "to"
+
+#: .\products\templates\products\list.html:40
+msgid "Lọc"
+msgstr "Filter"
+
+#: .\products\templates\products\list.html:45
+msgid "Reset"
+msgstr "Reset"
+
+#: .\products\templates\products\list.html:86
+msgid "Còn lại"
+msgstr "In Stock"
+
+#: .\products\templates\products\list.html:101 .\templates\myapp\index.html:128
+msgid "Thêm vào giỏ"
+msgstr "Add to cart"
+
+#: .\products\templates\products\list.html:115
+msgid "Hiện chưa có sản phẩm nào."
+msgstr "There are currently no products."
+
+#: .\products\templates\products\list.html:177
+#: .\products\templates\products\list.html:185
+msgid "Đã thêm sản phẩm vào giỏ hàng!"
+msgstr "Product added to cart!"
+
+#: .\products\templates\products\list.html:179
+msgid "Có lỗi xảy ra, vui lòng thử lại."
+msgstr "Something went wrong. Please try again."
+
+#: .\templates\base.html:8 .\templates\base.html:86
+msgid "Ecommerce"
+msgstr "Ecommerce"
+
+#: .\templates\base.html:86
+msgid "Shop"
+msgstr "Shop"
+
+#: .\templates\base.html:94
+msgid "Trang chủ"
+msgstr "Home"
+
+#: .\templates\base.html:97
+msgid "Đơn hàng"
+msgstr "Orders"
+
+#: .\templates\base.html:101
+msgid "Tìm kiếm sản phẩm..."
+msgstr "Search products..."
+
+#: .\templates\base.html:101
+msgid "Tìm kiếm sản phẩm"
+msgstr "Search products"
+
+#: .\templates\base.html:102
+msgid "Tìm"
+msgstr "Search"
+
+#: .\templates\base.html:107
+msgid "Xin chào"
+msgstr "Hello"
+
+#: .\templates\base.html:108 .\templates\myapp\profile.html:3
+msgid "Hồ sơ cá nhân"
+msgstr "Profile"
+
+#: .\templates\base.html:108
+msgid "Hồ sơ"
+msgstr "Profile"
+
+#: .\templates\base.html:111
+msgid "Đăng xuất"
+msgstr "Log out"
+
+#: .\templates\base.html:114 .\templates\myapp\login.html:12
+#: .\templates\myapp\login.html:29 .\templates\myapp\register.html:58
+msgid "Đăng nhập"
+msgstr "Log in"
+
+#: .\templates\base.html:115 .\templates\myapp\index.html:53
+#: .\templates\myapp\login.html:34 .\templates\myapp\register.html:54
+msgid "Đăng ký"
+msgstr "Register"
+
+#: .\templates\base.html:136
+msgid "My Django Project"
+msgstr "Ecommerce"
+
+#: .\templates\myapp\forgot_password.html:4
+msgid "Quên mật khẩu - E-commerce"
+msgstr "Forgot password - E-commerce"
+
+#: .\templates\myapp\forgot_password.html:12
+msgid "Quên mật khẩu"
+msgstr "Forgot password"
+
+#: .\templates\myapp\forgot_password.html:16
+msgid "Nhập email đã đăng ký, chúng tôi sẽ gửi link đặt lại mật khẩu."
+msgstr "Enter your registered email and we'll send you a password reset link."
+
+#: .\templates\myapp\forgot_password.html:26
+msgid "Gửi link đặt lại mật khẩu"
+msgstr "Send reset link"
+
+#: .\templates\myapp\forgot_password.html:30
+msgid "Quay lại đăng nhập"
+msgstr "Log in"
+
+#: .\templates\myapp\index.html:4
+msgid "Trang chủ - E-commerce"
+msgstr "Home - E-commerce"
+
+#: .\templates\myapp\index.html:48
+msgid "Chào mừng đến với E-commerce Shop"
+msgstr "Welcome to E-commerce Shop"
+
+#: .\templates\myapp\index.html:49
+msgid "Khám phá hàng ngàn sản phẩm chất lượng với giá tốt nhất."
+msgstr "Discover thousands of high-quality products with unbeatable prices."
+
+#: .\templates\myapp\index.html:51
+msgid "Mua sắm ngay"
+msgstr "Buy Now"
+
+#: .\templates\myapp\index.html:66
+msgid "Tại sao chọn chúng tôi?"
+msgstr "Why choose us?"
+
+#: .\templates\myapp\index.html:71
+msgid "Giao hàng nhanh"
+msgstr "Fast Delivery"
+
+#: .\templates\myapp\index.html:72
+msgid "Giao hàng toàn quốc 24-48h"
+msgstr "Nationwide delivery within 24-48 hours"
+
+#: .\templates\myapp\index.html:78
+msgid "Thanh toán an toàn"
+msgstr "Secure Payment"
+
+#: .\templates\myapp\index.html:79
+#, python-format
+msgid "Bảo mật thông tin 100%%"
+msgstr "100% Information Security"
+
+#: .\templates\myapp\index.html:85
+msgid "Hỗ trợ 24/7"
+msgstr "Support 24/7"
+
+#: .\templates\myapp\index.html:86
+msgid "Chăm sóc khách hàng tận tình"
+msgstr "Dedicated customer support"
+
+#: .\templates\myapp\index.html:96
+msgid "Sản phẩm nổi bật"
+msgstr "Featured Products"
+
+#: .\templates\myapp\index.html:97
+msgid "Xem tất cả"
+msgstr "View All"
+
+#: .\templates\myapp\index.html:141
+msgid "Chưa có sản phẩm nổi bật nào."
+msgstr "No featured products available"
+
+#: .\templates\myapp\index.html:148
+msgid "Sẵn sàng mua sắm?"
+msgstr "Ready to start shopping?"
+
+#: .\templates\myapp\index.html:149
+msgid "Hàng nghìn sản phẩm đang chờ bạn khám phá!"
+msgstr "Thousands of products are waiting to be discovered!"
+
+#: .\templates\myapp\index.html:150
+msgid "Xem tất cả sản phẩm"
+msgstr "View All Products"
+
+# Home-page add-to-cart toasts
+#: .\templates\myapp\index.html:212
+msgid "Thêm thành công!"
+msgstr "Added successfully!"
+
+#: .\templates\myapp\index.html:218
+msgid "Lỗi kết nối server, vui lòng thử lại."
+msgstr "Server connection error, please try again."
+
+#: .\templates\myapp\login.html:4
+msgid "Đăng nhập - E-commerce"
+msgstr "Log in - E-commerce"
+
+#: .\templates\myapp\login.html:25 .\templates\myapp\register.html:30
+msgid "Mật khẩu"
+msgstr "Password"
+
+#: .\templates\myapp\login.html:33
+msgid "Quên mật khẩu?"
+msgstr "Forgot Password"
+
+#: .\templates\myapp\login.html:34
+msgid "Chưa có tài khoản?"
+msgstr "Don't have an account?"
+
+#: .\templates\myapp\password_change.html:4
+#: .\templates\myapp\password_change.html:8 .\templates\myapp\profile.html:21
+msgid "Đổi mật khẩu"
+msgstr "Change Password"
+
+#: .\templates\myapp\password_change.html:30
+msgid "Xác nhận đổi"
+msgstr "Confirm change"
+
+#: .\templates\myapp\profile.html:7
+msgid "Hồ sơ của bạn"
+msgstr "Your profile"
+
+#: .\templates\myapp\profile.html:20
+msgid "Lưu thay đổi"
+msgstr "Save Change"
+
+#: .\templates\myapp\register.html:4
+msgid "Đăng ký - E-commerce"
+msgstr "Register - E-commerce"
+
+#: .\templates\myapp\register.html:12
+msgid "Đăng ký tài khoản"
+msgstr "Register account"
+
+#: .\templates\myapp\register.html:35
+msgid "Xác nhận mật khẩu"
+msgstr "Confirm password"
+
+#: .\templates\myapp\register.html:40
+msgid "Họ tên"
+msgstr "Full name"
+
+#: .\templates\myapp\register.html:58
+msgid "Đã có tài khoản?"
+msgstr "Have an account?"
+
+#: .\templates\myapp\reset_password.html:4
+msgid "Đặt lại mật khẩu - E-commerce"
+msgstr "Reset Password"
+
+#: .\templates\myapp\reset_password.html:12
+#: .\templates\myapp\reset_password.html:36
+msgid "Đặt lại mật khẩu"
+msgstr "Reset Password"
+
+#: .\templates\myapp\reset_password.html:32
+msgid "Xác nhận mật khẩu mới"
+msgstr "Confirm New Password"
+
+msgid "Xóa"
+msgstr "Delete"
+
